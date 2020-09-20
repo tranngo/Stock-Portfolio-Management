@@ -1,0 +1,13 @@
+Sprint Backlog:
+  1. Initial implementation of the login page
+  2. Initial implementation of the registration page
+  3. API research and prototyping
+
+The first two points in this backlog address the users creating accounts in the system (from product backlog). After parsing through the product backlog, the team agreed that these features would be a good place to start in order to get the project off the ground. We think that these features and their functionalities should be relatively straightforward and thus easiest to implement (i.e. MySQL integration and front end design). Additionally, the third point in this backlog serves to give our team a headstart on understanding implementation for an API. We think that it's important to have a strong foundation in our understanding of an API since it will bring new concepts and present new challenges. In doing so, we hope to finish this sprint with tangible features while also preparing for the future sprints.
+  
+Meeting Participants:
+Sai Allu
+Maggie Shi
+Mark Kyaw
+Tran Ngo
+Teddy Lee
