@@ -5,6 +5,8 @@ package csci310;
 
 import static org.junit.Assert.*;
 
+import java.security.NoSuchAlgorithmException;
+
 import org.junit.Test;
 
 /**
@@ -87,9 +89,10 @@ public class RegisterTest {
 
 	/**
 	 * Test method for {@link csci310.Register#hashPasswordWithSHA256(java.lang.String)}.
+	 * @throws NoSuchAlgorithmException 
 	 */
 	@Test
-	public void testHashPasswordWithSHA256() {
+	public void testHashPasswordWithSHA256() throws NoSuchAlgorithmException {
 		//Hash the password "password123"
 		String test_password1 = "password123";
 		String result = Register.hashPasswordWithSHA256(test_password1);
@@ -115,29 +118,30 @@ public class RegisterTest {
 	 * Test method for {@link csci310.Register#checkUsernameNotAlreadyTaken(java.lang.String)}.
 	 */
 	@Test
-	public void testCheckUsernameNotAlreadyTaken() {
+	public void testCheckUsernameAlreadyTaken() {
 		//The username "serena" is already taken
 		String test1 = "serena";
-		boolean result = Register.checkUsernameNotAlreadyTaken(test1);
+		boolean result = Register.checkUsernameAlreadyTaken(test1);
 		assertTrue(result);
 		
 		//The username "SERENA" is technically not yet taken
 		//But we should ask CP if they care about case-sensitivity
 		String test2 = "SERENA";
-		result = Register.checkUsernameNotAlreadyTaken(test2);
+		result = Register.checkUsernameAlreadyTaken(test2);
 		assertFalse(result);
 		
 		//The username "nadal213*" is not yet taken
 		String test3 = "nadal213*";
-		result = Register.checkUsernameNotAlreadyTaken(test3);
+		result = Register.checkUsernameAlreadyTaken(test3);
 		assertFalse(result);
 	}
 
 	/**
 	 * Test method for {@link csci310.Register#stickThisInfoIntoDatabase(java.lang.String, java.lang.String)}.
+	 * @throws NoSuchAlgorithmException 
 	 */
 	@Test
-	public void testStickThisInfoIntoDatabase() {
+	public void testStickThisInfoIntoDatabase() throws NoSuchAlgorithmException {
 		//After putting info into database, we should get "true" back
 		//if everything worked
 		String test_username = "sharapova415";
