@@ -59,7 +59,7 @@ document.querySelector('form').onsubmit = function()
 {
   // event.preventDefault();
   let username = document.getElementById("username").value.trim();
-  sessionStorage.setItem("email", email);
+  /*sessionStorage.setItem("email", email);*/
   let password = document.getElementById("password").value.trim();
   let confirmPW = document.getElementById("passwordConfirmation").value.trim();
 

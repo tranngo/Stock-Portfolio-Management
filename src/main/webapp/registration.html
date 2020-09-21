@@ -40,7 +40,7 @@
             <div class="input-group col-lg-12 mb-4">
               <div class="input-group-prepend">
                 <span class="input-group-text bg-white px-4 border-md border-right-0">
-                  <i class="fa fa-envelope text-muted"></i>
+                  <i class="fa fa-user-circle text-muted"></i>
                 </span>
               </div>
               <input id="username" type="text" name="username" placeholder="Username" class="form-control bg-white border-left-0 border-md">
@@ -58,7 +58,11 @@
                 </span>
               </div>
               <input id="password" type="password" name="password" placeholder="Password" class="form-control bg-white border-left-0 border-md">
-              <div class="errorPassword text-danger"></div>
+            </div>
+            
+            <div class="col-lg-12 mb-4 missing-entries">
+          		<div class="errorPassword text-danger"></div>
+              	<div id="pw-invalid" class="text-danger"></div>
             </div>
   
             <!-- Password Confirmation -->
@@ -69,14 +73,10 @@
                 </span>
               </div>
               <input id="passwordConfirmation" type="password" name="passwordConfirmation" placeholder="Confirm Password" class="form-control bg-white border-left-0 border-md" onchange="checkPw()">
+            </div>
+
+            <div class="col-lg-12 mb-4 missing-entries">
               <div class="errorPassword text-danger"></div>
-            </div>
-
-            <div class="col-lg-6 mb-4 missing-entries">
-              <div id="pw-invalid" class="text-danger"></div>
-            </div>
-
-            <div class="col-lg-6 mb-4 missing-entries">
               <div id="pwConfirm-invalid" class="text-danger"></div>
             </div>
   
