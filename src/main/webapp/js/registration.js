@@ -58,81 +58,20 @@ sessionStorage.clear();
 document.querySelector('form').onsubmit = function()
 {
   // event.preventDefault();
-  let fname = document.getElementById("firstName").value.trim();
-  let lname = document.getElementById("lastName").value.trim();
-  let email = document.getElementById("email").value.trim();
+  let username = document.getElementById("username").value.trim();
   sessionStorage.setItem("email", email);
-  let location = document.getElementById("location").value.trim();
-  let phone = document.getElementById("phoneNumber").value.trim();
   let password = document.getElementById("password").value.trim();
   let confirmPW = document.getElementById("passwordConfirmation").value.trim();
 
-  if (fname.length == 0)
+  if (username.length == 0)
   {
-    document.getElementById("fname-invalid").classList.add("is-invalid");
-    document.getElementById("fname-invalid").innerHTML = "Please enter first name";
+    document.getElementById("username-invalid").classList.add("is-invalid");
+    document.getElementById("username-invalid").innerHTML = "Please enter a username";
   }
   else
   {
-    document.getElementById("fname-invalid").classList.remove("is-invalid");
-    document.getElementById("fname-invalid").innerHTML = "";
-  }
-
-  if (lname.length == 0)
-  {
-    document.getElementById("lname-invalid").classList.add("is-invalid");
-    document.getElementById("lname-invalid").innerHTML = "Please enter last name";
-  }
-  else
-  {
-    document.getElementById("lname-invalid").classList.remove("is-invalid");
-    document.getElementById("lname-invalid").innerHTML = "";
-  }
-
-  if (email.length == 0)
-  {
-    document.getElementById("email-invalid").classList.add("is-invalid");
-    document.getElementById("email-invalid").innerHTML = "Please enter an email";
-  }
-  else
-  {
-    document.getElementById("email-invalid").classList.remove("is-invalid");
-    document.getElementById("email-invalid").innerHTML = "";
-  }
-
-  if (email == "taken@usc.edu")
-  {
-    document.querySelector(".hiddenDiv").classList.add("is-invalid");
-    document.querySelector(".hiddenDiv").classList.remove("hidden");
-    document.querySelector(".hiddenTxt").innerHTML = "This email has been registered";
-  }
-  else
-  {
-    document.querySelector(".hiddenDiv").classList.remove("is-invalid");
-    document.querySelector(".hiddenDiv").classList.add("hidden");
-    document.querySelector(".hiddenTxt").innerHTML = "";
-  }
-
-  if (location.length == 0)
-  {
-    document.getElementById("location-invalid").classList.add("is-invalid");
-    document.getElementById("location-invalid").innerHTML = "Please enter your location";
-  }
-  else
-  {
-    document.getElementById("location-invalid").classList.remove("is-invalid");
-    document.getElementById("location-invalid").innerHTML = "";
-  }
-
-  if (phone.length == 0)
-  {
-    document.getElementById("phone-invalid").classList.add("is-invalid");
-    document.getElementById("phone-invalid").innerHTML = "Please enter your phone number";
-  }
-  else
-  {
-    document.getElementById("phone-invalid").classList.remove("is-invalid");
-    document.getElementById("phone-invalid").innerHTML = "";
+    document.getElementById("username-invalid").classList.remove("is-invalid");
+    document.getElementById("username-invalid").innerHTML = "";
   }
 
   if (password.length == 0)
