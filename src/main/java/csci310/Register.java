@@ -1,7 +1,6 @@
 package csci310;
 
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.xml.bind.DatatypeConverter;
+import com.google.common.hash.Hashing;
 
 /**
  *	In Register.java we implement all the helper methods we need to
@@ -29,9 +28,10 @@ public class Register {
 	public static String hashPasswordWithSHA256(String password) throws NoSuchAlgorithmException
 	{
 		// hash password and return as hex string
-		MessageDigest digest = MessageDigest.getInstance("SHA-256");
-		byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-		return DatatypeConverter.printHexBinary(hash).toLowerCase();
+		String sha256hex = Hashing.sha256()
+				  .hashString(password, StandardCharsets.UTF_8)
+				  .toString();
+		return sha256hex;
 	}
 	
 	//Check if user is already in database
