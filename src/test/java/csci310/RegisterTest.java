@@ -4,7 +4,7 @@
 package csci310;
 
 import static org.junit.Assert.*;
-
+ 
 import java.security.NoSuchAlgorithmException;
 
 import org.junit.Test;
@@ -150,5 +150,5 @@ public class RegisterTest {
 		boolean result = Register.stickThisInfoIntoDatabase(test_username, hashed_password);
 		assertTrue(result);
 	}
-
+	
 }

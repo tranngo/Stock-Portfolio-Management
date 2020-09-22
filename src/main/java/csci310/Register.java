@@ -1,5 +1,7 @@
 package csci310;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -9,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import com.google.common.hash.Hashing;
 
@@ -61,7 +64,7 @@ public class Register {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/stocks?" + 
 					"useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PST",
 					"root",
-					"password");
+					readDBCredentials());
 			
 			// query users table for username parameter
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE BINARY username = ?");
@@ -88,7 +91,7 @@ public class Register {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/stocks?" + 
 					"useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PST",
 					"root",
-					"password");
+					readDBCredentials());
 
 		    // insert entry into users table
 		    PreparedStatement ps = con.prepareStatement("INSERT into users (username, password) VALUES (?, ?)");
@@ -103,5 +106,29 @@ public class Register {
 			e.printStackTrace();
 		}
 		return false; // failed insertion
+	}
+	
+	// private method to retrieve private db password from "db-credentials.txt" file
+	private static String readDBCredentials() {
+		String dbPassword = "password"; // default pass
+        try {
+        	// open file
+        	File myObj = new File("db-credentials.txt");
+	        Scanner myReader = new Scanner(myObj);
+	        
+	        // check if password exists in file
+	        while(myReader.hasNextLine()) {
+	          String line = myReader.nextLine();
+	          if(!line.isEmpty()) {
+	        	  dbPassword = line;
+	        	  break;
+	          }
+	        }
+	        myReader.close();
+        } catch (FileNotFoundException e) {
+        	// error opening file
+        	System.out.println("Error opening db-credentials.txt; Returning default password.");
+        }
+        return dbPassword;
 	}
 }
