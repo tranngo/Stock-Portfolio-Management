@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.google.common.hash.Hashing;
 
@@ -21,6 +23,22 @@ public class Register {
 	//Check that the username and password are valid
 	public static boolean validateUserInfo(String username, String password)
 	{
+		ArrayList<String> invalidChars = new ArrayList<String>(
+				Arrays.asList("'", "\"", ";"));
+		
+		// username and password should not be empty strings
+		if(username.isEmpty() || password.isEmpty()) {
+			return false;
+		}
+		
+		// username and password should not contain invalid characters
+		for(String invalidChar: invalidChars) {
+			if(username.contains(invalidChar) || password.contains(invalidChar)) {
+				return false;
+			}
+		}
+		
+		// else, password is valid
 		return true;
 	}
 	
@@ -44,6 +62,7 @@ public class Register {
 					"useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PST",
 					"root",
 					"password");
+			
 			// query users table for username parameter
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE BINARY username = ?");
 			ps.setString(1, username);
@@ -55,12 +74,34 @@ public class Register {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		// error querying users table; for security, assume username is taken
 		return true;
 	}
 	
 	//Put this registration info into the database
 	public static boolean stickThisInfoIntoDatabase(String username, String hashed_password)
 	{
-		return true;
+		// connect to mysql
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/stocks?" + 
+					"useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PST",
+					"root",
+					"password");
+
+		    // insert entry into users table
+		    PreparedStatement ps = con.prepareStatement("INSERT into users (username, password) VALUES (?, ?)");
+		    ps.setString (1, username);
+		    ps.setString (2, hashed_password);
+		    ps.execute();
+
+			return true; // successful insertion
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false; // failed insertion
 	}
 }
