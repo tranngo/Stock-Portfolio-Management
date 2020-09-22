@@ -55,8 +55,8 @@ public class Register {
 		return sha256hex;
 	}
 	
-	//Check if user is already in database
-	public static boolean checkUsernameAlreadyTaken(String username)
+	//Check if user already exists in database
+	public static boolean checkUserExists(String username)
 	{
 		// connect to mysql
 		Connection con = connectDB();
@@ -79,8 +79,8 @@ public class Register {
 		return true;
 	}
 	
-	//Put this registration info into the database
-	public static boolean stickThisInfoIntoDatabase(String username, String hashed_password)
+	//Insert user registration info into the database
+	public static boolean insertUser(String username, String hashed_password)
 	{
 		// connect to mysql
 		Connection con = connectDB();

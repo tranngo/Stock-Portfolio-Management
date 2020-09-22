@@ -118,21 +118,21 @@ public class RegisterTest {
 	 * Test method for {@link csci310.Register#checkUsernameNotAlreadyTaken(java.lang.String)}.
 	 */
 	@Test
-	public void testCheckUsernameAlreadyTaken() {
+	public void testCheckUserExists() {
 		//The username "serena" is already taken
 		String test1 = "serena";
-		boolean result = Register.checkUsernameAlreadyTaken(test1);
+		boolean result = Register.checkUserExists(test1);
 		assertTrue(result);
 		
 		//The username "SERENA" is technically not yet taken
 		//But we should ask CP if they care about case-sensitivity
 		String test2 = "SERENA";
-		result = Register.checkUsernameAlreadyTaken(test2);
+		result = Register.checkUserExists(test2);
 		assertFalse(result);
 		
 		//The username "nadal213*" is not yet taken
 		String test3 = "nadal213*";
-		result = Register.checkUsernameAlreadyTaken(test3);
+		result = Register.checkUserExists(test3);
 		assertFalse(result);
 	}
 
@@ -141,14 +141,13 @@ public class RegisterTest {
 	 * @throws NoSuchAlgorithmException 
 	 */
 	@Test
-	public void testStickThisInfoIntoDatabase() throws NoSuchAlgorithmException {
+	public void testInsertUser() throws NoSuchAlgorithmException {
 		//After putting info into database, we should get "true" back
 		//if everything worked
 		String test_username = "sharapova415";
 		String test_password = "maria45*";
 		String hashed_password = Register.hashPasswordWithSHA256(test_password);
-		boolean result = Register.stickThisInfoIntoDatabase(test_username, hashed_password);
+		boolean result = Register.insertUser(test_username, hashed_password);
 		assertTrue(result);
 	}
-	
 }
