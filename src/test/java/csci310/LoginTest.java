@@ -5,6 +5,7 @@ package csci310;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -71,25 +72,42 @@ public class LoginTest {
 	
 	@Test
 	public void testHashPasswordWithSHA256() throws NoSuchAlgorithmException {
-		//Hash the password "password123"
+		// Hash the password "password123"
 		String test_password1 = "password123";
 		String result = Login.hashPasswordWithSHA256(test_password1);
 		assertEquals(result, "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f");
 		
-		//Hash the password "secret password" (with spaces)
+		// Hash the password "secret password" (with spaces)
 		String test_password2 = "secret password";
 		result = Login.hashPasswordWithSHA256(test_password2);
 		assertEquals(result, "1ba133eccdfc4e5ca3405dfd70c11360af038106c9eebdde504a4b14c94b8557");
 		
-		//Hash the password "bunnies314*" (with special characters)
+		// Hash the password "bunnies314*" (with special characters)
 		String test_password3 = "bunnies314*";
 		result = Login.hashPasswordWithSHA256(test_password3);
 		assertEquals(result, "9656f9d5e1edd3d613aa58b075f7b182ec306775d786fcfbb0e792a877ad002e");
 		
-		//Hash the password "" (empty password)
+		// Hash the password "" (empty password)
 		String test_password4 = "";
 		result = Login.hashPasswordWithSHA256(test_password4);
 		assertEquals(result, "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+	}
+	
+	@Test
+	public void checkForLoginCredentials() {
+		// Checking invalid login credentials - should return false
+		String username1 = "h2727dhbcbs";
+		String password1 = "skm2772hwml";
+		boolean result = Login.checkForLoginCredentials(username1, password1);
+		assertFalse(result);
+		
+		// Checking valid login credentials - should return true
+		// Login and username comes from testInsertUser() of RegisterTest.java
+		String username2 = "sharapova415";
+		String password2 = "maria45*";
+		result = Login.checkForLoginCredentials(username2, password2);
+		assertTrue(result);
+		
 	}
 
 }
