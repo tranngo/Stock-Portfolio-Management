@@ -15,27 +15,31 @@ public class Api {
 	 * returns: current price of stock as string (CAN ALSO BE BIG DECIMAL)
 	 */
 	public String getCurrentPriceOf(String name) throws IOException {
-		String price = "";
-		return price;
+		Stock stock = YahooFinance.get(name);
+		BigDecimal price = stock.getQuote(true).getPrice();
+		return price.toString();
 	}
+
 	
 	/*
 	 * parameters: stock ticker
 	 * returns: a list of the stock's daily values for the past year as a string
 	 */
 	public String getHistoricalPricesOf(String name) throws IOException {
-		String prices = "";
-		return prices;
+		Stock stock = YahooFinance.get(name);
+		return stock.getHistory(Interval.MONTHLY).toString();
 	}
+
 	
 	/*
 	 * parameters: stock ticker, start date, end date, interval 
 	 * returns: a list of the stock's values over an interval as a string
 	 */
 	public String getPriceOfStockOnSpecificDate(String name, Calendar from, Calendar to, Interval interval) throws IOException {
-		String price = "";
-		return price;
+		Stock stock = YahooFinance.get(name, from, to, interval);
+		return stock.getHistory().toString();
 	}
+
 
 
 }
