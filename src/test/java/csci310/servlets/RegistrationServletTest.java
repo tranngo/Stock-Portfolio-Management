@@ -21,31 +21,6 @@ import org.mockito.Mockito;
 public class RegistrationServletTest extends Mockito {
 
 	/**
-	 * Test method for {@link csci310.servlets.RegistrationServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)}.
-	 */
-	@Test
-	public void testDoGetHttpServletRequestHttpServletResponse() {
-		
-//		//For "Get", request and response are blank since there are
-//		//no parameters that we are asking for from the user
-//		HttpServletRequest request = mock(HttpServletRequest.class);
-//		HttpServletResponse response = mock(HttpServletResponse.class);
-//		
-//		//With a blank request and response, call doGet
-//		RegistrationServlet rs = new RegistrationServlet();
-//		try {
-//			rs.doGet(request, response);
-//		} catch (IOException e) {
-//			System.out.println("ERROR with RegistrationServletTest doGet() test" );
-//			e.printStackTrace();
-//		}
-//		
-//		//Check that the request is successful (status code is 200)
-//		assertEquals(response.getStatus(), 200);
-		
-	}
-
-	/**
 	 * Test method for {@link csci310.servlets.RegistrationServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)}.
 	 */
 	@Test
