@@ -21,6 +21,8 @@ public class RegistrationServlet extends HttpServlet {
 		gson = new Gson();
 	}
 	
+	//ALERT: this code is still incomplete, it doesn't redirect the user
+	//to a "successful sign up" screen
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
@@ -79,5 +81,7 @@ public class RegistrationServlet extends HttpServlet {
 		//Put the user in the database, everything is okay!
 		Register.insertUser(username, hashed_password);
 		
+		//ALERT: this code is still incomplete, it doesn't redirect the user
+		//to a "successful sign up" screen
 	}
 }
