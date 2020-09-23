@@ -67,7 +67,7 @@ public class LoginTest {
 		String username7 = "user";
 		String password7 = "password";
 		result = login.validateUserInfo(username3, password3);
-		assert(result);	
+		assertTrue(result);	
 	}
 	
 	@Test
@@ -94,7 +94,7 @@ public class LoginTest {
 	}
 	
 	@Test
-	public void checkForLoginCredentials() {
+	public void testCheckForLoginCredentials() {
 		// Checking invalid login credentials - should return false
 		String username1 = "h2727dhbcbs";
 		String password1 = "skm2772hwml";
