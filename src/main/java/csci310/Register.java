@@ -123,7 +123,7 @@ public class Register {
 	
 	// private method to retrieve private db password from "db-credentials.txt" file
 	private static String readDBCredentials() {
-		String dbPassword = "password"; // default pass
+		String dbPassword = ""; // default pass
         try {
         	// open file
         	File myObj = new File("db-credentials.txt");
