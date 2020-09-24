@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
@@ -142,8 +144,10 @@ public class RegisterTest {
 		
 		//Cobertura coverage: Disable MySQL with a bad password so con=null
 		//Code to read file referenced from W3Schools
+		
+		//Retrieve password from "db-credentials.txt"
 		File myFile = new File("db-credentials.txt");
-		String password = "fake password";
+		String password = "N/A";
 		try {
 			Scanner myScanner = new Scanner(myFile);
 			while(myScanner.hasNextLine()) {
@@ -155,6 +159,31 @@ public class RegisterTest {
 			e.printStackTrace();
 		}
 		
+		//Write a string to mess up "db-credentials.txt"
+		try {
+			FileWriter fw = new FileWriter("db-credentials.txt");
+			fw.write("Messing up your password mwahaha");
+			fw.close();
+			System.out.println("Debug: Successfully messed up db-credentials.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Try checking DB now, it won't work since your password is wrong
+		String test4 = "nadal213*";
+		result = Register.checkUserExists(test4);
+		
+		//Fix "db-credentials.txt" by putting the right password back
+		try {
+			FileWriter fw2 = new FileWriter("db-credentials.txt");
+			fw2.write(password);
+			fw2.close();
+			System.out.println("Debug: Successfully fixed db-credentials.txt :)");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -170,5 +199,47 @@ public class RegisterTest {
 		String hashed_password = Register.hashPasswordWithSHA256(test_password);
 		boolean result = Register.insertUser(test_username, hashed_password);
 		assertTrue(result);
+		
+		//Cobertura coverage: Disable MySQL with a bad password so con=null
+		//Code to read file referenced from W3Schools
+		
+		//Retrieve password from "db-credentials.txt"
+		File myFile = new File("db-credentials.txt");
+		String password = "N/A";
+		try {
+			Scanner myScanner = new Scanner(myFile);
+			while(myScanner.hasNextLine()) {
+				password = myScanner.nextLine();
+			}
+			myScanner.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Error in RegisterTest testCheckUserExists");
+			e.printStackTrace();
+		}
+		
+		//Write a string to mess up "db-credentials.txt"
+		try {
+			FileWriter fw = new FileWriter("db-credentials.txt");
+			fw.write("Messing up your password mwahaha");
+			fw.close();
+			System.out.println("Debug: Successfully messed up db-credentials.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Try using DB now, it won't work since password is wrong
+		result = Register.insertUser(test_username, hashed_password);
+		
+		//Fix "db-credentials.txt" by putting the right password back
+		try {
+			FileWriter fw2 = new FileWriter("db-credentials.txt");
+			fw2.write(password);
+			fw2.close();
+			System.out.println("Debug: Successfully fixed db-credentials.txt :)");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

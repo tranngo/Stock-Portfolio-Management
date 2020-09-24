@@ -46,7 +46,7 @@ public class Register {
 	}
 	
 	//Hash a password with SHA 256
-	public static String hashPasswordWithSHA256(String password) throws NoSuchAlgorithmException
+	public static String hashPasswordWithSHA256(String password)
 	{
 		// hash password and return as hex string
 		String sha256hex = Hashing.sha256()
@@ -135,6 +135,9 @@ public class Register {
 	          if(!line.isEmpty()) {
 	        	  dbPassword = line.trim();
 	        	  break;
+	          }
+	          else {
+	        	  System.out.println("Debug: Else in Register.java readDBCredentials");
 	          }
 	        }
 	        myReader.close();
