@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.sql.SQLException;
 
 import org.junit.Test;
 
@@ -67,13 +66,7 @@ public class RegistrationServletTest extends Mockito {
 		}
 		
 		//Check that the new user is in the database
-		try {
-			assertTrue(Register.checkUserExists(willy));
-		} catch (ClassNotFoundException | SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-			return;
-		}
+		assertTrue(Register.checkUserExists(willy));
 		
 		//For cobertura coverage: try inserting same user again
 		try {

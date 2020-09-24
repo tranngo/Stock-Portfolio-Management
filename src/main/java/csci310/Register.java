@@ -56,47 +56,55 @@ public class Register {
 	}
 	
 	//Check if user already exists in database
-	public static boolean checkUserExists(String username) throws SQLException, ClassNotFoundException
+	public static boolean checkUserExists(String username)
 	{
 		// connect to mysql
 		Connection con = connectDB();
 		
 		if(con != null) {
-		
-			// query users table for username parameter
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE BINARY username = ?");
-			ps.setString(1, username);
-			ResultSet rs = ps.executeQuery();
+			try {
+				// query users table for username parameter
+				PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE BINARY username = ?");
+				ps.setString(1, username);
+				ResultSet rs = ps.executeQuery();
 	
-			return rs.next();
+				return rs.next();
+	        } catch (SQLException e) {
+	        	System.out.println("Error querying user data from DB during registration.");
+	        	e.printStackTrace();
+	        }
 		}
 		
+		// error querying users table; for security, assume username is taken
 		return true;
 	}
 	
 	//Insert user registration info into the database
-	public static boolean insertUser(String username, String hashed_password) throws SQLException, ClassNotFoundException
+	public static boolean insertUser(String username, String hashed_password)
 	{
 		// connect to mysql
 		Connection con = connectDB();
 		
 		if(con != null) {
-
-		    // insert entry into users table
-		    PreparedStatement ps = con.prepareStatement("INSERT into users (username, password) VALUES (?, ?)");
-		    ps.setString (1, username);
-		    ps.setString (2, hashed_password);
-		    ps.execute();
-
-			return true; // successful insertion
-
+			try {
+			    // insert entry into users table
+			    PreparedStatement ps = con.prepareStatement("INSERT into users (username, password) VALUES (?, ?)");
+			    ps.setString (1, username);
+			    ps.setString (2, hashed_password);
+			    ps.execute();
+	
+				return true; // successful insertion
+			} catch (SQLException e) {
+				System.out.println("Error inserting user data to DB during registration.");
+				e.printStackTrace();
+			}
 		}
 		
 		return false; // error connecting to db or failed insertion
 	}
 	
-
-	public static Connection connectDB() throws ClassNotFoundException{
+	// open connection to mysql db
+	public static Connection connectDB(){
         try {
         	Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/stocks?" + 
@@ -104,6 +112,8 @@ public class Register {
 					"root",
 					readDBCredentials());
             return con;
+        } catch (ClassNotFoundException e) {
+			e.printStackTrace();
         } catch (SQLException e) {
         	System.out.println("Error connecting to MySQL Workbench; Please check account credentials.");
         	e.printStackTrace();

@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 import org.junit.Test;
@@ -129,34 +128,18 @@ public class RegisterTest {
 	public void testCheckUserExists() {
 		//The username "serena" is already taken
 		String test1 = "serena";
-		boolean result = false;
-		try {
-			result = Register.checkUserExists(test1);
-		} catch (ClassNotFoundException | SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		boolean result = Register.checkUserExists(test1);
 		assertTrue(result);
 		
 		//The username "SERENA" is technically not yet taken
 		//But we should ask CP if they care about case-sensitivity
 		String test2 = "SERENA";
-		try {
-			result = Register.checkUserExists(test2);
-		} catch (ClassNotFoundException | SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		result = Register.checkUserExists(test2);
 		assertFalse(result);
 		
 		//The username "nadal213*" is not yet taken
 		String test3 = "nadal213*";
-		try {
-			result = Register.checkUserExists(test3);
-		} catch (ClassNotFoundException | SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		result = Register.checkUserExists(test3);
 		assertFalse(result);
 		
 		//Cobertura coverage: Disable MySQL with a bad password so con=null
@@ -189,15 +172,7 @@ public class RegisterTest {
 		
 		//Try checking DB now, it won't work since your password is wrong
 		String test4 = "nadal213*";
-		try {
-			result = Register.checkUserExists(test4);
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		result = Register.checkUserExists(test4);
 		
 		//Fix "db-credentials.txt" by putting the right password back
 		try {
@@ -209,8 +184,6 @@ public class RegisterTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		Register r = new Register();
 	}
 
 	/**
@@ -224,13 +197,7 @@ public class RegisterTest {
 		String test_username = "sharapova415";
 		String test_password = "maria45*";
 		String hashed_password = Register.hashPasswordWithSHA256(test_password);
-		boolean result = false;
-		try {
-			result = Register.insertUser(test_username, hashed_password);
-		} catch (ClassNotFoundException | SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		boolean result = Register.insertUser(test_username, hashed_password);
 		assertTrue(result);
 		
 		//Cobertura coverage: Disable MySQL with a bad password so con=null
@@ -262,15 +229,7 @@ public class RegisterTest {
 		}
 		
 		//Try using DB now, it won't work since password is wrong
-		try {
-			result = Register.insertUser(test_username, hashed_password);
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		result = Register.insertUser(test_username, hashed_password);
 		
 		//Fix "db-credentials.txt" by putting the right password back
 		try {
