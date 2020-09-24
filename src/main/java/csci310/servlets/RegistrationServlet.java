@@ -83,5 +83,7 @@ public class RegistrationServlet extends HttpServlet {
 		
 		//ALERT: this code is still incomplete, it doesn't redirect the user
 		//to a "successful sign up" screen
+		response.setStatus(HttpServletResponse.SC_OK);
+		return;
 	}
 }
