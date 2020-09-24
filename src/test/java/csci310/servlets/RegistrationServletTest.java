@@ -45,20 +45,17 @@ public class RegistrationServletTest extends Mockito {
 		String willy = "wilson" + Instant.now().getEpochSecond();
 		String requestBody = "username="+willy;
 		requestBody += "&password=racket&passwordConfirmation=racket";
-		
-		//String[] temp = {requestBody};
+
 		//Mock the Request.getReader() found in the first try block of doPost()
 		try {
 			when(request.getReader()).thenReturn(new BufferedReader(new StringReader(requestBody)));
-			//when(request.getReader().lines()).thenReturn(Arrays.stream(temp));
 		} catch (IOException e1) {
 			System.out.println("ERROR P1 with RegistrationServletTest doPost() test" );
 			e1.printStackTrace();
 			return;
 		}
 		
-		
-		//With a blank request and response, call doGet
+		//Call doPost with this test username/password
 		RegistrationServlet rs = new RegistrationServlet();
 		try {
 			rs.doPost(request, response);
@@ -68,10 +65,29 @@ public class RegistrationServletTest extends Mockito {
 			return;
 		}
 		
-		//Check that the request is successful (status code is 200)
-		//NOTE: Later on we should probably check whether the entry
-		//actually got placed in the database
+		//Check that the new user is in the database
 		assertTrue(Register.checkUserExists(willy));
+		
+		//For cobertura coverage: try inserting same user again
+		try {
+			when(request.getReader()).thenReturn(new BufferedReader(new StringReader(requestBody)));
+			rs.doPost(request, response);
+			assertEquals(response.getStatus(), 0);
+		} catch (IOException e) {
+			System.out.println("RegistrationServletTest IOException");
+		}
+		
+		//For cobertura coverage: enter a invalid username
+		String invalidUsername = "yo\"";
+		String requestBody2 = "username="+invalidUsername;
+		requestBody2 += "&password=racket&passwordConfirmation=racket";
+		try {
+			when(request.getReader()).thenReturn(new BufferedReader(new StringReader(requestBody2)));
+			rs.doPost(request, response);
+			assertEquals(response.getStatus(), 0);
+		} catch (IOException e1) {
+			System.out.println("RegistrationServletTest IOException");
+		}
 	}
 
 }

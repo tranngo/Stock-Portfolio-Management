@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import csci310.PostEnvelopeForRegister;
 import csci310.Register;
 
 public class RegistrationServlet extends HttpServlet {
@@ -61,6 +60,7 @@ public class RegistrationServlet extends HttpServlet {
 		if(userInfoIsValid == false) {
 			//NOTE: Improve this! Return a response telling the user that they messed up
 			System.out.println("User info is not valid");
+			//NOTE: If you change this line make sure to fix RegistrationServletTest too
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return;
 		}
@@ -71,6 +71,7 @@ public class RegistrationServlet extends HttpServlet {
 		if(userAlreadyInDatabase == true) {
 			//NOTE: Improve this! Return a response saying the user already is registered
 			System.out.println("User already in database");
+			//NOTE: If you change this line make sure to fix RegistrationServletTest too
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return;
 		}
@@ -90,8 +91,7 @@ public class RegistrationServlet extends HttpServlet {
 		Register.insertUser(username, hashed_password);
 		System.out.println("YES: A new user was successfully added to the database!");
 		
-		//ALERT: this code is still incomplete, it doesn't redirect the user
-		//to a "successful sign up" screen
+		//Redirect user to the login page
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.sendRedirect("login.html");
 		return;

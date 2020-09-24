@@ -4,8 +4,13 @@
 package csci310;
 
 import static org.junit.Assert.*;
- 
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
+import java.util.Scanner;
 
 import org.junit.Test;
 
@@ -134,6 +139,22 @@ public class RegisterTest {
 		String test3 = "nadal213*";
 		result = Register.checkUserExists(test3);
 		assertFalse(result);
+		
+		//Cobertura coverage: Disable MySQL with a bad password so con=null
+		//Code to read file referenced from W3Schools
+		File myFile = new File("db-credentials.txt");
+		String password = "fake password";
+		try {
+			Scanner myScanner = new Scanner(myFile);
+			while(myScanner.hasNextLine()) {
+				password = myScanner.nextLine();
+			}
+			myScanner.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Error in RegisterTest testCheckUserExists");
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
