@@ -119,21 +119,21 @@ public class RegisterTest {
 	 */
 	@Test
 	public void testCheckUserExists() {
-//		//The username "serena" is already taken
-//		String test1 = "serena";
-//		boolean result = Register.checkUserExists(test1);
-//		assertTrue(result);
-//		
-//		//The username "SERENA" is technically not yet taken
-//		//But we should ask CP if they care about case-sensitivity
-//		String test2 = "SERENA";
-//		result = Register.checkUserExists(test2);
-//		assertFalse(result);
-//		
-//		//The username "nadal213*" is not yet taken
-//		String test3 = "nadal213*";
-//		result = Register.checkUserExists(test3);
-//		assertFalse(result);
+		//The username "serena" is already taken
+		String test1 = "serena";
+		boolean result = Register.checkUserExists(test1);
+		assertTrue(result);
+		
+		//The username "SERENA" is technically not yet taken
+		//But we should ask CP if they care about case-sensitivity
+		String test2 = "SERENA";
+		result = Register.checkUserExists(test2);
+		assertFalse(result);
+		
+		//The username "nadal213*" is not yet taken
+		String test3 = "nadal213*";
+		result = Register.checkUserExists(test3);
+		assertFalse(result);
 	}
 
 	/**
@@ -142,12 +142,12 @@ public class RegisterTest {
 	 */
 	@Test
 	public void testInsertUser() throws NoSuchAlgorithmException {
-//		//After putting info into database, we should get "true" back
-//		//if everything worked
-//		String test_username = "sharapova415";
-//		String test_password = "maria45*";
-//		String hashed_password = Register.hashPasswordWithSHA256(test_password);
-//		boolean result = Register.insertUser(test_username, hashed_password);
-//		assertTrue(result);
+		//After putting info into database, we should get "true" back
+		//if everything worked
+		String test_username = "sharapova415";
+		String test_password = "maria45*";
+		String hashed_password = Register.hashPasswordWithSHA256(test_password);
+		boolean result = Register.insertUser(test_username, hashed_password);
+		assertTrue(result);
 	}
 }
