@@ -35,9 +35,9 @@ public class Api {
 	 * parameters: stock ticker, start date, end date, interval 
 	 * returns: a list of the stock's values over an interval as a string
 	 */
-	public String getPriceOfStockOnSpecificDate(String name, Calendar from, Calendar to, Interval interval) throws IOException {
-		Stock stock = YahooFinance.get(name, from, to, interval);
-		return stock.getHistory().toString();
+	public String getPriceOfStockOnSpecificDate(String name, Calendar f, Calendar t, Interval i) throws IOException {	
+		Stock stock = YahooFinance.get(name);
+		return stock.getHistory(f, t, i).toString();
 	}
 
 
