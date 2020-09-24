@@ -105,26 +105,25 @@ public class Register {
 	
 	// open connection to mysql db
 	public static Connection connectDB(){
-		// temporarily commented out to avoid travis build checks failing
-//        try {
-//        	Class.forName("com.mysql.cj.jdbc.Driver");
-//			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/stocks?" + 
-//					"useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PST",
-//					"root",
-//					readDBCredentials());
-//            return con;
-//        } catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//        } catch (SQLException e) {
-//        	System.out.println("Error connecting to MySQL Workbench; Please check account credentials.");
-//        	e.printStackTrace();
-//        }
+        try {
+        	Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/stocks?" + 
+					"useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PST",
+					"root",
+					readDBCredentials());
+            return con;
+        } catch (ClassNotFoundException e) {
+			e.printStackTrace();
+        } catch (SQLException e) {
+        	System.out.println("Error connecting to MySQL Workbench; Please check account credentials.");
+        	e.printStackTrace();
+        }
         return null;
     }
 	
 	// private method to retrieve private db password from "db-credentials.txt" file
 	private static String readDBCredentials() {
-		String dbPassword = "password"; // default pass
+		String dbPassword = ""; // default pass
         try {
         	// open file
         	File myObj = new File("db-credentials.txt");
