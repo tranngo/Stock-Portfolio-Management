@@ -1,11 +1,11 @@
 Feature: Registration
-  Scenario: Open registration valid page from registration page
+  Scenario: Open login page from registration page via successful registration
     Given I am on the registration page
     When I type "usr" into the username text box
     And I type "pass" into the password text box
     And I type "pass" into the confirm password text box
     And I click on the create account button
-    Then I should be on the registration valid page
+    Then I should be on the registration servlet page
     
   Scenario: Open login page from registration page via login button
     Given I am on the registration page

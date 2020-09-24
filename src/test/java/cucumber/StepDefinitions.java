@@ -19,6 +19,7 @@ public class StepDefinitions {
 	private static final String ROOT_URL = "http://localhost:8080/";
 	private static final String LOGIN_URL = "http://localhost:8080/login.html";
 	private static final String REGISTER_URL = "http://localhost:8080/registration.html";
+	private static final String REGISTER_SERVLET_URL = "http://localhost:8080/registrationServlet";
 
 	private final WebDriver driver = new ChromeDriver();
 
@@ -80,20 +81,35 @@ public class StepDefinitions {
 
 	@Then("I should be on the login page")
 	public void i_should_be_on_the_login_page() {
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		String result = driver.getCurrentUrl();
 	    assertTrue(result.equalsIgnoreCase(LOGIN_URL));
 	}
 
 	@Then("I should be on the registration page")
 	public void i_should_be_on_the_registration_page() {
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		String result = driver.getCurrentUrl();
 	    assertTrue(result.equalsIgnoreCase(REGISTER_URL));
 	}
 	
-	@Then("I should be on the registration valid page")
-	public void i_should_be_on_the_registration_valid_page() {
+	@Then("I should be on the registration servlet page")
+	public void i_should_be_on_the_registration_servlet_page() {
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		String result = driver.getCurrentUrl();
-	    assertTrue(result.equalsIgnoreCase(REGISTER_URL + "#"));
+	    assertTrue(result.equalsIgnoreCase(REGISTER_SERVLET_URL));
 	}
 	
 
