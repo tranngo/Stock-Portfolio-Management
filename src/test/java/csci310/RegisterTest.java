@@ -157,6 +157,7 @@ public class RegisterTest {
 		} catch (FileNotFoundException e) {
 			System.out.println("Error in RegisterTest testCheckUserExists");
 			e.printStackTrace();
+			return;
 		}
 		
 		//Write a string to mess up "db-credentials.txt"
@@ -215,6 +216,7 @@ public class RegisterTest {
 		} catch (FileNotFoundException e) {
 			System.out.println("Error in RegisterTest testCheckUserExists");
 			e.printStackTrace();
+			return;
 		}
 		
 		//Write a string to mess up "db-credentials.txt"
