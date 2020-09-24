@@ -35,6 +35,7 @@ public class RegistrationServlet extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return;
 		}
+		System.out.println("Debug: requestBody is: " + requestBody);
 		
 		//NOTE: requestBody looks like "username=wilson103&password=racket&passwordConfirmation=racket"
 		
