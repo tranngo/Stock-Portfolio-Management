@@ -14,17 +14,13 @@ import csci310.PostEnvelopeForRegister;
 import csci310.Register;
 
 public class RegistrationServlet extends HttpServlet {
-	private final Gson gson;
-	
-	public RegistrationServlet()
-	{
-		gson = new Gson();
-	}
 	
 	//ALERT: this code is still incomplete, it doesn't redirect the user
 	//to a "successful sign up" screen
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		System.out.println("YES: RegistrationServlet's doPost was called");
 		
 		//Code referenced from the URL shortener demo
 		String requestBody;
@@ -40,13 +36,23 @@ public class RegistrationServlet extends HttpServlet {
 			return;
 		}
 		
+		//NOTE: requestBody looks like "username=wilson103&password=racket&passwordConfirmation=racket"
+		
 		//At this point we have properly read the request body into a String object
 		//Now we will read the form data the user has sent to us
 		//i.e. the username and password they entered
-		PostEnvelopeForRegister formData = gson.fromJson(requestBody, PostEnvelopeForRegister.class);
 		
-		String username = formData.getUsername();
-		String password = formData.getPassword();
+		//Some parsing code to extract the username and password from the above string
+		int firstAnd = requestBody.indexOf('&');
+		int secondAnd = requestBody.lastIndexOf('&');
+		
+		String username = requestBody.substring(0, firstAnd); //username=wilson103
+		String password = requestBody.substring(firstAnd+1, secondAnd); //password=racket
+		
+		int firstEquals = username.indexOf('=');
+		int secondEquals = password.indexOf('=');
+		username = username.substring(firstEquals+1); //just "wilson103"
+		password = password.substring(secondEquals+1); //just "racket"
 		
 		boolean userInfoIsValid = Register.validateUserInfo(username, password);
 		
@@ -60,7 +66,8 @@ public class RegistrationServlet extends HttpServlet {
 		
 		//User already in database
 		boolean userAlreadyInDatabase = Register.checkUserExists(username);
-		if(userAlreadyInDatabase == false) {
+		
+		if(userAlreadyInDatabase == true) {
 			//NOTE: Improve this! Return a response saying the user already is registered
 			System.out.println("User already in database");
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -80,10 +87,12 @@ public class RegistrationServlet extends HttpServlet {
 		
 		//Put the user in the database, everything is okay!
 		Register.insertUser(username, hashed_password);
+		System.out.println("YES: A new user was successfully added to the database!");
 		
 		//ALERT: this code is still incomplete, it doesn't redirect the user
 		//to a "successful sign up" screen
 		response.setStatus(HttpServletResponse.SC_OK);
+		response.sendRedirect("login.html");
 		return;
 	}
 }

@@ -6,6 +6,8 @@ package csci310.servlets;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import org.junit.Test;
 
@@ -33,18 +35,32 @@ public class RegistrationServletTest extends Mockito {
 //		when(request.getParameter("username")).thenReturn("Professor34");
 //		when(request.getParameter("password")).thenReturn("testPassword543");
 //		
+//		//Mock the Request.getReader().lines() found in the first try block of doPost()
+//		StringWriter stringWriter = new StringWriter();
+//		PrintWriter writer = new PrintWriter(stringWriter);
+//		try {
+//			when(response.getWriter()).thenReturn(writer);
+//		} catch (IOException e1) {
+//			System.out.println("ERROR P1 with RegistrationServletTest doPost() test" );
+//			e1.printStackTrace();
+//			return;
+//		}
+//		
+//		
 //		//With a blank request and response, call doGet
 //		RegistrationServlet rs = new RegistrationServlet();
 //		try {
 //			rs.doPost(request, response);
 //		} catch (IOException e) {
-//			System.out.println("ERROR with RegistrationServletTest doPost() test" );
+//			System.out.println("ERROR Q2 with RegistrationServletTest doPost() test" );
 //			e.printStackTrace();
+//			return;
 //		}
 //		
 //		//Check that the request is successful (status code is 200)
 //		//NOTE: Later on we should probably check whether the entry
 //		//actually got placed in the database
+//		writer.flush();
 //		assertEquals(response.getStatus(), 200);
 	}
 
