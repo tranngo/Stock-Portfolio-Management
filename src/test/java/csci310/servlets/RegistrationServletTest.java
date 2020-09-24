@@ -25,11 +25,11 @@ public class RegistrationServletTest extends Mockito {
 	 */
 	@Test
 	public void testDoPostHttpServletRequestHttpServletResponse() {
-//		//For "Post", we need the username and password to be faked
-//		HttpServletRequest request = mock(HttpServletRequest.class);
-//		HttpServletResponse response = mock(HttpServletResponse.class);
-//		
-//		//Mock a username and password for the request
+		//For "Post", we need the username and password to be faked
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		HttpServletResponse response = mock(HttpServletResponse.class);
+		
+		//Mock a username and password for the request
 //		when(request.getParameter("username")).thenReturn("Professor34");
 //		when(request.getParameter("password")).thenReturn("testPassword543");
 //		
