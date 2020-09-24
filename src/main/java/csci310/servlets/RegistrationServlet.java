@@ -2,6 +2,7 @@ package csci310.servlets;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServlet;
@@ -65,7 +66,14 @@ public class RegistrationServlet extends HttpServlet {
 		}
 		
 		//User already in database
-		boolean userAlreadyInDatabase = Register.checkUserExists(username);
+		boolean userAlreadyInDatabase = false;
+		try {
+			userAlreadyInDatabase = Register.checkUserExists(username);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
 		if(userAlreadyInDatabase == true) {
 			//NOTE: Improve this! Return a response saying the user already is registered
@@ -81,7 +89,12 @@ public class RegistrationServlet extends HttpServlet {
 		
 		
 		//Put the user in the database, everything is okay!
-		Register.insertUser(username, hashed_password);
+		try {
+			Register.insertUser(username, hashed_password);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("YES: A new user was successfully added to the database!");
 		
 		//Redirect user to the login page
