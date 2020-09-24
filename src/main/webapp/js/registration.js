@@ -59,14 +59,16 @@ document.querySelector('form').onsubmit = function()
 {
   // event.preventDefault();
   let username = document.getElementById("username").value.trim();
-  /*sessionStorage.setItem("email", email);*/
   let password = document.getElementById("password").value.trim();
   let confirmPW = document.getElementById("passwordConfirmation").value.trim();
+  
+  let usernameErrorMsg = "Please enter your username";
+  let passwordErrorMsg = "Please enter your password";
 
   if (username.length == 0)
   {
     document.getElementById("username-invalid").classList.add("is-invalid");
-    document.getElementById("username-invalid").innerHTML = "Please enter a username";
+    document.getElementById("username-invalid").innerHTML = usernameErrorMsg;
   }
   else
   {
@@ -77,7 +79,7 @@ document.querySelector('form').onsubmit = function()
   if (password.length == 0)
   {
     document.getElementById("pw-invalid").classList.add("is-invalid");
-    document.getElementById("pw-invalid").innerHTML = "Please enter your password";
+    document.getElementById("pw-invalid").innerHTML = passwordErrorMsg;
   }
   else
   {
@@ -88,7 +90,7 @@ document.querySelector('form').onsubmit = function()
   if (confirmPW.length == 0)
   {
     document.getElementById("pwConfirm-invalid").classList.add("is-invalid");
-    document.getElementById("pwConfirm-invalid").innerHTML = "Please enter your password";
+    document.getElementById("pwConfirm-invalid").innerHTML = passwordErrorMsg;
   }
   else
   {
