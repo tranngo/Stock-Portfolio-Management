@@ -47,13 +47,16 @@ public class RegistrationServlet extends HttpServlet {
 		
 		String username = requestBody.substring(0, firstAnd); //username=wilson103
 		String password = requestBody.substring(firstAnd+1, secondAnd); //password=racket
+		String confirmPassword = requestBody.substring(secondAnd+1);
 		
 		int firstEquals = username.indexOf('=');
 		int secondEquals = password.indexOf('=');
+		int thirdEquals = confirmPassword.indexOf('=');
 		username = username.substring(firstEquals+1); //just "wilson103"
 		password = password.substring(secondEquals+1); //just "racket"
+		confirmPassword = confirmPassword.substring(thirdEquals+1);
 		
-		boolean userInfoIsValid = Register.validateUserInfo(username, password);
+		boolean userInfoIsValid = Register.validateUserInfo(username, password, confirmPassword);
 		
 		//Invalid user info
 		if(userInfoIsValid == false) {

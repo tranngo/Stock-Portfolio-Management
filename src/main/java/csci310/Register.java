@@ -24,7 +24,7 @@ import com.google.common.hash.Hashing;
 public class Register {
 
 	//Check that the username and password are valid
-	public static boolean validateUserInfo(String username, String password)
+	public static boolean validateUserInfo(String username, String password, String confirmPassword)
 	{
 		ArrayList<String> invalidChars = new ArrayList<String>(
 				Arrays.asList("'", "\"", ";"));
@@ -39,6 +39,11 @@ public class Register {
 			if(username.contains(invalidChar) || password.contains(invalidChar)) {
 				return false;
 			}
+		}
+		
+		//password does not match confirm password
+		if(password.equals(confirmPassword) == false) {
+			return false;
 		}
 		
 		// else, password is valid

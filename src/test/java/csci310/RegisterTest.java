@@ -23,74 +23,80 @@ import org.junit.Test;
 public class RegisterTest {
 
 	/**
-	 * Test method for {@link csci310.Register#validateUserInfo(java.lang.String, java.lang.String)}.
+	 * Test method for {@link csci310.Register#validateUserInfo(java.lang.String, java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	public void testValidateUserInfo() {
 		//Username with single quotes is invalid, we want to prevent SQL injection
 		String test_username1 = "CREATE TABLE \'sqlInjectionString\'";
-		boolean result = Register.validateUserInfo(test_username1, "pwd");
+		boolean result = Register.validateUserInfo(test_username1, "pwd", "pwd");
 		assertFalse(result);
 		
 		//Username with double quotes is invalid, we want to prevent SQL injection
 		String test_username2 = "CREATE TABLE \"sqlInjectionString\"";
-		result = Register.validateUserInfo(test_username2, "pwd");
+		result = Register.validateUserInfo(test_username2, "pwd", "pwd");
 		assertFalse(result);
 		
 		//Username with semicolon is invalid, we want to prevent SQL injection
 		String test_username3 = "; DROP TABLE users";
-		result = Register.validateUserInfo(test_username3, "pwd");
+		result = Register.validateUserInfo(test_username3, "pwd", "pwd");
 		assertFalse(result);
 		
 		//Username with spaces is valid (check with CPs)
 		String test_username4 = "Venus Williams";
-		result = Register.validateUserInfo(test_username4, "pwd");
+		result = Register.validateUserInfo(test_username4, "pwd", "pwd");
 		assertTrue(result);
 		
 		//Normal username test is valid
 		String test_username5 = "federer34";
-		result = Register.validateUserInfo(test_username5, "pwd");
+		result = Register.validateUserInfo(test_username5, "pwd", "pwd");
 		assertTrue(result);
 		
 		//Empty username is invalid
 		String test_username6 = "";
-		result = Register.validateUserInfo(test_username6, "pwd");
+		result = Register.validateUserInfo(test_username6, "pwd", "pwd");
 		assertFalse(result);
 		
 		//Password with single quotes is invalid, we want to prevent SQL injection
 		String test_password1 = "CREATE TABLE \'sqlInjectionString\'";
-		result = Register.validateUserInfo("usr", test_password1);
+		result = Register.validateUserInfo("usr", test_password1, test_password1);
 		assertFalse(result);
 		
 		//Password with double quotes is invalid, we want to prevent SQL injection
 		String test_password2 = "CREATE TABLE \"sqlInjectionString\"";
-		result = Register.validateUserInfo("usr", test_password2);
+		result = Register.validateUserInfo("usr", test_password2, test_password2);
 		assertFalse(result);
 		
 		//Password with semicolon is invalid, we want to prevent SQL injection
 		String test_password3 = "; DROP TABLE users";
-		result = Register.validateUserInfo("usr", test_password3);
+		result = Register.validateUserInfo("usr", test_password3, test_password3);
 		assertFalse(result);
 		
 		//Password with spaces is valid (check with CPs)
 		String test_password4 = "secret password";
-		result = Register.validateUserInfo("usr", test_password4);
+		result = Register.validateUserInfo("usr", test_password4, test_password4);
 		assertTrue(result);
 		
 		//Normal password test
 		String test_password5 = "bunnies314*";
-		result = Register.validateUserInfo("usr", test_password5);
+		result = Register.validateUserInfo("usr", test_password5, test_password5);
 		assertTrue(result);
 		
 		//Empty password is invalid
 		String test_password6 = "";
-		result = Register.validateUserInfo("usr", test_password6);
+		result = Register.validateUserInfo("usr", test_password6, test_password6);
 		assertFalse(result);
 		
 		//Empty username and password is invalid
 		String empty_username = "";
 		String empty_password = "";
-		result = Register.validateUserInfo(empty_username, empty_password);
+		result = Register.validateUserInfo(empty_username, empty_password, empty_password);
+		assertFalse(result);
+		
+		//Password and confirm password not matching is invalid
+		String pass = "racket";
+		String different_pass = "racket34";
+		result = Register.validateUserInfo("usr", pass, different_pass);
 		assertFalse(result);
 	}
 
