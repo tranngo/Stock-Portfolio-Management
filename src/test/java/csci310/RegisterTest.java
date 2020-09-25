@@ -24,7 +24,7 @@ public class RegisterTest {
 	
 	final private static String DB_CREDNETIALS = "db-credentials.txt";
 	
-	private String getPassword(File myFile) {
+	private static String getPassword(File myFile) {
 		String password = "N/A";
 		try {
 			Scanner myScanner = new Scanner(myFile);
@@ -40,7 +40,7 @@ public class RegisterTest {
 		return password;
 	}
 	
-	private void changePassword(String newPassword) {
+	private static void changePassword(String newPassword) {
 		try {
 			FileWriter fw = new FileWriter(DB_CREDNETIALS);
 			fw.write(newPassword);
