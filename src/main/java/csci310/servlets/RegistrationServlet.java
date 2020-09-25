@@ -29,7 +29,6 @@ public class RegistrationServlet extends HttpServlet {
 			//So then we can read the JSON out of the request and do something useful with GSON library
 			requestBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return;
@@ -78,14 +77,8 @@ public class RegistrationServlet extends HttpServlet {
 		
 		//Hash the password
 		String hashed_password = "";
-		try {
-			hashed_password = Register.hashPasswordWithSHA256(password);
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			return;
-		}
+		hashed_password = Register.hashPasswordWithSHA256(password);
+		
 		
 		//Put the user in the database, everything is okay!
 		Register.insertUser(username, hashed_password);
