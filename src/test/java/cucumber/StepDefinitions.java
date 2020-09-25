@@ -112,6 +112,60 @@ public class StepDefinitions {
 	    assertTrue(result.equalsIgnoreCase(REGISTER_SERVLET_URL));
 	}
 	
+	//	login.feature
+	
+	@Given("I am on the login page")
+	public void i_am_on_the_login_page() {
+	    driver.get(LOGIN_URL);
+	}
+
+	@When("I click on the sign up button")
+	public void i_click_on_the_sign_up_button() {
+	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/div/div[6]/p/a"));
+	    button.click();
+	}
+
+	@Then("I should be on the register page")
+	public void i_should_be_on_the_register_page() {
+		String URL = driver.getCurrentUrl();
+		assertTrue(URL.equalsIgnoreCase(REGISTER_URL));
+	}
+	
+	@When("I type {string} into the login password text box")
+	public void i_type_into_the_login_password_text_box(String string) {
+	    WebElement textbox = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/div/div[3]/input"));
+	    textbox.sendKeys(string);
+	}
+
+	@When("I click on the login button")
+	public void i_click_on_the_login_button() {
+	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/div/div[5]/button"));
+	}
+
+	@When("I type {string} into the login username text box")
+	public void i_type_into_the_login_username_text_box(String string) {
+		WebElement textbox = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/div/div[1]/input"));
+	    textbox.sendKeys(string);
+	}
+	
+	@Then("I should see please enter a username error message")
+	public void i_should_see_please_enter_a_username_error_message() {
+	    assertTrue(driver.findElements(By.xpath("/html/body/div/div/div[2]/form/div/div[2]/div")).size() != 0);
+	}
+	
+	@Then("I should see please enter your password error message")
+	public void i_should_see_please_enter_your_password_error_message() {
+		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div[2]/form/div/div[4]/div")).size() != 0);
+	}
+
+	@Then("I should see please enter a username and please enter your password error messages")
+	public void i_should_see_please_enter_a_username_and_please_enter_your_password_error_messages() {
+		// Please enter a username error message
+		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div[2]/form/div/div[2]/div")).size() != 0);
+		
+		// Please enter your password error message
+		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div[2]/form/div/div[2]/div")).size() != 0);
+	}
 
 	@After()
 	public void after() {

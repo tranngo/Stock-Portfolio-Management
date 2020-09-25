@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
@@ -21,74 +23,80 @@ import org.junit.Test;
 public class RegisterTest {
 
 	/**
-	 * Test method for {@link csci310.Register#validateUserInfo(java.lang.String, java.lang.String)}.
+	 * Test method for {@link csci310.Register#validateUserInfo(java.lang.String, java.lang.String, java.lang.String)}.
 	 */
 	@Test
 	public void testValidateUserInfo() {
 		//Username with single quotes is invalid, we want to prevent SQL injection
 		String test_username1 = "CREATE TABLE \'sqlInjectionString\'";
-		boolean result = Register.validateUserInfo(test_username1, "pwd");
+		boolean result = Register.validateUserInfo(test_username1, "pwd", "pwd");
 		assertFalse(result);
 		
 		//Username with double quotes is invalid, we want to prevent SQL injection
 		String test_username2 = "CREATE TABLE \"sqlInjectionString\"";
-		result = Register.validateUserInfo(test_username2, "pwd");
+		result = Register.validateUserInfo(test_username2, "pwd", "pwd");
 		assertFalse(result);
 		
 		//Username with semicolon is invalid, we want to prevent SQL injection
 		String test_username3 = "; DROP TABLE users";
-		result = Register.validateUserInfo(test_username3, "pwd");
+		result = Register.validateUserInfo(test_username3, "pwd", "pwd");
 		assertFalse(result);
 		
 		//Username with spaces is valid (check with CPs)
 		String test_username4 = "Venus Williams";
-		result = Register.validateUserInfo(test_username4, "pwd");
+		result = Register.validateUserInfo(test_username4, "pwd", "pwd");
 		assertTrue(result);
 		
 		//Normal username test is valid
 		String test_username5 = "federer34";
-		result = Register.validateUserInfo(test_username5, "pwd");
+		result = Register.validateUserInfo(test_username5, "pwd", "pwd");
 		assertTrue(result);
 		
 		//Empty username is invalid
 		String test_username6 = "";
-		result = Register.validateUserInfo(test_username6, "pwd");
+		result = Register.validateUserInfo(test_username6, "pwd", "pwd");
 		assertFalse(result);
 		
 		//Password with single quotes is invalid, we want to prevent SQL injection
 		String test_password1 = "CREATE TABLE \'sqlInjectionString\'";
-		result = Register.validateUserInfo("usr", test_password1);
+		result = Register.validateUserInfo("usr", test_password1, test_password1);
 		assertFalse(result);
 		
 		//Password with double quotes is invalid, we want to prevent SQL injection
 		String test_password2 = "CREATE TABLE \"sqlInjectionString\"";
-		result = Register.validateUserInfo("usr", test_password2);
+		result = Register.validateUserInfo("usr", test_password2, test_password2);
 		assertFalse(result);
 		
 		//Password with semicolon is invalid, we want to prevent SQL injection
 		String test_password3 = "; DROP TABLE users";
-		result = Register.validateUserInfo("usr", test_password3);
+		result = Register.validateUserInfo("usr", test_password3, test_password3);
 		assertFalse(result);
 		
 		//Password with spaces is valid (check with CPs)
 		String test_password4 = "secret password";
-		result = Register.validateUserInfo("usr", test_password4);
+		result = Register.validateUserInfo("usr", test_password4, test_password4);
 		assertTrue(result);
 		
 		//Normal password test
 		String test_password5 = "bunnies314*";
-		result = Register.validateUserInfo("usr", test_password5);
+		result = Register.validateUserInfo("usr", test_password5, test_password5);
 		assertTrue(result);
 		
 		//Empty password is invalid
 		String test_password6 = "";
-		result = Register.validateUserInfo("usr", test_password6);
+		result = Register.validateUserInfo("usr", test_password6, test_password6);
 		assertFalse(result);
 		
 		//Empty username and password is invalid
 		String empty_username = "";
 		String empty_password = "";
-		result = Register.validateUserInfo(empty_username, empty_password);
+		result = Register.validateUserInfo(empty_username, empty_password, empty_password);
+		assertFalse(result);
+		
+		//Password and confirm password not matching is invalid
+		String pass = "racket";
+		String different_pass = "racket34";
+		result = Register.validateUserInfo("usr", pass, different_pass);
 		assertFalse(result);
 	}
 
@@ -142,8 +150,10 @@ public class RegisterTest {
 		
 		//Cobertura coverage: Disable MySQL with a bad password so con=null
 		//Code to read file referenced from W3Schools
+		
+		//Retrieve password from "db-credentials.txt"
 		File myFile = new File("db-credentials.txt");
-		String password = "fake password";
+		String password = "N/A";
 		try {
 			Scanner myScanner = new Scanner(myFile);
 			while(myScanner.hasNextLine()) {
@@ -153,8 +163,34 @@ public class RegisterTest {
 		} catch (FileNotFoundException e) {
 			System.out.println("Error in RegisterTest testCheckUserExists");
 			e.printStackTrace();
+			return;
 		}
 		
+		//Write a string to mess up "db-credentials.txt"
+		try {
+			FileWriter fw = new FileWriter("db-credentials.txt");
+			fw.write("Messing up your password mwahaha");
+			fw.close();
+			System.out.println("Debug: Successfully messed up db-credentials.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Try checking DB now, it won't work since your password is wrong
+		String test4 = "nadal213*";
+		result = Register.checkUserExists(test4);
+		
+		//Fix "db-credentials.txt" by putting the right password back
+		try {
+			FileWriter fw2 = new FileWriter("db-credentials.txt");
+			fw2.write(password);
+			fw2.close();
+			System.out.println("Debug: Successfully fixed db-credentials.txt :)");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -170,5 +206,48 @@ public class RegisterTest {
 		String hashed_password = Register.hashPasswordWithSHA256(test_password);
 		boolean result = Register.insertUser(test_username, hashed_password);
 		assertTrue(result);
+		
+		//Cobertura coverage: Disable MySQL with a bad password so con=null
+		//Code to read file referenced from W3Schools
+		
+		//Retrieve password from "db-credentials.txt"
+		File myFile = new File("db-credentials.txt");
+		String password = "N/A";
+		try {
+			Scanner myScanner = new Scanner(myFile);
+			while(myScanner.hasNextLine()) {
+				password = myScanner.nextLine();
+			}
+			myScanner.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Error in RegisterTest testCheckUserExists");
+			e.printStackTrace();
+			return;
+		}
+		
+		//Write a string to mess up "db-credentials.txt"
+		try {
+			FileWriter fw = new FileWriter("db-credentials.txt");
+			fw.write("Messing up your password mwahaha");
+			fw.close();
+			System.out.println("Debug: Successfully messed up db-credentials.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Try using DB now, it won't work since password is wrong
+		result = Register.insertUser(test_username, hashed_password);
+		
+		//Fix "db-credentials.txt" by putting the right password back
+		try {
+			FileWriter fw2 = new FileWriter("db-credentials.txt");
+			fw2.write(password);
+			fw2.close();
+			System.out.println("Debug: Successfully fixed db-credentials.txt :)");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

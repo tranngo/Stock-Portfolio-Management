@@ -24,7 +24,7 @@ import com.google.common.hash.Hashing;
 public class Register {
 
 	//Check that the username and password are valid
-	public static boolean validateUserInfo(String username, String password)
+	public static boolean validateUserInfo(String username, String password, String confirmPassword)
 	{
 		ArrayList<String> invalidChars = new ArrayList<String>(
 				Arrays.asList("'", "\"", ";"));
@@ -41,12 +41,17 @@ public class Register {
 			}
 		}
 		
+		//password does not match confirm password
+		if(password.equals(confirmPassword) == false) {
+			return false;
+		}
+		
 		// else, password is valid
 		return true;
 	}
 	
 	//Hash a password with SHA 256
-	public static String hashPasswordWithSHA256(String password) throws NoSuchAlgorithmException
+	public static String hashPasswordWithSHA256(String password)
 	{
 		// hash password and return as hex string
 		String sha256hex = Hashing.sha256()
@@ -135,6 +140,9 @@ public class Register {
 	          if(!line.isEmpty()) {
 	        	  dbPassword = line.trim();
 	        	  break;
+	          }
+	          else {
+	        	  System.out.println("Debug: Else in Register.java readDBCredentials");
 	          }
 	        }
 	        myReader.close();
