@@ -32,12 +32,12 @@ public class RegisterTest {
 				password = myScanner.nextLine();
 			}
 			myScanner.close();
+			return password;
 		} catch (FileNotFoundException e) {
 			System.out.println("Error in RegisterTest getting password");
 			e.printStackTrace();
+			return "";
 		}
-		
-		return password;
 	}
 	
 	private static void changePassword(String newPassword) {
