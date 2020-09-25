@@ -16,7 +16,7 @@ document.querySelector('form').onsubmit = function()
     if (email.length == 0)
     {
         document.getElementById("email-invalid").classList.add("is-invalid");
-        document.getElementById("email-invalid").innerHTML = "Please enter an email";
+        document.getElementById("email-invalid").innerHTML = "Please enter a username";
     }
     else
     {
