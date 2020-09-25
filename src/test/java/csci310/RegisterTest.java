@@ -21,6 +21,36 @@ import org.junit.Test;
  *
  */
 public class RegisterTest {
+	
+	final private static String DB_CREDNETIALS = "db-credentials.txt";
+	
+	private String getPassword(File myFile) {
+		String password = "N/A";
+		try {
+			Scanner myScanner = new Scanner(myFile);
+			while(myScanner.hasNextLine()) {
+				password = myScanner.nextLine();
+			}
+			myScanner.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Error in RegisterTest getting password");
+			e.printStackTrace();
+		}
+		
+		return password;
+	}
+	
+	private void changePassword(String newPassword) {
+		try {
+			FileWriter fw = new FileWriter(DB_CREDNETIALS);
+			fw.write(newPassword);
+			fw.close();
+			System.out.println("Debug: Successfully messed up db-credentials.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Test method for {@link csci310.Register#validateUserInfo(java.lang.String, java.lang.String, java.lang.String)}.
@@ -152,45 +182,18 @@ public class RegisterTest {
 		//Code to read file referenced from W3Schools
 		
 		//Retrieve password from "db-credentials.txt"
-		File myFile = new File("db-credentials.txt");
-		String password = "N/A";
-		try {
-			Scanner myScanner = new Scanner(myFile);
-			while(myScanner.hasNextLine()) {
-				password = myScanner.nextLine();
-			}
-			myScanner.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("Error in RegisterTest testCheckUserExists");
-			e.printStackTrace();
-			return;
-		}
+		File myFile = new File(DB_CREDNETIALS);
+		String password = getPassword(myFile);
 		
 		//Write a string to mess up "db-credentials.txt"
-		try {
-			FileWriter fw = new FileWriter("db-credentials.txt");
-			fw.write("Messing up your password mwahaha");
-			fw.close();
-			System.out.println("Debug: Successfully messed up db-credentials.txt");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		changePassword("Messing up your password mwahaha");
 		
 		//Try checking DB now, it won't work since your password is wrong
 		String test4 = "nadal213*";
 		result = Register.checkUserExists(test4);
 		
 		//Fix "db-credentials.txt" by putting the right password back
-		try {
-			FileWriter fw2 = new FileWriter("db-credentials.txt");
-			fw2.write(password);
-			fw2.close();
-			System.out.println("Debug: Successfully fixed db-credentials.txt :)");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		changePassword(password);
 	}
 
 	/**
@@ -211,43 +214,16 @@ public class RegisterTest {
 		//Code to read file referenced from W3Schools
 		
 		//Retrieve password from "db-credentials.txt"
-		File myFile = new File("db-credentials.txt");
-		String password = "N/A";
-		try {
-			Scanner myScanner = new Scanner(myFile);
-			while(myScanner.hasNextLine()) {
-				password = myScanner.nextLine();
-			}
-			myScanner.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("Error in RegisterTest testCheckUserExists");
-			e.printStackTrace();
-			return;
-		}
+		File myFile = new File(DB_CREDNETIALS);
+		String password = getPassword(myFile);
 		
 		//Write a string to mess up "db-credentials.txt"
-		try {
-			FileWriter fw = new FileWriter("db-credentials.txt");
-			fw.write("Messing up your password mwahaha");
-			fw.close();
-			System.out.println("Debug: Successfully messed up db-credentials.txt");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		changePassword("Messing up your password mwahaha");
 		
 		//Try using DB now, it won't work since password is wrong
 		result = Register.insertUser(test_username, hashed_password);
 		
 		//Fix "db-credentials.txt" by putting the right password back
-		try {
-			FileWriter fw2 = new FileWriter("db-credentials.txt");
-			fw2.write(password);
-			fw2.close();
-			System.out.println("Debug: Successfully fixed db-credentials.txt :)");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		changePassword(password);
 	}
 }
