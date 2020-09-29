@@ -1,0 +1,22 @@
+Best Practice TDD Report
+Owner: group09-20203
+Grade: 4.0/10
+Comments: 
+	No test method found for: register.connectdb
+	No test method found for: register.readdbcredentials
+	No test method found for: registrationservlet.dopost
+	No test method found for: jdbc.connectdb
+	No test method found for: jdbc.readdbcredentials
+	Test method was not created before method : login.checkforlogincredentials
+	No test method found for: userinput.validateuserinfo
+	No test method found for: userinput.hashpasswordwithsha256
+	Test method was not created before method : login.validateuserinfo
+	Test method was not created before method : login.hashpasswordwithsha256
+	No test method found for: login.connectdb
+	No test method found for: login.readdbcredentials
+	No test method found for: postenvelopeforregister.getusername
+	No test method found for: postenvelopeforregister.getpassword
+	No test method found for: registrationservlet.doget
+Correct TDD methods: 10
+Incorrect TDD methods: 15
+Total methods created: 25
