@@ -1,0 +1,15 @@
+Best Practice GitFlow Report
+Owner: group09-20203
+Grade: 8.0/10
+Comments: 
+
+	Direct commit to master (-1): https://github.com/CSCI310/project-20203-group09-20203/commit/ffcea36fd795e93dcdec25bece9db244415c8ad1
+	Direct commit to master (-1): https://github.com/CSCI310/project-20203-group09-20203/commit/d25b38507fe490de67abf2484d9073a614e46746
+
+
+
+
+	Bad pull (-1) [feature-registration<-refactor-registrationmethodnames]: https://github.com/CSCI310/project-20203-group09-20203/pull/5
+	Bad pull (-1) [feature-registration<-refactor-registrationjavaxbug]: https://github.com/CSCI310/project-20203-group09-20203/pull/4
+
+
