@@ -1,0 +1,21 @@
+			Grading Table - Team9
+
+| Section                  | Grade                 | Note                                                                                   |
+|--------------------------|-----------------------|----------------------------------------------------------------------------------------|
+| Sprint Planning          | 8/9                   | Tasks no divided into sub tasks in Scrum Initial Chart.                                |
+| Scrums                   | 21.666666666666668/25 | Scrum 1:Tasks no divided into sub tasks in Scrum Initial Chart. No Progress available. |
+|                          |                       | Scrum 2:Great Work at describing your progress! Divide your tasks into subtasks.       |
+|                          |                       | Scrum 3:Great Work at describing your progress! Divide your tasks into subtasks.       |
+|                          |                       | Scrum 4:                                                                               |
+|                          |                       | Scrum 5:Great work on wrapping up the sprint and giving slight idead about next sprint |
+| Retrospective            | 6/6                   |                                                                                        |
+| TDD                      | 4/10                  |                                                                                        |
+| Sustainable Pace         | 9/10                  |                                                                                        |
+| GitFlow                  | 8/10                  |                                                                                        |
+| Continuous Integration   | 10/10                 |                                                                                        |
+| Refactor                 | 9.7/10                |                                                                                        |
+| Coverage                 | 5.8/10                |                                                                                        |
+| ------------------------ | -------------------   |                                                                                        |
+| Total                    | 82.16666666666667     |                                                                                        |
+| ------------------------ | -------------------   |                                                                                        |
+| Implementation Score     | 14.0/250              |                                                                                        |
