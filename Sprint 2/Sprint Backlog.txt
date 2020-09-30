@@ -1,0 +1,16 @@
+Sprint Backlog:
+  1. Achieve full coverage of tasks from Sprint 1
+  2. Implement feedback given from stakeholders regarding Sprint 1
+  3. Create two example graphs on the home page using Google Charts, include dummy data for now
+  4. Create a Portfolio Java class which you can add/remove stocks from and have helper
+  functions that can take care of retrieving useful stock data from the API
+  5. Connect the Portfolio class to the two graphs using AJAX calls so that the real data
+  from the portfolio is pulled into the graph
+
+The first two points in this backlog address feedback from the previous sprint. As a team, we agreed that it was crucial to finish up the tasks from Sprint 1 before making significant moves regarding other features from the product backlog. Our team also plans to make significant progress regarding the initial protoype of the portfolio page, thus leading to the next three points. Our team hopes to accomplish some initial research and prototyping of Google Charts to test feasability, and then move forward from there in terms of implementing other features from the product backlog (primarily features 1 and 2). We decided that these tasks made the most sense in terms of project flow, seeing as we focused on login/registration previously. Our work here will serve as a strong basis to go off of for the future sprints in terms of developing the portfolio and all of its functionality.
+  
+Meeting Participants:
+Sai Allu
+Maggie Shi
+Tran Ngo
+Teddy Lee
