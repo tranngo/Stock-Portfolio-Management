@@ -1,0 +1,20 @@
+Meeting Participants (4):
+Sai Allu
+Maggie Shi
+Tran Ngo
+Teddy Lee
+
+Sprint 1 was a time of trial and error and getting our project off the ground. Based on our feedback, here are the things our group will change in terms of process aspects.
+
+1. Increase coverage (branches / lines) - we will work on making sure all of our code has been properly covered by cobuterra. 
+2. Focus on TDD - we will continue to make test driven development a priority and make sure our tests are created and pushed prior to anything else.
+3. Gitflow - we will make sure to follow best practices and create refactor branches from develop and not from features!
+
+We don't see a need to edit the product backlog as of yet, but we're definitely going to take into account the feedback we received from our sprint review. 
+Some of the tasks include:
+
+1. Creating feature files for each backlog requirement and adding @CucumberOptions to the RunCucumberTests.java file
+2. Display a proper error message upon registration (not in the eclipse console)
+3. UI - center the login page and add the banner, properly display which page a user is on (login vs registration), color scheme
+4. Remove one of the two 'passwords don't match' error
+5. Add a remote DB for testing purposes
