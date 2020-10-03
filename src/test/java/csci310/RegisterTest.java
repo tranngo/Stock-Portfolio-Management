@@ -22,7 +22,7 @@ import org.junit.Test;
  */
 public class RegisterTest {
 	
-	final private static String DB_CREDNETIALS = "db-credentials.txt";
+	final private static String DB_CREDENTIALS = "db-credentials.txt";
 	
 	private static String getPassword(File myFile) {
 		String password = "N/A";
@@ -42,7 +42,7 @@ public class RegisterTest {
 	
 	private static void changePassword(String newPassword) {
 		try {
-			FileWriter fw = new FileWriter(DB_CREDNETIALS);
+			FileWriter fw = new FileWriter(DB_CREDENTIALS);
 			fw.write(newPassword);
 			fw.close();
 			System.out.println("Debug: Successfully messed up db-credentials.txt");
@@ -182,7 +182,7 @@ public class RegisterTest {
 		//Code to read file referenced from W3Schools
 		
 		//Retrieve password from "db-credentials.txt"
-		File myFile = new File(DB_CREDNETIALS);
+		File myFile = new File(DB_CREDENTIALS);
 		String password = getPassword(myFile);
 		
 		//Write a string to mess up "db-credentials.txt"
@@ -214,7 +214,7 @@ public class RegisterTest {
 		//Code to read file referenced from W3Schools
 		
 		//Retrieve password from "db-credentials.txt"
-		File myFile = new File(DB_CREDNETIALS);
+		File myFile = new File(DB_CREDENTIALS);
 		String password = getPassword(myFile);
 		
 		//Write a string to mess up "db-credentials.txt"
