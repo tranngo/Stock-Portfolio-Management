@@ -12,15 +12,21 @@
     <!-- Navbar-->
     <header class="header">
         <nav class="navbar navbar-expand-lg navbar-light py-3">
-        <div class="container">
+        <div class="banner">
             <!-- Navbar Brand -->
             <!-- <a href="pickRegister.html" class="navbar-brand"> -->
+              <body>
+                <span class="title">CS310 Stock Portfolio Management</span>
+              </body>
             <img src="assets/logo.svg" alt="logo" width="50">
+            <body>
+              <span class="title" style="margin-left: 250px;">Registration</span>
+            </body>
             </a>
         </div>
         </nav>
     </header>
-  
+    <br><br><br><br>
   
   <div class="container">
 
@@ -80,16 +86,19 @@
               <div id="pwConfirm-invalid" class="text-danger"></div>
             </div>
   
-            <!-- Submit Button -->
+            <!-- Submit Button and Cancel Button -->
             <div class="form-group col-lg-12 mx-auto mb-0">
-              <button type="submit" class="btn btn-primary btn-block py-2">
+              <button type="submit" class="button" style="width: 49%;">
                 <span class="font-weight-bold">Create your account</span>
+              </button>
+              <button type="submit" class="button" onclick="location.href='login.html';" style="width: 50%;">
+                <span class="font-weight-bold">Cancel</span>
               </button>
             </div>
   
             <!-- Already Registered -->
             <div class="text-center w-100">
-              <p class="text-muted font-weight-bold">Already Registered? <a href="login.html" class="text-primary ml-2">Login</a></p>
+              <p class="text-muted font-weight-bold">Already Registered? <a href="login.html" class="text">Login</a></p>
             </div>
   
           </div>

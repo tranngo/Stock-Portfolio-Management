@@ -29,3 +29,23 @@ box-shadow: none;
 {
     margin-top: -10px;
 }
+
+.navbar{
+    background-color: #787878
+}
+
+.title{
+    color: white;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+}
+
+.button{
+    background-color: #960e29;
+    color: white;
+    height: 115%;
+}
+
+.text{
+    color: #960e29;
+}
