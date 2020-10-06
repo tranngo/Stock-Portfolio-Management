@@ -3,6 +3,7 @@ package csci310;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.ArrayList;
 
 import yahoofinance.Stock;
@@ -196,7 +197,98 @@ public class Api {
 	 */
 	public static ArrayList<ArrayList<String>> getMultipleLinesWithDateRange(ArrayList<String> stocks, String start, String end)
 	{
-		return null;
+		
+				//TO DO: make sure the "NULL" entries come properly from Function 6!
+		
+		
+		//stocks = ["NTNX", "SLFS", "PORTFOLIO_37"]
+		//start = 01-30-2020
+		//end= 02-05-2020
+		
+		//Go through each stock and check if valid
+		Iterator<String> i = stocks.iterator();
+		while(i.hasNext())
+		{
+			String stock = i.next();
+			//An invalid stock is found
+			if(isValidStock(stock) == false)
+			{
+				System.out.println("Warning: " + stock + " is not a valid stock!");
+				i.remove();
+			}
+		}
+		
+		//Just to check that invalid stocks are removed
+		System.out.println("Hopefully invalid stocks are removed");
+		System.out.println("Stocks left in list are");
+		for(String stock : stocks)
+		{
+			System.out.print(stock + " ");
+		}
+		
+		//Retrieve each stock's values using function 6
+		ArrayList<ArrayList<String>> finalDataset = null;
+		for(String stock : stocks)
+		{
+			//Special case if the stock is PORTFOLIO_userid
+			if(stock.startsWith("PORTFOLIO_"))
+			{
+				//Get the user id
+				String user_id = stock.substring(10);
+				System.out.println("PORTFOLIO_ is for user id: " + user_id);
+				int id = Integer.parseInt(user_id);
+				
+				//Call the portfolio.java function
+				ArrayList<ArrayList<String>> oneTable = Portfolio.getLineForPortfolioWithDateRange(id, start, end);
+			
+				if(finalDataset == null) // for first column
+				{
+					finalDataset = oneTable;
+				}
+				else // for other columns
+				{
+					//We want to drop the whole first column of oneTabel, because that has the dates
+					//We just need the second column which has the stock prices
+					for(ArrayList<String> row : oneTable)
+					{
+						row.remove(0);
+					}
+					
+					//Next we want to append to the finalDataset
+					for(int p = 0; p < oneTable.size(); p++)
+					{
+						String entryInColumn = oneTable.get(p).get(0); // ["NTNX"] , ["130.11"], ["133.59"]
+						finalDataset.get(p).add(entryInColumn);
+					}
+				}
+			}
+			else 
+			{
+				ArrayList<ArrayList<String>> oneTable = getOneLineWithDateRange(stock, start, end);
+				if(finalDataset == null) // for first column
+				{
+					finalDataset = oneTable;
+				}
+				else // for other columns
+				{
+					//We want to drop the whole first column of oneTabel, because that has the dates
+					//We just need the second column which has the stock prices
+					for(ArrayList<String> row : oneTable)
+					{
+						row.remove(0);
+					}
+					
+					//Next we want to append to the finalDataset
+					for(int p = 0; p < oneTable.size(); p++)
+					{
+						String entryInColumn = oneTable.get(p).get(0); // ["NTNX"] , ["130.11"], ["133.59"]
+						finalDataset.get(p).add(entryInColumn);
+					}
+				}
+			}
+		}
+		
+		return finalDataset;
 	}
 	
 	/*
