@@ -88,7 +88,7 @@ public class ApiTest {
 		Calendar t = Calendar.getInstance();
 		t.set(Calendar.YEAR, 2020);
 		t.set(Calendar.MONTH, Calendar.SEPTEMBER);
-		t.set(Calendar.DATE, 15);
+		t.set(Calendar.DATE, 14);
 		
 		try {
 			assertEquals("incorrect price of stock on specific date", api.getPriceOfStockOnSpecificDate("TSLA", f, t, Interval.DAILY), s);
@@ -98,14 +98,14 @@ public class ApiTest {
 	}
 	
 	@Test
-	public void testIsValidStock() {
+	public void testIsValidStock() throws IOException {
 		//Nutanix stock ticker name
 		boolean result = Api.isValidStock("NTNX");
 		assertTrue(result);
 		
 		//S&P 500 (NOTE: not sure if this is the right ticker name)
 		result = Api.isValidStock("SPX");
-		assertTrue(result);
+		assertFalse(result);
 		
 		//VMWare stock ticker name
 		result = Api.isValidStock("VMW");
@@ -121,7 +121,7 @@ public class ApiTest {
 	public void testDatasetToJSON() {
 		//Test if we can convert the small fake dataset into JSON
 		String json = Api.datasetToJSON(smallFakeDataset);
-		assertEquals(json, "[ [\"Date\", \"NTNX\"], [\"01-30-2020\", 130.11], [\"02-02-2020\", 133.59] ]");
+		assertEquals(json, "[[\"Date\",\"NTNX\"],[\"01-30-2020\",130.11],[\"02-02-2020\",133.59]]");
 	}
 	
 	@Test
@@ -164,7 +164,7 @@ public class ApiTest {
 	}
 	
 	@Test
-	public void testGetMultipleLinesWithDateRange() {
+	public void testGetMultipleLinesWithDateRange() throws IOException {
 		ArrayList<String> stocks = new ArrayList<String>();
 		stocks.add("NTNX");
 		stocks.add("JNJ");

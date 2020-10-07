@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Iterator;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 import yahoofinance.Stock;
@@ -11,6 +14,16 @@ import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.Interval;
 
 public class Api {
+	
+	public static boolean isNumeric(String str) { 
+		  try {  
+		    Double.parseDouble(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
+	}
+
 	
 	/*
 	 * parameters: stock ticker
@@ -53,9 +66,16 @@ public class Api {
 	 * parameters: name of a stock as a string
 	 * returns: true or false, whether it is valid
 	 */
-	public static boolean isValidStock(String stock)
+	public static boolean isValidStock(String name) throws IOException
 	{
-		return true;
+		Stock stock = YahooFinance.get(name);
+		try {
+			return stock.isValid();
+		}
+		catch (NullPointerException e) {
+			System.out.println("NullPointerException Caught"); 
+		}
+		return false;
 	}
 	
 	/*
@@ -79,7 +99,31 @@ public class Api {
 	 */
 	public static String datasetToJSON(ArrayList<ArrayList<String>> dataset)
 	{
-		return "";
+		Gson gson = new Gson();
+		String result = "[" + gson.toJson(dataset.get(0)) + ",";
+		for (int i = 1; i < dataset.size(); i++) {
+			result += "[";
+			for (int j = 0; j < dataset.get(0).size(); j++) {
+				if(isNumeric(dataset.get(i).get(j))){
+					if (j == dataset.get(0).size()-1) {
+						result += gson.toJson(Double.parseDouble(dataset.get(i).get(j)));
+					}
+					else {
+						result += gson.toJson(Double.parseDouble(dataset.get(i).get(j))) + ",";
+					}
+				}
+				else {
+					result += gson.toJson(dataset.get(i).get(j)) + ",";
+				}
+			}
+			if (i == dataset.size()-1) {
+				result += "]";
+			}
+			else {
+				result += "],";
+			}
+		}
+		return result + "]";
 	}
 	
 	/*
@@ -195,7 +239,7 @@ public class Api {
 	 * parameters: ArrayList<String> for stocks, String for start date, String for end date
 	 * returns: ArrayList<ArrayList<String> > basically a n x m array
 	 */
-	public static ArrayList<ArrayList<String>> getMultipleLinesWithDateRange(ArrayList<String> stocks, String start, String end)
+	public static ArrayList<ArrayList<String>> getMultipleLinesWithDateRange(ArrayList<String> stocks, String start, String end) throws IOException
 	{
 		
 				//TO DO: make sure the "NULL" entries come properly from Function 6!
