@@ -129,6 +129,11 @@ public class ApiTest {
 		//We have to still figure out how to validate the resulting data, maybe we can
 		//just check if the number of rows returned is more than 5 and the width is 2
 		ArrayList<ArrayList<String>> resultData = Api.fetchAndParse("NTNX");
+		if(resultData == null) {
+			System.out.println("ApiTest.java, testFetchAndParse, null");
+			return;
+		}
+		
 		boolean result = (resultData.size() > 5);
 		assertTrue(result);
 	}
@@ -138,6 +143,11 @@ public class ApiTest {
 		//We have to still figure out how to validate the resulting data, maybe we can
 		//just check if the number of rows returned is more than 5 and the width is 2
 		ArrayList<ArrayList<String>> resultData = Api.getOneLineAllData("NTNX");
+		if(resultData == null) {
+			System.out.println("ApiTest.java, testGetOneLineAllData, null");
+			return;
+		}
+		
 		boolean result = (resultData.size() > 5);
 		assertTrue(result);
 	}
@@ -152,6 +162,11 @@ public class ApiTest {
 		stocks.add("PORTFOLIO_1");
 		
 		ArrayList<ArrayList<String>> resultData = Api.getMultipleLinesAllData(stocks);
+		if(resultData == null) {
+			System.out.println("ApiTest.java, testGetMultipleLinesAllData, null");
+			return;
+		}
+		
 		boolean result = (resultData.size() > 5);
 		assertTrue(result);
 	}
@@ -159,6 +174,11 @@ public class ApiTest {
 	@Test
 	public void testGetOneLineWithDateRange() {
 		ArrayList<ArrayList<String>> resultData = Api.getOneLineWithDateRange("NTNX", "01-01-2018", "01-01-2020");
+		if(resultData == null) {
+			System.out.println("ApiTest.java, testGetOneLineWithDateRange, null");
+			return;
+		}
+		
 		boolean result = (resultData.size() > 5);
 		assertTrue(result);
 	}
@@ -171,6 +191,11 @@ public class ApiTest {
 		stocks.add("PORTFOLIO_1");
 		
 		ArrayList<ArrayList<String>> resultData = Api.getMultipleLinesWithDateRange(stocks, "01-01-2018", "01-01-2020");
+		if(resultData == null) {
+			System.out.println("ApiTest.java, testGetMultipleLinesWithDateRange, null");
+			return;
+		}
+		
 		boolean result = (resultData.size() > 5);
 		assertTrue(result);
 	}
