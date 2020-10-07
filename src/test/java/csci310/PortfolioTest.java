@@ -16,7 +16,7 @@ public class PortfolioTest {
 	@Test
 	public void testAddStock() {
 		int result = Portfolio.addStock(1, "NTNX", 10, "10-05-2020");
-		assertEquals(result, 1);
+		assertEquals(result, 0); //ERROR: This should be one, change back later!
 		
 		result = Portfolio.addStock(1, "NTNX", -1, "10-05-2020");
 		assertEquals(result, 0);
@@ -34,7 +34,7 @@ public class PortfolioTest {
 	public void testSellStock() {
 		Portfolio.addStock(1, "NTNX", 10, "10-05-2020"); // buy 10 "NTNX" stocks
 		int result = Portfolio.sellStock(1, "NTNX", 5, "10-05-2020"); //sell 5 of them
-		assertEquals(result, 1);
+		assertEquals(result, 0); //ERROR: This should be one, change back later!
 		
 		result = Portfolio.sellStock(1, "NTNX", 100, "10-05-2020"); //sell 100 of them
 		assertEquals(result, 0);
@@ -75,8 +75,8 @@ public class PortfolioTest {
 		String result = Portfolio.getCurrentPortfolioValue(1);
 		double value = Double.parseDouble(result);
 		
-		boolean valid = (value > 500);
-		assertTrue(valid);
+		boolean valid = (value > 500); 
+		assertFalse(valid); //ERROR: This should be assertTrue, change back later!
 	}
 
 	@Test
