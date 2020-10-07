@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -89,7 +91,7 @@ public class Portfolio {
 		if(con != null) {
 			try {
 				// query stocks table for user id
-				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks WHERE username = ?");
+				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks WHERE user_id = ?");
 				ps.setInt(1, user_id);
 				ResultSet rs = ps.executeQuery();
 	
@@ -216,7 +218,78 @@ public class Portfolio {
 	 */
 	public static ArrayList<ArrayList<String>> getFullLineForPortfolio(int user_id)
 	{
-		return null;
+		Date start = null, end = null;
+		
+		// init portfolio
+		ArrayList<ArrayList<String>> portfolio = new ArrayList<ArrayList<String>>();
+		ArrayList<String> header = new ArrayList<String>(
+				Arrays.asList("Date", "Value"));
+		portfolio.add(header);
+		
+		// connect to mysql
+		Connection con = JDBC.connectDB();
+		if(con != null) {
+			try {
+				// query stocks table for user id
+				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks WHERE user_id = ?");
+				ps.setInt(1, user_id);
+				ResultSet rs = ps.executeQuery();
+				
+				String transDateStr = "";
+				String stockStr = "";
+	
+				// while there are stocks in the portfolio, find start and end dates
+				while(rs.next()) {
+					// example rs returned: [user_id, "BOUGHT_NTNX", 7, "02-01-2020"]
+					transDateStr = rs.getString(4); // date
+					stockStr = rs.getString(2); // bought/sold_stock
+					if(start == null && end == null) { // need to init start and end dates
+						String stocks[] = stockStr.split("_");
+						if(stocks.length == 2) { // if successful splitting
+							// example stocks[]: ["BOUGHT", "NTNX"]
+							// bought/sold is at index 0, stock name is at index 1
+							String stockStatus = stocks[0];
+							if(stockStatus.toLowerCase().equals("bought")) {
+								start = new SimpleDateFormat("MM-dd-yyyy").parse(transDateStr);
+								end = new SimpleDateFormat("MM-dd-yyyy").parse(transDateStr);
+							}
+						} else {
+							System.out.println("Failure retrieving current stock in portfolio.");
+						}
+					} else {
+						Date transDate = new SimpleDateFormat("MM-dd-yyyy").parse(transDateStr);
+						if(transDate.before(start)) {
+							start = transDate;
+						}
+						if(transDate.after(end)) {
+							end = transDate;
+						}
+					}
+				}
+	        } catch (SQLException e) {
+	        	System.out.println("Error querying stock data from DB when retrieving current portfolio.");
+	        	e.printStackTrace();
+	        } catch (ParseException e) {
+	        	System.out.println("Error parsing date.");
+				e.printStackTrace();
+			}
+		} // end if con != null
+		
+		// loop through dates to calculate portfolio values
+		LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		for(LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+			SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");  
+		    String dateStr = formatter.format(date);  
+		    String portfolioVal = getPortfolioValueOnADate(user_id, dateStr);
+		    
+		    // add current date/value to portfolio
+            ArrayList<String> curVal = new ArrayList<String>(
+    				Arrays.asList(dateStr, portfolioVal));
+            portfolio.add(curVal);
+		}
+		
+		return portfolio;
 	}
 	
 	/*
