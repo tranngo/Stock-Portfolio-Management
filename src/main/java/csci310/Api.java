@@ -16,7 +16,7 @@ public class Api {
 	 * parameters: stock ticker
 	 * returns: current price of stock as string (CAN ALSO BE BIG DECIMAL)
 	 */
-	public String getCurrentPriceOf(String name) throws IOException {
+	public static String getCurrentPriceOf(String name) throws IOException {
 		Stock stock = YahooFinance.get(name);
 		BigDecimal price = stock.getQuote(true).getPrice();
 		return price.toString();
