@@ -35,7 +35,7 @@ public class RegisterTest {
 			return password;
 		} catch (FileNotFoundException e) {
 			System.out.println("Error in RegisterTest getting password");
-			e.printStackTrace();
+			//e.printStackTrace();
 			return "";
 		}
 	}
@@ -48,7 +48,9 @@ public class RegisterTest {
 			System.out.println("Debug: Successfully messed up db-credentials.txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error in RegisterTest changing password");
+			//e.printStackTrace();
+			return;
 		}
 	}
 

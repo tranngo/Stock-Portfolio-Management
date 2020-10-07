@@ -35,8 +35,8 @@ public class LoginTest {
 			myScanner.close();
 			return password;
 		} catch (FileNotFoundException e) {
-			System.out.println("Error in RegisterTest getting password");
-			e.printStackTrace();
+			System.out.println("Error in LoginTest getting password");
+			//e.printStackTrace();
 			return "";
 		}
 	}
@@ -49,7 +49,9 @@ public class LoginTest {
 			System.out.println("Debug: Successfully messed up db-credentials.txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error in LoginTest changing password");
+			//e.printStackTrace();
+			return;
 		}
 	}
 	
