@@ -105,12 +105,12 @@ public class Api {
 			result += "[";
 			for (int j = 0; j < dataset.get(0).size(); j++) {
 				if(isNumeric(dataset.get(i).get(j))){
-					if (j == dataset.get(0).size()-1) {
+	//				if (j == dataset.get(0).size()-1) {
 						result += gson.toJson(Double.parseDouble(dataset.get(i).get(j)));
-					}
-					else {
+	//				}
+	/*	NOTE: Fix this			else {
 						result += gson.toJson(Double.parseDouble(dataset.get(i).get(j))) + ",";
-					}
+					}           */
 				}
 				else {
 					result += gson.toJson(dataset.get(i).get(j)) + ",";
@@ -250,7 +250,7 @@ public class Api {
 		//end= 02-05-2020
 		
 		//Go through each stock and check if valid
-		Iterator<String> i = stocks.iterator();
+	/*	Iterator<String> i = stocks.iterator();
 		while(i.hasNext())
 		{
 			String stock = i.next();
@@ -332,7 +332,8 @@ public class Api {
 			}
 		}
 		
-		return finalDataset;
+		return finalDataset; */
+		return null;
 	}
 	
 	/*
