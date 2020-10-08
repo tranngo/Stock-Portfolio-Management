@@ -29,30 +29,24 @@ public class GraphServlet extends HttpServlet{
 		title.add("Sales");
 		title.add("Expenses");
 		list.add(title);
-//		System.out.print(list);
 		
 		List<String> data = new ArrayList<String>();
-//		title.clear();
 		data.add("2004");
 		data.add("1000");
 		data.add("404");
 		list.add(data);
 		
 		List<String> data1 = new ArrayList<String>();
-//		title.clear();
 		data1.add("2005");
 		data1.add("2340");
 		data1.add("700");
 		list.add(data1);
 		
 		List<String> data2 = new ArrayList<String>();
-//		title.clear();
 		data2.add("2006");
 		data2.add("6894");
 		data2.add("942");
 		list.add(data2);
-		
-//		System.out.print(list);
 		
 		Gson g = new Gson();
 		jsonArray = g.toJson(list);
@@ -63,27 +57,16 @@ public class GraphServlet extends HttpServlet{
 		System.out.println("GraphServlet doGet");
 		
 		CreateArray();
+		System.out.println("jsonArray: " + jsonArray);
 		
 		PrintWriter out;
-		try {
-			out = response.getWriter();
-			response.setContentType("application/json");
-			System.out.println(jsonArray);
-			out.print(jsonArray);
-			out.flush();
-		} catch (NullPointerException npe) {
-			System.out.println(npe.getMessage());
-			npe.printStackTrace();
-		}
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		out = response.getWriter();
+		response.setContentType("application/json");
+		out.print(jsonArray);
+		out.flush();
 		
 //		response.setContentType("application/json");
-		
 		response.setStatus(HttpServletResponse.SC_OK);
-//		response.sendRedirect("home.html");
 	}
 	
 	protected String GetArray() {
