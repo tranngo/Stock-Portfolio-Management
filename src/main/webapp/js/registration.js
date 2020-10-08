@@ -29,9 +29,7 @@ function checkPw()
   else if (pw != confirm)
   {
     let errorP = document.querySelectorAll(".errorPassword");
-    errorP[0].classList.add("is-invalid");
     errorP[1].classList.add("is-invalid");
-    errorP[0].innerHTML = "Password doesn't match!";
     errorP[1].innerHTML = "Password doesn't match!";
     pwMatch = false;
   }
@@ -89,8 +87,8 @@ document.querySelector('form').onsubmit = function()
 
   if (confirmPW.length == 0)
   {
-    document.getElementById("pwConfirm-invalid").classList.add("is-invalid");
-    document.getElementById("pwConfirm-invalid").innerHTML = passwordErrorMsg;
+    //document.getElementById("pwConfirm-invalid").classList.add("is-invalid");
+    //document.getElementById("pwConfirm-invalid").innerHTML = passwordErrorMsg;
   }
   else
   {
