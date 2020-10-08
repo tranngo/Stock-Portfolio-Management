@@ -11,6 +11,7 @@ public class PortfolioTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Portfolio portfolio = new Portfolio();
 	}
 
 	@Test
@@ -87,8 +88,8 @@ public class PortfolioTest {
 		Portfolio.addStock(1, "JNJ", 10, "09-07-2020"); // buy 10 "JNJ" stocks
 		
 		//NOTE: Temporarily removed
-		ArrayList<ArrayList<String>> result = null;
-		//ArrayList<ArrayList<String>> result = Portfolio.getFullLineForPortfolio(1);
+//		ArrayList<ArrayList<String>> result = null;
+		ArrayList<ArrayList<String>> result = Portfolio.getFullLineForPortfolio(1);
 		if(result == null) {
 			System.out.println("PortfolioTest.java, testGetFullLineForPortfolio, null");
 			return;
@@ -120,8 +121,8 @@ public class PortfolioTest {
 		Portfolio.addStock(1, "JNJ", 10, "09-30-2020"); // buy 10 "JNJ" stocks
 		
 		//NOTE: Temporarily removed
-		ArrayList<ArrayList<String>> result = null;
-		//ArrayList<ArrayList<String>> result = Portfolio.getLineForPortfolioWithDateRange(1, "09-01-2020", "09-06-2020");
+//		ArrayList<ArrayList<String>> result = null;
+		ArrayList<ArrayList<String>> result = Portfolio.getLineForPortfolioWithDateRange(1, "09-01-2020", "09-06-2020");
 		if(result == null) {
 			System.out.println("PortfolioTest.java, testGetLineForPortfolioWithDateRange, null");
 			return;
