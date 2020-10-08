@@ -20,7 +20,6 @@ public class GraphServletTest extends Mockito {
 		GraphServlet gs = new GraphServlet();
 		when(response.getWriter()).thenReturn(new PrintWriter("Yo"));
 		gs.doGet(request, response);
-		gs.CreateArray();
 		String result = gs.GetArray();
 		System.out.println(result);
 		assertTrue(!result.isEmpty());
