@@ -17,13 +17,9 @@ public class GraphServletTest extends Mockito {
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
 		GraphServlet gs = new GraphServlet();
-		try {
-			gs.doGet(request, response);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		gs.CreateArray();
 		String result = gs.GetArray();
+		System.out.println(result);
 		assertTrue(!result.isEmpty());
 //		fail("Not yet implemented");
 	}

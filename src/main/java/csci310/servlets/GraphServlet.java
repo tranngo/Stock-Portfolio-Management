@@ -21,11 +21,8 @@ public class GraphServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
 	private String jsonArray;
-
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		System.out.println("GraphServlet doGet");
-		
+	
+	protected void CreateArray() {
 		List<List<String>> list = new ArrayList<List<String>>();
 		List<String> title = new ArrayList<String>();
 		title.add("Year");
@@ -59,20 +56,19 @@ public class GraphServlet extends HttpServlet{
 		
 		Gson g = new Gson();
 		jsonArray = g.toJson(list);
-		
-		sendArray(response);
-		
-//		response.setContentType("application/json");
-//		System.out.print(jsonArray);
-		
-		response.setStatus(HttpServletResponse.SC_OK);
-//		response.sendRedirect("home.html");
 	}
-	
-	protected void sendArray(HttpServletResponse response) {
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		System.out.println("GraphServlet doGet");
+		
+		CreateArray();
+		
 		PrintWriter out;
 		try {
 			out = response.getWriter();
+			response.setContentType("application/json");
+			System.out.println(jsonArray);
 			out.print(jsonArray);
 			out.flush();
 		} catch (NullPointerException npe) {
@@ -83,6 +79,11 @@ public class GraphServlet extends HttpServlet{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+//		response.setContentType("application/json");
+		
+		response.setStatus(HttpServletResponse.SC_OK);
+//		response.sendRedirect("home.html");
 	}
 	
 	protected String GetArray() {
