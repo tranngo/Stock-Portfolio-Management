@@ -22,4 +22,12 @@
     <url-pattern>/RegistrationServlet</url-pattern>
   </servlet-mapping>
   
+    <servlet>
+  	<servlet-name>GraphServlet</servlet-name>
+  	<servlet-class>csci310.servlets.GraphServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GraphServlet</servlet-name>
+    <url-pattern>/GraphServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -1,12 +1,20 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
 
     <title>USC CS310 Stock Portfolio Management</title>
 
@@ -17,37 +25,51 @@
     </style>
 
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-      google.charts.load('current', {packages: ['corechart']});
+      google.charts.load("current", { packages: ["corechart"] });
       google.charts.setOnLoadCallback(drawMainChart);
-      
 
       function drawMainChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Year', 'Sales', 'Expenses'],
-          ['2004',  1000,      400],
-          ['2005',  1170,      460],
-          ['2006',  660,       1120],
-          ['2007',  1030,      540]
+          ["Year", "Sales", "Expenses"],
+          ["2004", 1000, 400],
+          ["2005", 1170, 460],
+          ["2006", 660, 1120],
+          ["2007", 1030, 540],
         ]);
 
         var options = {
-          title: 'Company Performance',
-          curveType: 'function',
-          legend: { position: 'bottom' }
+          title: "Company Performance",
+          curveType: "function",
+          legend: { position: "bottom" },
         };
 
-        var chart = new google.visualization.LineChart(document.getElementById("main-chart"));
+        var chart = new google.visualization.LineChart(
+          document.getElementById("main-chart")
+        );
 
         chart.draw(data, options);
 
         // Used to make chart responsive
         $(document).ready(function () {
-            $(window).resize(function(){
-                drawMainChart();
-            });
+          $(window).resize(function () {
+            drawMainChart();
+          });
         });
       }
+
+      $.ajax({
+        url: "GraphServlet",
+        type: "GET",
+
+        success: function (result) {
+          console.log(result);
+        },
+      });
+
+      var jsonStr;
+      $("#date-form").submit(function () {});
     </script>
   </head>
   <body>
@@ -58,7 +80,6 @@
     </nav>
     <div class="container-fluid">
       <div class="row">
-
         <!-- Left column -->
         <div class="col-sm-12 col-md-2">
           <p>test</p>
@@ -68,8 +89,11 @@
         <div class="col-sm-12-12 col-md-8">
           <div id="main-chart" style="width: 100%; height: 500px"></div>
           <div id="date-picker" class="text-center">
-            <input type="date" id="fromDate" name="fromDate"> to
-            <input type="date" id="toDate" name="toDate">
+            <form action="#" method="GET" id="date-form">
+              <input type="date" id="fromDate" name="fromDate" /> to
+              <input type="date" id="toDate" name="toDate" />
+              <button id="" type="submit">Show me</button>
+            </form>
           </div>
         </div>
 
@@ -82,8 +106,20 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
