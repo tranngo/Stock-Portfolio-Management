@@ -101,9 +101,13 @@ public class Api {
 	{
 		Gson gson = new Gson();
 		String result = "[" + gson.toJson(dataset.get(0)) + ",";
-		for (int i = 1; i < dataset.size(); i++) {
+		int datasetSize = dataset.size();
+		for (int i = 1; i < datasetSize; i++) {
 			result += "[";
-			for (int j = 0; j < dataset.get(0).size(); j++) {
+			int firstDatasetSize = dataset.get(0).size();
+			
+			//Go over the dataset entry
+			for (int j = 0; j < firstDatasetSize; j++) {
 				if(isNumeric(dataset.get(i).get(j))){
 	//				if (j == dataset.get(0).size()-1) {
 						result += gson.toJson(Double.parseDouble(dataset.get(i).get(j)));
@@ -116,10 +120,12 @@ public class Api {
 					result += gson.toJson(dataset.get(i).get(j)) + ",";
 				}
 			}
+			//For the last entry
 			if (i == dataset.size()-1) {
 				result += "]";
 			}
 			else {
+				//For all other entries
 				result += "],";
 			}
 		}
