@@ -1,16 +1,17 @@
 package cucumber;
 
-import io.cucumber.java.After;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
-import static org.junit.Assert.assertTrue;
+import io.cucumber.java.After;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 
 /**
  * Step definitions for Cucumber tests.
@@ -20,6 +21,7 @@ public class StepDefinitions {
 	private static final String LOGIN_URL = "http://localhost:8080/login.html";
 	private static final String REGISTER_URL = "http://localhost:8080/registration.html";
 	private static final String REGISTER_SERVLET_URL = "http://localhost:8080/registrationServlet";
+	private static final String HOME_URL = "http://localhost:8080/home.html";
 
 	private final WebDriver driver = new ChromeDriver();
 
@@ -111,7 +113,37 @@ public class StepDefinitions {
 		String result = driver.getCurrentUrl();
 	    assertTrue(result.equalsIgnoreCase(REGISTER_SERVLET_URL));
 	}
+  
+	// requirement3.feature
+	@Then("I should see a line chart that displays the value of the user's portfolio over time")
+	public void i_should_see_a_line_chart_that_displays_the_value_of_the_user_s_portfolio_over_time() {
+	    assertTrue(driver.findElements(By.id("main-chart")).size() != 0);
+	}
 	
+	@Then("I should see buttons to select the from date and to date")
+	public void i_should_see_buttons_to_select_the_from_date_and_to_date() {
+		assertTrue(driver.findElements(By.id("fromDate")).size() != 0);
+		assertTrue(driver.findElements(By.id("toDate")).size() != 0);
+	}
+	
+	// requirement8.feature
+	@Given("I am on the home page")
+	public void i_am_on_the_home_page() {
+		driver.get(HOME_URL);
+	}
+
+	@Then("I should see a gray banner across the top with {string} text")
+	public void i_should_see_a_gray_banner_across_the_top_with_text(String string) {
+		WebElement banner = driver.findElement(By.xpath("/html/body/nav/a"));
+		assertTrue(banner.getAttribute("innerHTML").contains(string));
+	}
+	
+	@Then("I should see a gray banner across the top with the color #{int}")
+	public void i_should_see_a_gray_banner_across_the_top_with_the_color(Integer int1) {
+		WebElement banner = driver.findElement(By.xpath("/html/body/nav"));
+		assertEquals(banner.getCssValue("background-color"), "rgba(120, 120, 120, 1)");
+	}
+
 	//	login.feature
 	
 	@Given("I am on the login page")

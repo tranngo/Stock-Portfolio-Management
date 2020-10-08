@@ -1,4 +1,4 @@
-Feature: view and compare the historical performance of a stock
+Feature: Add and Remove Stocks
   Scenario: 
     Given 
     When 

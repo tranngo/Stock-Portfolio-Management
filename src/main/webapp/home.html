@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+
+    <title>USC CS310 Stock Portfolio Management</title>
+
+    <style>
+      #navbar-bg {
+        background-color: #787878;
+      }
+    </style>
+
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+      google.charts.load("current", { packages: ["corechart"] });
+      google.charts.setOnLoadCallback(drawMainChart);
+
+      var jsonArray = [
+        ["Year", "Sales", "Expenses"],
+        ["2004", 1000, 400],
+        ["2005", 1170, 460],
+        ["2006", 660, 1120],
+        ["2007", 1030, 540],
+      ];
+      for (let i = 1; i < jsonArray.length; ++i) {
+        for (let j = 1; j < jsonArray[i].length; ++j) {
+          if (jsonArray[i][j] === "null") {
+            jsonArray[i][j] = null;
+          } else {
+            jsonArray[i][j] = parseInt(jsonArray[i][j]);
+          }
+        }
+      }
+      console.log(jsonArray);
+
+      function drawMainChart() {
+        var data = google.visualization.arrayToDataTable(jsonArray);
+
+        var options = {
+          title: "Company Performance",
+          curveType: "function",
+          legend: { position: "bottom" },
+        };
+
+        var chart = new google.visualization.LineChart(
+          document.getElementById("main-chart")
+        );
+
+        chart.draw(data, options);
+
+        // Used to make chart responsive
+        $(document).ready(function () {
+          $(window).resize(function () {
+            drawMainChart();
+          });
+        });
+      }
+
+      function submitForm(e) {
+        // e.preventDefault();
+        $.ajax({
+          url: "GraphServlet",
+          type: "GET",
+
+          success: function (result) {
+            jsonArray = eval(result);
+            console.log(jsonArray);
+
+            for (let i = 1; i < jsonArray.length; ++i) {
+              for (let j = 1; j < jsonArray[i].length; ++j) {
+                if (jsonArray[i][j] === "null") {
+                  jsonArray[i][j] = null;
+                } else {
+                  jsonArray[i][j] = parseInt(jsonArray[i][j]);
+                }
+              }
+            }
+            var data = google.visualization.arrayToDataTable(jsonArray);
+
+            var options = {
+              title: "Company Performance",
+              curveType: "function",
+              legend: { position: "bottom" },
+            };
+
+            var chart = new google.visualization.LineChart(
+              document.getElementById("main-chart")
+            );
+
+            chart.draw(data, options);
+
+            // Used to make chart responsive
+            $(document).ready(function () {
+              $(window).resize(function () {
+                drawMainChart();
+              });
+            });
+          },
+        });
+        return false;
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark" id="navbar-bg">
+      <a class="navbar-brand" href="#">
+        USC CS310 Stock Portfolio Management
+      </a>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Left column -->
+        <div class="col-sm-12 col-md-2">
+          <p>test</p>
+        </div>
+
+        <!-- Chart column -->
+        <div class="col-sm-12-12 col-md-8">
+          <div id="main-chart" style="width: 100%; height: 500px"></div>
+          <div id="date-picker" class="text-center">
+            <form onsubmit="return submitForm(event)">
+              <input type="date" id="fromDate" name="fromDate" /> to
+              <input type="date" id="toDate" name="toDate" />
+              <button id="date-submit">Show me</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div class="col-sm-12 col-md-2">
+          <p>test</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

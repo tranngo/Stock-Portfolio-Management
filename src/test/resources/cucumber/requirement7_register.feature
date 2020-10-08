@@ -1,4 +1,4 @@
-Feature: Registration
+Feature: Users must be able to create an account in the system (register)
   Scenario: Open login page from registration page via successful registration
     Given I am on the registration page
     When I type "usr" into the username text box
