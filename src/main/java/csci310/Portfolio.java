@@ -88,69 +88,69 @@ public class Portfolio {
 					 
 		// connect to mysql
 		Connection con = JDBC.connectDB();
-		if(con != null) {
-			try {
-				// query stocks table for user id
-				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks WHERE user_id = ?");
-				ps.setInt(1, user_id);
-				ResultSet rs = ps.executeQuery();
-	
-				// while there are stocks in the portfolio
-				while(rs.next()) {
-					// example rs returned: [user_id, "BOUGHT_NTNX", 7, "02-01-2020"]
-					// parse string for stock name and quantity
-					String stockName = "";
-					String stockStr = rs.getString(2); // either BOUGHT_STOCK or SOLD_STOCK
-					int stockQuantInt = rs.getInt(3); // stock quantity
-					
-					String stocks[] = stockStr.split("_");
-					if(stocks.length == 2) { // if successful splitting
-						// example stocks[]: ["BOUGHT", "NTNX"]
-						// bought/sold is at index 0, stock name is at index 1
-						String stockStatus = stocks[0];
-						stockName = stocks[1];
-						
-						// if stock doesn't exist in hashmap yet
-						if(!hmap.containsKey(stockName)) {
-							// if sold stock, decrease quant ('bought' should be queried first, but just in case)
-							if(stockStatus.toLowerCase().equals("sold")) {
-								stockQuantInt *= -1; // make quantity neg (aka subtract)
-							} // else, user bought stock. no calculation needed here
-							
-							hmap.put(stockName, stockQuantInt);
-						// else, already exists. need to calculate quantity
-						} else {
-							int curQuant = hmap.get(stockName);
-							
-							// if sold stock, decrease quant
-							if(stockStatus.toLowerCase().equals("sold")) {
-								stockQuantInt *= -1; // make quantity neg (aka subtract)
-							} // else, user bought stock. no calculation needed here
-							
-							// replace quantity for stockName in hmap
-							hmap.put(stockName, curQuant + stockQuantInt);
-						}
-					} else {
-						System.out.println("Failure retrieving current stock in portfolio.");
-					}
-				} // end while
-	        } catch (SQLException e) {
-	        	System.out.println("Error querying stock data from DB when retrieving current portfolio.");
-	        	e.printStackTrace();
-	        }
-		} // end if con != null
-		
-		// traverse hashmap
-		for(Map.Entry<String, Integer> mapElement : hmap.entrySet()) { 
-			// get stock info from map
-            String stockName = (String)mapElement.getKey(); 
-            int stockQuant = (int)mapElement.getValue(); 
-  
-            // add current stock to portfolio
-            ArrayList<String> curStock = new ArrayList<String>(
-    				Arrays.asList(stockName, String.valueOf(stockQuant)));
-            portfolio.add(curStock);
-        } 
+//		if(con != null) {
+//			try {
+//				// query stocks table for user id
+//				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks WHERE user_id = ?");
+//				ps.setInt(1, user_id);
+//				ResultSet rs = ps.executeQuery();
+//	
+//				// while there are stocks in the portfolio
+//				while(rs.next()) {
+//					// example rs returned: [user_id, "BOUGHT_NTNX", 7, "02-01-2020"]
+//					// parse string for stock name and quantity
+//					String stockName = "";
+//					String stockStr = rs.getString(2); // either BOUGHT_STOCK or SOLD_STOCK
+//					int stockQuantInt = rs.getInt(3); // stock quantity
+//					
+//					String stocks[] = stockStr.split("_");
+//					if(stocks.length == 2) { // if successful splitting
+//						// example stocks[]: ["BOUGHT", "NTNX"]
+//						// bought/sold is at index 0, stock name is at index 1
+//						String stockStatus = stocks[0];
+//						stockName = stocks[1];
+//						
+//						// if stock doesn't exist in hashmap yet
+//						if(!hmap.containsKey(stockName)) {
+//							// if sold stock, decrease quant ('bought' should be queried first, but just in case)
+//							if(stockStatus.toLowerCase().equals("sold")) {
+//								stockQuantInt *= -1; // make quantity neg (aka subtract)
+//							} // else, user bought stock. no calculation needed here
+//							
+//							hmap.put(stockName, stockQuantInt);
+//						// else, already exists. need to calculate quantity
+//						} else {
+//							int curQuant = hmap.get(stockName);
+//							
+//							// if sold stock, decrease quant
+//							if(stockStatus.toLowerCase().equals("sold")) {
+//								stockQuantInt *= -1; // make quantity neg (aka subtract)
+//							} // else, user bought stock. no calculation needed here
+//							
+//							// replace quantity for stockName in hmap
+//							hmap.put(stockName, curQuant + stockQuantInt);
+//						}
+//					} else {
+//						System.out.println("Failure retrieving current stock in portfolio.");
+//					}
+//				} // end while
+//	        } catch (SQLException e) {
+//	        	System.out.println("Error querying stock data from DB when retrieving current portfolio.");
+//	        	e.printStackTrace();
+//	        }
+//		} // end if con != null
+//		
+//		// traverse hashmap
+//		for(Map.Entry<String, Integer> mapElement : hmap.entrySet()) { 
+//			// get stock info from map
+//            String stockName = (String)mapElement.getKey(); 
+//            int stockQuant = (int)mapElement.getValue(); 
+//  
+//            // add current stock to portfolio
+//            ArrayList<String> curStock = new ArrayList<String>(
+//    				Arrays.asList(stockName, String.valueOf(stockQuant)));
+//            portfolio.add(curStock);
+//        } 
 		
 		return portfolio;
 	}
@@ -174,24 +174,24 @@ public class Portfolio {
 		// example portfolio value: { ["Stock", "Quantity"], ["NTNX", "3"], ["SLSF", "4"] }
 		
 		// starting at index 1, ignoring header strings
-		for(int i = 1; i < portfolio.size(); i++) {
-			// get current stock name and quantity
-			String stockName = portfolio.get(i).get(0);
-			int stockQuant = Integer.parseInt(portfolio.get(i).get(1));
-			
-			// api call to get price of stock
-			double stockVal = 0;
-			try {
-				stockVal = Double.parseDouble(Api.getCurrentPriceOf(stockName));
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			// update running total of portfolio value
-			portfolioVal += stockVal * stockQuant;
-		}
+//		for(int i = 1; i < portfolio.size(); i++) {
+//			// get current stock name and quantity
+//			String stockName = portfolio.get(i).get(0);
+//			int stockQuant = Integer.parseInt(portfolio.get(i).get(1));
+//			
+//			// api call to get price of stock
+//			double stockVal = 0;
+//			try {
+//				stockVal = Double.parseDouble(Api.getCurrentPriceOf(stockName));
+//			} catch (NumberFormatException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			// update running total of portfolio value
+//			portfolioVal += stockVal * stockQuant;
+//		}
 		return String.valueOf(portfolioVal);
 	}
 	
@@ -218,78 +218,79 @@ public class Portfolio {
 	 */
 	public static ArrayList<ArrayList<String>> getFullLineForPortfolio(int user_id)
 	{
-		Date start = null, end = null;
-		
-		// init portfolio
-		ArrayList<ArrayList<String>> portfolio = new ArrayList<ArrayList<String>>();
-		ArrayList<String> header = new ArrayList<String>(
-				Arrays.asList("Date", "Value"));
-		portfolio.add(header);
-		
-		// connect to mysql
-		Connection con = JDBC.connectDB();
-		if(con != null) {
-			try {
-				// query stocks table for user id
-				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks WHERE user_id = ?");
-				ps.setInt(1, user_id);
-				ResultSet rs = ps.executeQuery();
-				
-				String transDateStr = "";
-				String stockStr = "";
-	
-				// while there are stocks in the portfolio, find start and end dates
-				while(rs.next()) {
-					// example rs returned: [user_id, "BOUGHT_NTNX", 7, "02-01-2020"]
-					transDateStr = rs.getString(4); // date
-					stockStr = rs.getString(2); // bought/sold_stock
-					if(start == null && end == null) { // need to init start and end dates
-						String stocks[] = stockStr.split("_");
-						if(stocks.length == 2) { // if successful splitting
-							// example stocks[]: ["BOUGHT", "NTNX"]
-							// bought/sold is at index 0, stock name is at index 1
-							String stockStatus = stocks[0];
-							if(stockStatus.toLowerCase().equals("bought")) {
-								start = new SimpleDateFormat("MM-dd-yyyy").parse(transDateStr);
-								end = new SimpleDateFormat("MM-dd-yyyy").parse(transDateStr);
-							}
-						} else {
-							System.out.println("Failure retrieving current stock in portfolio.");
-						}
-					} else {
-						Date transDate = new SimpleDateFormat("MM-dd-yyyy").parse(transDateStr);
-						if(transDate.before(start)) {
-							start = transDate;
-						}
-						if(transDate.after(end)) {
-							end = transDate;
-						}
-					}
-				}
-	        } catch (SQLException e) {
-	        	System.out.println("Error querying stock data from DB when retrieving current portfolio.");
-	        	e.printStackTrace();
-	        } catch (ParseException e) {
-	        	System.out.println("Error parsing date.");
-				e.printStackTrace();
-			}
-		} // end if con != null
-		
-		// loop through dates to calculate portfolio values
-		LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		for(LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
-			SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");  
-		    String dateStr = formatter.format(date);  
-		    String portfolioVal = getPortfolioValueOnADate(user_id, dateStr);
-		    
-		    // add current date/value to portfolio
-            ArrayList<String> curVal = new ArrayList<String>(
-    				Arrays.asList(dateStr, portfolioVal));
-            portfolio.add(curVal);
-		}
-		
-		return portfolio;
+//		Date start = null, end = null;
+//		
+//		// init portfolio
+//		ArrayList<ArrayList<String>> portfolio = new ArrayList<ArrayList<String>>();
+//		ArrayList<String> header = new ArrayList<String>(
+//				Arrays.asList("Date", "Value"));
+//		portfolio.add(header);
+//		
+//		// connect to mysql
+//		Connection con = JDBC.connectDB();
+//		if(con != null) {
+//			try {
+//				// query stocks table for user id
+//				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks WHERE user_id = ?");
+//				ps.setInt(1, user_id);
+//				ResultSet rs = ps.executeQuery();
+//				
+//				String transDateStr = "";
+//				String stockStr = "";
+//	
+//				// while there are stocks in the portfolio, find start and end dates
+//				while(rs.next()) {
+//					// example rs returned: [user_id, "BOUGHT_NTNX", 7, "02-01-2020"]
+//					transDateStr = rs.getString(4); // date
+//					stockStr = rs.getString(2); // bought/sold_stock
+//					if(start == null && end == null) { // need to init start and end dates
+//						String stocks[] = stockStr.split("_");
+//						if(stocks.length == 2) { // if successful splitting
+//							// example stocks[]: ["BOUGHT", "NTNX"]
+//							// bought/sold is at index 0, stock name is at index 1
+//							String stockStatus = stocks[0];
+//							if(stockStatus.toLowerCase().equals("bought")) {
+//								start = new SimpleDateFormat("MM-dd-yyyy").parse(transDateStr);
+//								end = new SimpleDateFormat("MM-dd-yyyy").parse(transDateStr);
+//							}
+//						} else {
+//							System.out.println("Failure retrieving current stock in portfolio.");
+//						}
+//					} else {
+//						Date transDate = new SimpleDateFormat("MM-dd-yyyy").parse(transDateStr);
+//						if(transDate.before(start)) {
+//							start = transDate;
+//						}
+//						if(transDate.after(end)) {
+//							end = transDate;
+//						}
+//					}
+//				}
+//	        } catch (SQLException e) {
+//	        	System.out.println("Error querying stock data from DB when retrieving current portfolio.");
+//	        	e.printStackTrace();
+//	        } catch (ParseException e) {
+//	        	System.out.println("Error parsing date.");
+//				e.printStackTrace();
+//			}
+//		} // end if con != null
+//		
+//		// loop through dates to calculate portfolio values
+//		LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//		LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//		for(LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+//			SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");  
+//		    String dateStr = formatter.format(date);  
+//		    String portfolioVal = getPortfolioValueOnADate(user_id, dateStr);
+//		    
+//		    // add current date/value to portfolio
+//            ArrayList<String> curVal = new ArrayList<String>(
+//    				Arrays.asList(dateStr, portfolioVal));
+//            portfolio.add(curVal);
+//		}
+//		
+//		return portfolio;
+		return null;
 	}
 	
 	/*
@@ -302,32 +303,33 @@ public class Portfolio {
 	 */
 	public static ArrayList<ArrayList<String>> getLineForPortfolioWithDateRange(int user_id, String start, String end)
 	{
-		ArrayList<ArrayList<String>> portfolioFull = getFullLineForPortfolio(user_id);
-		ArrayList<ArrayList<String>> portfolioRanged = new ArrayList<ArrayList<String>>();
-		portfolioRanged.add(portfolioFull.get(0)); // add header: ["Date", "Value"]
-		
-		try {
-			// parse date strings as Dates
-			Date startDate = new SimpleDateFormat("MM-dd-yyyy").parse(start);
-			Date endDate = new SimpleDateFormat("MM-dd-yyyy").parse(end); 
-			
-			// starting at index 1, ignoring header strings, iterate through whole portfolio
-			for(int i = 1; i < portfolioFull.size(); i++) {
-				String date = portfolioFull.get(i).get(0);
-				Date curDate = new SimpleDateFormat("MM-dd-yyyy").parse(date);
-				
-				// if date is within range: if start <= date <= end
-				if(!startDate.after(curDate) && !endDate.before(curDate)) {
-					// add to portfolio for ranged dates
-					portfolioRanged.add(portfolioFull.get(i));
-				}
-			}
-		} catch (ParseException e) {
-			System.out.println("Error parsing dates");
-			e.printStackTrace();
-		} 
-		
-		return portfolioRanged;
+//		ArrayList<ArrayList<String>> portfolioFull = getFullLineForPortfolio(user_id);
+//		ArrayList<ArrayList<String>> portfolioRanged = new ArrayList<ArrayList<String>>();
+//		portfolioRanged.add(portfolioFull.get(0)); // add header: ["Date", "Value"]
+//		
+//		try {
+//			// parse date strings as Dates
+//			Date startDate = new SimpleDateFormat("MM-dd-yyyy").parse(start);
+//			Date endDate = new SimpleDateFormat("MM-dd-yyyy").parse(end); 
+//			
+//			// starting at index 1, ignoring header strings, iterate through whole portfolio
+//			for(int i = 1; i < portfolioFull.size(); i++) {
+//				String date = portfolioFull.get(i).get(0);
+//				Date curDate = new SimpleDateFormat("MM-dd-yyyy").parse(date);
+//				
+//				// if date is within range: if start <= date <= end
+//				if(!startDate.after(curDate) && !endDate.before(curDate)) {
+//					// add to portfolio for ranged dates
+//					portfolioRanged.add(portfolioFull.get(i));
+//				}
+//			}
+//		} catch (ParseException e) {
+//			System.out.println("Error parsing dates");
+//			e.printStackTrace();
+//		} 
+//		
+//		return portfolioRanged;
+		return null;
 	}
 	
 	
