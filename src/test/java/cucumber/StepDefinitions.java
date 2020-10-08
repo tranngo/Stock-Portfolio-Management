@@ -142,6 +142,7 @@ public class StepDefinitions {
 	public void i_should_see_a_gray_banner_across_the_top_with_the_color(Integer int1) {
 		WebElement banner = driver.findElement(By.xpath("/html/body/nav"));
 		assertEquals(banner.getCssValue("background-color"), "rgba(120, 120, 120, 1)");
+	}
 
 	//	login.feature
 	
