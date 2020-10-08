@@ -20,7 +20,7 @@ public class GraphServlet extends HttpServlet{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	String jsonArray;
+	private String jsonArray;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -75,7 +75,11 @@ public class GraphServlet extends HttpServlet{
 			out = response.getWriter();
 			out.print(jsonArray);
 			out.flush();
-		} catch (IOException e) {
+		} catch (NullPointerException npe) {
+			System.out.println(npe.getMessage());
+			npe.printStackTrace();
+		}
+		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

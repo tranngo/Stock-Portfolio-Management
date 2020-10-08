@@ -25,7 +25,7 @@
     </style>
 
     <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
       google.charts.load("current", { packages: ["corechart"] });
       google.charts.setOnLoadCallback(drawMainChart);
@@ -59,17 +59,30 @@
         });
       }
 
-      $.ajax({
-        url: "GraphServlet",
-        type: "GET",
+      // $.ajax({
+      //   url: "GraphServlet",
+      //   type: "GET",
 
-        success: function (result) {
+      //   success: function (result) {
+      //     console.log(result);
+      //   },
+      // });
+
+      function submitForm(e) {
+        console.log("button");
+        e.preventDefault();
+        $.ajax({
+          url: "GraphServlet",
+          type: "GET",
+
+          // success: function (result) {
+          //   console.log(result);
+          // },
+        }).success(function (result) {
           console.log(result);
-        },
-      });
-
-      var jsonStr;
-      $("#date-form").submit(function () {});
+        });
+        return false;
+      }
     </script>
   </head>
   <body>
@@ -89,10 +102,10 @@
         <div class="col-sm-12-12 col-md-8">
           <div id="main-chart" style="width: 100%; height: 500px"></div>
           <div id="date-picker" class="text-center">
-            <form action="#" method="GET" id="date-form">
+            <form onsubmit="return submitForm(event)">
               <input type="date" id="fromDate" name="fromDate" /> to
               <input type="date" id="toDate" name="toDate" />
-              <button id="" type="submit">Show me</button>
+              <button id="date-submit">Show me</button>
             </form>
           </div>
         </div>
