@@ -20,15 +20,6 @@ public class ApiTest {
 	private ArrayList<ArrayList<String>> smallFakeDataset;
 	private ArrayList<ArrayList<String>> largeFakeDataset;
 	
-	public static boolean isNumeric(String str) { 
-		  try {  
-		    Double.parseDouble(str);  
-		    return true;
-		  } catch(NumberFormatException e){  
-		    return false;  
-		  }  
-	}
-	
 	@BeforeClass
 	static public void apiSetup() {
 		api = new Api();
@@ -66,7 +57,7 @@ public class ApiTest {
 
 	@Test
 	public void testGetCurrentPriceOf() throws IOException {
-		assertTrue("incorrect current price", isNumeric(api.getCurrentPriceOf("TSLA")));
+		assertTrue("incorrect current price", Api.isNumeric(Api.getCurrentPriceOf("TSLA")));
 	}
 	
 	@Test
