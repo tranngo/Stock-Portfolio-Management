@@ -1,4 +1,4 @@
-Feature: Login
+Feature: Users must be able to create an account in the system (login)
   Scenario: Open register page from login page via sign up button
     Given I am on the login page
     When I click on the sign up button
