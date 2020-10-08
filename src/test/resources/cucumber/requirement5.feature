@@ -1,4 +1,4 @@
-Feature: The application must be secure and protect confidentiality of users’ data.
+Feature: Works on the Chrome web browser and mobile devices
   Scenario: 
     Given 
     When 
