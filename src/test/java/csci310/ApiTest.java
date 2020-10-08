@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -19,15 +18,6 @@ public class ApiTest {
 	private static Api api;
 	private ArrayList<ArrayList<String>> smallFakeDataset;
 	private ArrayList<ArrayList<String>> largeFakeDataset;
-	
-	public static boolean isNumeric(String str) { 
-		  try {  
-		    Double.parseDouble(str);  
-		    return true;
-		  } catch(NumberFormatException e){  
-		    return false;  
-		  }  
-	}
 	
 	@BeforeClass
 	static public void apiSetup() {
@@ -66,7 +56,7 @@ public class ApiTest {
 
 	@Test
 	public void testGetCurrentPriceOf() throws IOException {
-		assertTrue("incorrect current price", isNumeric(api.getCurrentPriceOf("TSLA")));
+		assertTrue("incorrect current price", Api.isNumeric(Api.getCurrentPriceOf("TSLA")));
 	}
 	
 	@Test
