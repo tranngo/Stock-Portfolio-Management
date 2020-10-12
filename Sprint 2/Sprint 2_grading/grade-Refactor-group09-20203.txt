@@ -1,0 +1,14 @@
+Best Practice Refactor Report
+Owner: group09-20203
+Grade: 10.0/10
+Comments: 
+Issue 45
+	pkyaw satisfied 7 of 7 requirements for this issue.
+Issue 43
+	tranngo satisfied 7 of 7 requirements for this issue.
+Issue 41
+	leetheod satisfied 7 of 7 requirements for this issue.
+Issue 39
+	allusai satisfied 7 of 7 requirements for this issue.
+Issue 35
+	maggiemshi satisfied 7 of 7 requirements for this issue.
