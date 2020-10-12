@@ -1,0 +1,7 @@
+Best Practice GitFlow Report
+Owner: group09-20203
+Grade: 9.0/10
+Comments: 
+
+	Pull did not follow base/head branch rules (-1) [feature-registration<-refactor-registrationmethodnames]: https://github.com/CSCI310/project-20203-group09-20203/pull/5
+	Pull did not follow base/head branch rules (-1) [feature-registration<-refactor-registrationjavaxbug]: https://github.com/CSCI310/project-20203-group09-20203/pull/4
