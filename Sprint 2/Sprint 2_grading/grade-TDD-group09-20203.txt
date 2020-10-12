@@ -1,0 +1,15 @@
+Best Practice TDD Report
+Owner: group09-20203
+Grade: 6.4/10
+Comments: 
+	No test method found for: api.isnumeric
+		Commit: https://github.com/CSCI310/project-20203-group09-20203/commit/24983a210b977546381a6f9202c0b2ca9d82aa69
+	Test method was not created before method : loginservlet.dopost
+		Method commit: https://github.com/CSCI310/project-20203-group09-20203/commit/a09af5cd69ff0e3fa5bf81a570d6b7ded91af08a
+	No test method found for: graphservlet.createarray
+		Commit: https://github.com/CSCI310/project-20203-group09-20203/commit/b955b73b8002c138a0ef52b79f0658c89fa2088c
+	No test method found for: graphservlet.sendarray
+		Commit: https://github.com/CSCI310/project-20203-group09-20203/commit/bb78a0689a88f0b40859a9e16887d5a079f58c36
+Correct TDD methods: 7
+Incorrect TDD methods: 4
+Total methods evaluated for TDD: 11
