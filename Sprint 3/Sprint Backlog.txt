@@ -1,0 +1,18 @@
+Sprint Backlog:
+  1. Roadmap meeting for the functions necessary for Sprint 3
+  2. Populate the .feature files for cucumber tests
+  3. Implemenent the feedback given from the stakeholders regarding Sprint 2
+      - set up the remote mysql server
+      - make the front end more attractive
+      - add functionality for the stock graph
+  4. Continue implementing Portfolio.java and Api.java
+  5. Connect the backend with the frontend to produce a prototype working product
+
+The first point in this backlog was something our group came up with as a means of helping us plan better for the sprint. We agreed that it was something we should try so that we could have a better idea of what we needed to address as a team for the sprint. The second and third point somewhat work together because it relates to feedback from out stakeholders. Populating the .feature files is crucial for our group so that we can receive the proper feedback we need to continue creating the best possible product. And implementing the feedback we did receive still holds importance because we want to clean up the progress from our previous sprint before moving on. These changes may seem small but they are important to us and will have an impact looking at the bigger picture. Lastly, points four and five relate to the majority of our project. We felt the urgency of addressing the features of our product backlog (primarily 2 - 4). We will work on these tasks (a continuation from the previous sprint) and finalize these by the end of the sprint. In doing so, we can have a legitimate prototype to display to our stakeholders.
+  
+Meeting Participants (5):
+Sai Allu
+Maggie Shi
+Mark Kyaw
+Tran Ngo
+Teddy Lee
