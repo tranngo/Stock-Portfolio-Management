@@ -1,0 +1,24 @@
+Meeting Participants (5):
+Sai Allu
+Maggie Shi
+Mark Kyaw
+Tran Ngo
+Teddy Lee
+
+Sprint 2 was a lot more work towards setting up base code for the main portion of the project. We looked into setting up the graph portion of the portfolio and making sure our backend functionality would connect. Based on our feedback, here are the things our group will change in terms of process aspects.
+
+1. Our group will have a meeting separate from the scrums which will be a roadmap meeting decdicated towards planning the necessary functions we'll need for the sprint. We hope that in doing so, we can limit the variables and won't run into problems along the way with adding extra functions and test cases.
+2. We will continue to work on increasing cobuterra coverage. Our team will adjust the code to reduce cyclomatic complexity, giving us a clearer path to full coverage.
+2. Last but certainly not least, we will continue to work on TDD. This has clearly been a weaker area for our team and so we will continue look to the best practice of writing and pushing tests prior to implementing code. It will be a priority to get the tests out after the roadmap meeting metioned previously.
+
+We don't see a need to edit the product backlog based on the tasks mentioned above, but we're definitely going to take into account the feedback we received from our sprint review. Some of these tasks include:
+
+1. Home.html: 
+    - implement error checking with calendar dates (end before start)
+    - make sure to support 1 year back, no need to have more than that
+    - implemented relevant data from api.java (not dummy data!)
+    - add the zoom in and out functionality
+2. Look into highcharts api and tiingo if google charts gives us issues
+3. Find ways to make the front end more attractive!
+4. Add more test cases (mentioned above)
+5. Find a way to make the user database remote (no more local mysql)
