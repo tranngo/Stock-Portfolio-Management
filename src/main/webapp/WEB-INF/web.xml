@@ -22,6 +22,15 @@
     <url-pattern>/RegistrationServlet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>LoginServlet</servlet-name>
+  	<servlet-class>csci310.servlets.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/LoginServlet</url-pattern>
+  </servlet-mapping>
+  
     <servlet>
   	<servlet-name>GraphServlet</servlet-name>
   	<servlet-class>csci310.servlets.GraphServlet</servlet-class>
