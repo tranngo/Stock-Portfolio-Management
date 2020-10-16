@@ -20,7 +20,7 @@ public class LoginServlet extends HttpServlet {
 		@Override
 		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 			
-			System.out.println("YES: RegistrationServlet's doPost was called");
+			System.out.println("YES: LoginServlet's doPost was called");
 			
 			//Code referenced from the URL shortener demo
 			String requestBody;
@@ -44,10 +44,9 @@ public class LoginServlet extends HttpServlet {
 			
 			//Some parsing code to extract the username and password from the above string
 			int firstAnd = requestBody.indexOf('&');
-			int secondAnd = requestBody.lastIndexOf('&');
 			
 			String username = requestBody.substring(0, firstAnd); //username=wilson103
-			String password = requestBody.substring(firstAnd+1, secondAnd); //password=racket
+			String password = requestBody.substring(firstAnd+1); //password=racket
 			
 			int firstEquals = username.indexOf('=');
 			int secondEquals = password.indexOf('=');
@@ -62,12 +61,14 @@ public class LoginServlet extends HttpServlet {
 				System.out.println("User info is not valid");
 				//NOTE: If you change this line make sure to fix RegistrationServletTest too
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				response.sendRedirect("login.html");
 				return;
 			}
 			
 			//Redirect user to the login page
+			System.out.println("User info is valid, redirecting to home.html");
 			response.setStatus(HttpServletResponse.SC_OK);
-			response.sendRedirect("login.html");
+			response.sendRedirect("home.html");
 			return;
 		}
 }
