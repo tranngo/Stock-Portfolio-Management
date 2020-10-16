@@ -12,10 +12,11 @@ public class JDBC {
 		public static Connection connectDB(){
 	        try {
 	        	Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/stocks?" + 
+				/*Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/stocks?" + 
 						"useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PST",
 						"root",
-						readDBCredentials());
+						readDBCredentials()); */
+	        	Connection con = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 	            return con;
 	        } catch (ClassNotFoundException e) {
 				e.printStackTrace();

@@ -41,6 +41,13 @@ public class Login {
 	        	System.out.println("Error querying user data from DB during registration.");
 	        	e.printStackTrace();
 	        }
+			finally {
+			    if (con != null) {
+			        try {
+			            con.close();
+			        } catch (SQLException e) { /* ignored */}
+			    }
+			}
 		}
 		
 		// error querying users table; for security, assume wrong credentials
