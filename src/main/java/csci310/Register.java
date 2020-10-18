@@ -103,6 +103,13 @@ public class Register {
 				System.out.println("Error inserting user data to DB during registration.");
 				e.printStackTrace();
 			}
+			finally {
+			    if (con != null) {
+			        try {
+			            con.close();
+			        } catch (SQLException e) { /* ignored */}
+			    }
+			}
 		}
 		
 		return false; // error connecting to db or failed insertion
@@ -112,10 +119,7 @@ public class Register {
 	public static Connection connectDB(){
         try {
         	Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/stocks?" + 
-					"useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PST",
-					"root",
-					readDBCredentials());
+			Connection con = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
             return con;
         } catch (ClassNotFoundException e) {
 			e.printStackTrace();
