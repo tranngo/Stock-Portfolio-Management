@@ -234,10 +234,12 @@ public class Portfolio {
             String stockName = (String)mapElement.getKey(); 
             int stockQuant = (int)mapElement.getValue(); 
   
-            // add current stock to portfolio
-            ArrayList<String> curStock = new ArrayList<String>(
-    				Arrays.asList(stockName, String.valueOf(stockQuant)));
-            portfolio.add(curStock);
+            if(stockQuant != 0) {
+	            // add current stock to portfolio
+	            ArrayList<String> curStock = new ArrayList<String>(
+	    				Arrays.asList(stockName, String.valueOf(stockQuant)));
+	            portfolio.add(curStock);
+            }
         } 
 		
 		return portfolio;
@@ -333,10 +335,12 @@ public class Portfolio {
             String stockName = (String)mapElement.getKey(); 
             int stockQuant = (int)mapElement.getValue(); 
   
-            // add current stock to portfolio
-            ArrayList<String> curStock = new ArrayList<String>(
-    				Arrays.asList(stockName, String.valueOf(stockQuant)));
-            portfolio.add(curStock);
+            if(stockQuant != 0) {
+	            // add current stock to portfolio
+	            ArrayList<String> curStock = new ArrayList<String>(
+	    				Arrays.asList(stockName, String.valueOf(stockQuant)));
+	            portfolio.add(curStock);
+            }
         } 
 		
 		return portfolio;

@@ -78,10 +78,15 @@ public class PortfolioTest {
 			valid = false; 
 		
 		assertTrue(valid);
+		
+		Portfolio.sellStock(1, "JNJ", 10, "09-05-2020");
+		result = Portfolio.retrieveCurrentPortfolio(1);
+		assertEquals(2, result.size());
 				
 		// reset db
 		removeStockTransaction(1, "bought", "NTNX", 10, "09-05-2020");
 		removeStockTransaction(1, "bought", "JNJ", 10, "09-05-2020");
+		removeStockTransaction(1, "sold", "JNJ", 10, "09-05-2020");
 	}
 	
 	@Test
