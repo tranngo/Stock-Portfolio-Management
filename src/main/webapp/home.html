@@ -16,6 +16,8 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" type="text/css" href="css/home.css" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
     <title>USC CS310 Stock Portfolio Management</title>
 
@@ -23,10 +25,61 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
+  	<!-- Modal -->
+  	<div id="mainModal" class="modal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog modal-lg" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">Modal title</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+		      <div id="add-remove-modal-content">
+		        <form>
+				  <div class="row">
+				    <div class="col">
+				      <label for="stock-name-input">Stock (e.g. TSLA)</label>
+				      <input type="text" id="stock-name-input" class="form-control">
+				    </div>
+				    <div class="col">
+				      <label for="stock-quantity-input">Quantity</label>
+				      <input type="number" id="stock-quantity-input" class="form-control">
+				    </div>
+				    <div class="col">
+				      <label id="stock-date-input-label" for="stock-date-input">Date of Purchase</label>
+				      <input type="date" id="stock-date-input" class="form-control">
+				    </div>
+				  </div>
+				</form>
+	  	      </div>
+	  	      <div id="upload-file-modal-content">
+	  	      	<form>
+				  <div class="form-group">
+				    <label for="uploadFile">Upload CSV file</label>
+				    <input type="file" class="form-control-file" id="uploadFile">
+				  </div>
+				</form>
+	  	      </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button id="modal-add-sell-button" type="button" class="btn btn-primary">Add/Sell</button>
+	        <button id="modal-remove-button" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+  
+  
     <nav class="navbar navbar-dark" id="navbar-bg">
-      <a class="title" href="#"> USC CS310 Stock Portfolio Management </a>
+      <a class="title bold" href="#"> USC CS310 Stock Portfolio Management </a>
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid mb-5">
+    
+      <h2 class="mt-3 bold">My Portfolio</h2>
+      
+      <!-- ============ PORTFOLIO HISTORY ============ -->
       <div class="row">
         <!-- Left column -->
         <div id="left-col" class="col-sm-12 col-md-2">
@@ -38,8 +91,73 @@
           <div class="chart" id="main-chart"></div>
           <div id="date-picker" class="text-center">
             <form onsubmit="return submitForm(event)">
-              <input type="date" id="fromDate" name="fromDate" /> to
-              <input type="date" id="toDate" name="toDate" />
+              <input type="date" id="from-date-portfolio" name="fromDate" /> to
+              <input type="date" id="to-date-portfolio" name="toDate" />
+              <button id="date-submit">Show me</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div id="right-col" class="col-sm-12 col-md-2">
+          <p>Right column</p>
+        </div>
+      </div>
+      
+      
+      <!-- ============ LIST OF STOCKS ============ -->
+      
+      
+      <div class="row mt-5">
+      	<!-- Left column -->
+        <div id="left-col" class="col-sm-12 col-md-2">
+          <p>Left Column</p>
+        </div>
+
+        <!-- Chart column -->
+        <div class="col-sm-12-12 col-md-8 text-center" id="stock-info-container">
+        	<div id="my-stocks">
+        		<p class="m-0 p-0">
+        			List of current stocks:
+        		</p>
+        		
+        		<!-- Stocks go here -->
+        		<ul>
+        			<li>test</li>
+        			<li>test</li>
+        			<li>test</li>
+        		</ul>
+        	</div>
+        	
+        	<div class="d-flex flex-row justify-content-center mt-5">
+        		<button type="button" id="add-stock-button" class="btn btn-primary mx-2">Add Stock</button>
+        		<button type="button" id="remove-stock-button" class="btn btn-primary mx-2">Remove Stock</button>
+        		<button type="button" id="upload-file-button" class="btn btn-primary mx-2">Upload File</button>
+        	</div>
+        </div>
+
+        <!-- Right column -->
+        <div id="right-col" class="col-sm-12 col-md-2">
+          <p>Right column</p>
+        </div>
+      </div>
+      
+      <h2 class="mt-5 bold">View Stock History</h2>
+      
+      <!-- ============ VIEW STOCK HISTORY ============ -->
+      <div class="row">
+        <!-- Left column -->
+        <div id="left-col" class="col-sm-12 col-md-2">
+          <p>Left Column</p>
+        </div>
+
+        <!-- Chart column -->
+        <div class="col-sm-12-12 col-md-8">
+          <div class="chart" id="stock-history-chart"></div>
+          <div id="date-picker" class="text-center">
+            <form onsubmit="return submitForm(event)">
+              <input type="date" id="from-date-stock-history" name="fromDate" /> to
+              <input type="date" id="to-date-stock-history" name="toDate" />
               <button id="date-submit">Show me</button>
             </form>
           </div>

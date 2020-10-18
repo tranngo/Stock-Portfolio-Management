@@ -4,7 +4,6 @@
 
 .title {
   color: white;
-  font-family: "Times New Roman", Times, serif;
   font-size: 20px;
 }
 
@@ -19,4 +18,30 @@
 
 #right-col {
   background-color: lightgreen;
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+#stock-info-container {
+	border: 1px solid #d5d8de;
+}
+
+#my-stocks ul, #my-stocks li {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.display-block {
+	display: block !important;
+}
+
+.display-none {
+	display: none !important;
 }
