@@ -46,7 +46,6 @@ public class Portfolio {
 		}
 		
 		// connect to mysql
-		Boolean success = false;
 		Connection con = JDBC.connectDB();
 		
 		if(con != null) {
@@ -59,13 +58,14 @@ public class Portfolio {
 			    ps.setInt(4, quantity);
 			    ps.setString(5, dateOfPurchase);
 			    ps.execute();
-			    success = true;
+			    con.close();
+			    return 1;
 			} catch (SQLException e) {
 				System.out.println("Error inserting user data to DB when adding to stocks.");
 				e.printStackTrace();
 			} finally {
 	            try {
-	                if (con != null) {
+	                if(con != null) {
 	                    con.close();
 	                }
 	            } catch (SQLException ex) {
@@ -74,18 +74,13 @@ public class Portfolio {
 	        }
 		}
 		
-		if(success) { 
-			return 1;
-		} else { // add error codes here later?
-			return 0;
-		}
-			
+		return 0;
 	}
 	
 	/*
 	 * Function #2: sell a stock from the user's portfolio. First make sure that the stock
 	 * name is valid by using isValidStock() in Api.java. Next, make sure the quantity is
-	 * a valid number (not negative). You also want to call the database with username and 
+	 * a valid number (not negative). You also want to call the database with user_id and 
 	 * see if the user has enough of these stocks in the first place to sell them.
 	 * Important: We don't actually remove anything from the database when selling.
 	 * 
@@ -137,8 +132,8 @@ public class Portfolio {
 			    ps.setInt(4, quantity);
 			    ps.setString(5, dateOfSelling);
 			    ps.execute();
+			    con.close();
 			    return 1;
-	
 			} catch (SQLException e) {
 				System.out.println("Error inserting user data to DB when adding to stocks.");
 				e.printStackTrace();
@@ -170,7 +165,7 @@ public class Portfolio {
 	 * parameters: user_id
 	 * returns: a ArrayList<ArrayList<String>> but basically a nx2 array
 	 */
-	public static ArrayList<ArrayList<String>> retrieveCurrentPortfolio(int user_id)
+	public static ArrayList<ArrayList<String>> retrieveCurrentPortfolio(int userId)
 	{	
 		// init portfolio
 		ArrayList<ArrayList<String>> portfolio = new ArrayList<ArrayList<String>>();
@@ -187,12 +182,12 @@ public class Portfolio {
 			try {
 				// query stocks table for user id
 				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks WHERE user_id = ?");
-				ps.setInt(1, user_id);
+				ps.setInt(1, userId);
 				ResultSet rs = ps.executeQuery();
 	
 				// while there are stocks in the portfolio
 				while(rs.next()) {
-					// example rs returned: [id, "username, "bought", "NTNX", 7, "02-01-2020"]
+					// example rs returned: [id, user_id, "bought", "NTNX", 7, "02-01-2020"]
 					// parse string for stock name and quantity
 					String transaction = rs.getString(3); // either "bought" or "sold"
 					String stockName = rs.getString(4);
@@ -224,7 +219,7 @@ public class Portfolio {
 	        	e.printStackTrace();
 	        } finally {
 	            try {
-	                if (con != null) {
+	                if(con != null) {
 	                    con.close();
 	                }
 	            } catch (SQLException ex) {
@@ -323,7 +318,7 @@ public class Portfolio {
 	        	e.printStackTrace();
 	        } finally {
 	            try {
-	                if (con != null) {
+	                if(con != null) {
 	                    con.close();
 	                }
 	            } catch (SQLException ex) {
