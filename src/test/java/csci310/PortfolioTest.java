@@ -42,13 +42,13 @@ public class PortfolioTest {
 	@Test
 	public void testSellStock() {
 		Portfolio.addStock(1, "NTNX", 10, "09-05-2020"); // buy 10 "NTNX" stocks
-		int result = Portfolio.sellStock(1, "NTNX", 5, "09-05-2020"); //sell 5 of them
+		int result = Portfolio.sellStock(1, "NTNX", 5, "09-05-2020"); //sell 5
 		assertEquals(result, 1);
 		
-		result = Portfolio.sellStock(1, "NTNX", 100, "09-05-2020"); //sell 100 of them
+		result = Portfolio.sellStock(1, "NTNX", 100, "09-05-2020"); //sell 100
 		assertEquals(result, 0);
 		
-		result = Portfolio.sellStock(1, "NTNX", -1, "09-05-2020"); //sell -1 of them
+		result = Portfolio.sellStock(1, "NTNX", -1, "09-05-2020"); //sell -1
 		assertEquals(result, 0);
 		
 		// reset db
@@ -78,9 +78,7 @@ public class PortfolioTest {
 			valid = false; 
 		
 		assertTrue(valid);
-		
-		//Also maybe have a test case where we then remove some stocks from the portfolio
-		
+				
 		// reset db
 		removeStockTransaction(1, "bought", "NTNX", 10, "09-05-2020");
 		removeStockTransaction(1, "bought", "JNJ", 10, "09-05-2020");
@@ -94,7 +92,6 @@ public class PortfolioTest {
 		ArrayList<ArrayList<String>> result = Portfolio.retrievePortfolioOnADate(1, "09-06-2020");
 		assertEquals(2, result.size());
 		
-		
 		//Check each entry
 		Boolean valid = true;
 		if(!result.get(0).get(0).equals("Stock"))
@@ -107,9 +104,7 @@ public class PortfolioTest {
 			valid = false;
 		
 		assertTrue(valid);
-		
-		//Also maybe have a test case where we then remove some stocks from the portfolio
-		
+				
 		// reset db
 		removeStockTransaction(1, "bought", "NTNX", 10, "09-05-2020");
 		removeStockTransaction(1, "bought", "NTNX", 10, "09-06-2020");
@@ -139,7 +134,6 @@ public class PortfolioTest {
 		Portfolio.addStock(1, "JNJ", 10, "09-07-2020"); // buy 10 "JNJ" stocks
 		Portfolio.addStock(1, "JNJ", 10, "09-08-2020"); // buy 10 "JNJ" stocks
 		
-		//NOTE: Temporarily removed
 		ArrayList<ArrayList<String>> result = Portfolio.getFullLineForPortfolio(1);
 		if(result == null) {
 			System.out.println("PortfolioTest.java, testGetFullLineForPortfolio, null");
@@ -184,7 +178,6 @@ public class PortfolioTest {
 		Portfolio.addStock(1, "NTNX", 10, "09-05-2020"); // buy 10 "NTNX" stocks
 		Portfolio.addStock(1, "JNJ", 10, "09-30-2020"); // buy 10 "JNJ" stocks
 		
-		//NOTE: Temporarily removed
 		ArrayList<ArrayList<String>> result = Portfolio.getLineForPortfolioWithDateRange(1, "09-01-2020", "09-06-2020");
 		if(result == null) {
 			System.out.println("PortfolioTest.java, testGetLineForPortfolioWithDateRange, null");
@@ -259,7 +252,7 @@ public class PortfolioTest {
 				e.printStackTrace();
 			} finally {
 	            try {
-	                if (con != null) {
+	                if(con != null) {
 	                    con.close();
 	                }
 	            } catch (SQLException ex) {
