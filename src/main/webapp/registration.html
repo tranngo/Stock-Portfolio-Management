@@ -32,14 +32,11 @@
 
     <div class="hidden text-danger hiddenDiv"><h3 class="hiddenTxt"></h3></div>
 
-    <div class="row py-5 mt-4 align-items-center">
-      <div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
-        <img src="assets/register.svg" alt="" class="img-fluid mb-3 d-none d-md-block">
-      </div>
+    <div class="row justify-content-md-center">
   
       <!-- Registration Form -->
-      <div class="col-md-7 col-lg-6 ml-auto">
-        <form action="RegistrationServlet" method="POST">
+      <div class="col col-lg-5">
+        <form action="RegistrationServlet" method="POST" onsubmit="return submitForm(event)">
           <div class="row">
   
             <!-- Username -->
@@ -88,17 +85,17 @@
   
             <!-- Submit Button and Cancel Button -->
             <div class="form-group col-lg-12 mx-auto mb-0">
-              <button type="submit" class="button" style="width: 49%;">
+              <button type="submit" class="btn btn-sm py-2 button" style="width: 49%;">
                 <span class="font-weight-bold">Create your account</span>
               </button>
-              <button type="submit" class="button" onclick="location.href='login.html';" style="width: 50%;">
+              <button type="submit" class="btn btn-sm py-2 button" onclick="location.href='index.html';" style="width: 50%;">
                 <span class="font-weight-bold">Cancel</span>
               </button>
             </div>
   
             <!-- Already Registered -->
             <div class="text-center w-100">
-              <p class="text-muted font-weight-bold">Already Registered? <a href="login.html" class="text">Login</a></p>
+              <p class="text-muted font-weight-bold">Already Registered? <a href="index.html" class="text">Login</a></p>
             </div>
   
           </div>
