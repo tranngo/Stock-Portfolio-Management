@@ -2,7 +2,11 @@ package csci310;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 
 import com.google.gson.Gson;
 
@@ -22,6 +26,32 @@ public class Api {
 		    return false;  
 		  }  
 	}
+	
+	//takes in a string double value and rounds it
+	public static String roundDouble(String value1) {
+		Double value = Double.parseDouble(value1);
+		String v = "0";
+		if(value != null){
+		    if(value == (double) Math.round(value)){
+		        if(value/1000000000 > 1.0){
+		            v = String.format("%.1f G", value/1000000000);
+		        }
+		        else if(value/1000000 > 1.0){
+		            v = String.format("%.1f M", value/1000000);
+		        }
+		        else if(value/1000 > 1.0){
+		            v = String.format("%.1f K", value/1000);
+		        }
+		        else{
+		            v = String.format("%.1f", value);
+		        }
+		    }
+		    else{
+		        v = String.format("%.2f", value);
+		    }
+		}
+		return v;
+	}
 
 	
 	/*
@@ -37,11 +67,20 @@ public class Api {
 	
 	/*
 	 * parameters: stock ticker
-	 * returns: a ArrayList of the stock's daily values for the past year as a string
+	 * returns: a ArrayList of the stock's monthly values for the past year as a string
 	 */
-	public String getHistoricalPricesOf(String name) throws IOException {
+	public static String getHistoricalPricesOf(String name) throws IOException {
 		Stock stock = YahooFinance.get(name);
 		return stock.getHistory(Interval.MONTHLY).toString();
+	}
+	
+	/*
+	 * parameters: stock ticker
+	 * returns: a ArrayList of the stock's daily values for the past year as a string
+	 */
+	public static String getDailyHistoricalPricesOf(String name) throws IOException {
+		Stock stock = YahooFinance.get(name);
+		return stock.getHistory(Interval.DAILY).toString();
 	}
 
 	
@@ -67,6 +106,10 @@ public class Api {
 	 */
 	public static boolean isValidStock(String name) throws IOException
 	{
+		if(name.startsWith("PORTFOLIO_")) {
+			return true;
+		}
+		
 		Stock stock = YahooFinance.get(name);
 		try {
 			return stock.isValid();
@@ -100,31 +143,25 @@ public class Api {
 	{
 		Gson gson = new Gson();
 		String result = "[" + gson.toJson(dataset.get(0)) + ",";
-		int datasetSize = dataset.size();
-		for (int i = 1; i < datasetSize; i++) {
+		for (int i = 1; i < dataset.size(); i++) {
 			result += "[";
-			int firstDatasetSize = dataset.get(0).size();
-			
-			//Go over the dataset entry
-			for (int j = 0; j < firstDatasetSize; j++) {
+			for (int j = 0; j < dataset.get(0).size(); j++) {
 				if(isNumeric(dataset.get(i).get(j))){
-	//				if (j == dataset.get(0).size()-1) {
+					if (j == dataset.get(0).size()-1) {
 						result += gson.toJson(Double.parseDouble(dataset.get(i).get(j)));
-	//				}
-	/*	NOTE: Fix this			else {
+					}
+					else {
 						result += gson.toJson(Double.parseDouble(dataset.get(i).get(j))) + ",";
-					}           */
+					}           
 				}
 				else {
 					result += gson.toJson(dataset.get(i).get(j)) + ",";
 				}
 			}
-			//For the last entry
 			if (i == dataset.size()-1) {
 				result += "]";
 			}
 			else {
-				//For all other entries
 				result += "],";
 			}
 		}
@@ -150,8 +187,17 @@ public class Api {
 	 * parameters: String for the stock name
 	 * returns: ArrayList<ArrayList<String> > basically a n x 2 array
 	 */
-	public static ArrayList<ArrayList<String>> fetchAndParse(String stock)
+	public static ArrayList<ArrayList<String>> fetchAndParse(String name) throws IOException
 	{
+		Stock stock = YahooFinance.get(name);
+		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
+		ArrayList<String> first_line = new ArrayList<String>();
+		first_line.add("Date");
+		first_line.add(name);
+		output.add(first_line);
+		
+		
+		
 		return null;
 	}
 	
@@ -173,9 +219,67 @@ public class Api {
 	 * parameters: String for the stock name
 	 * returns: ArrayList<ArrayList<String> > basically a n x 2 array
 	 */
-	public static ArrayList<ArrayList<String>> getOneLineAllData(String stock)
+	public static ArrayList<ArrayList<String>> getOneLineAllData(String name) throws IOException
 	{
-		return null;
+		
+		if(name.startsWith("PORTFOLIO_"))
+		{
+			ArrayList<ArrayList<String>> dataset = new ArrayList<ArrayList<String>>();
+			//This is not a stock, use Portfolio.java helper function
+			String idAsString = name.substring(10);
+			int portfolio_number = Integer.parseInt(idAsString);
+			System.out.println("In Api.java, getOneLineAllData(), Portfolio " + portfolio_number + " was requested!");
+			
+			//Portfolio.java helper function to retrieve portfolio with date range
+			dataset = Portfolio.getFullLineForPortfolio(portfolio_number);
+			
+			System.out.println("TODO: getOneLineAllData, once Portfolio is implemented there should be no errors");
+			return dataset;
+		}
+		
+		
+		String s = getDailyHistoricalPricesOf(name);
+		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
+		ArrayList<String> first_line = new ArrayList<String>();
+		
+		//add date and the name of the stock to the first line
+		first_line.add("Date");
+		first_line.add(name);
+		
+		//add the first line to the output array
+		output.add(first_line);
+		
+		/*call split() based on commas in the string. 
+		 * Each individual stock price will take 2 indexes 
+		 * The first index will be used to get the date
+		 * The second index will be used to get the price*/
+		String[] myStrings = s.split(",");
+		
+		//loop through the substrings from the split and add appropriate data to the output
+		for (int i = 0; i < myStrings.length; i+=2) {
+			//new line for the array
+			ArrayList<String> new_line = new ArrayList<String>();
+			
+			//capture the first index and the incorrectly formatted date
+			String str_date = myStrings[i];
+			str_date = str_date.substring(str_date.indexOf("@")+1,str_date.indexOf(":"));
+			
+			//reformat the date into proper order and add to the new line
+			String[] dates = str_date.split("-");
+			String new_date = dates[1] + "-" + dates[2] + "-" + dates[0];
+			new_line.add(new_date);
+			
+			//capture the second index and gather it's price
+			String str = myStrings[i+1];
+			String price = str.substring(str.indexOf("(")+1,str.indexOf(")"));
+			//round the value and add to the new line
+			new_line.add(roundDouble(price));
+			
+			//add to the output array
+			output.add(new_line);
+		}
+		
+		return output;
 	}
 	
 	/*
@@ -203,9 +307,144 @@ public class Api {
 	 */
 	public static ArrayList<ArrayList<String>> getMultipleLinesAllData(ArrayList<String> stocks)
 	{
-		return null;
+		ArrayList<ArrayList<String>> dataset = new ArrayList<ArrayList<String>>();
+		
+		//First, remove any invalid stocks
+		Iterator<String> i = stocks.iterator();
+		while(i.hasNext())
+		{
+			String stock = i.next();
+			//An invalid stock is found
+			try {
+				if(isValidStock(stock) == false)
+				{
+					System.out.println("Warning: " + stock + " is not a valid stock!");
+					i.remove();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		//Just to check that invalid stocks are removed
+		System.out.println("Hopefully invalid stocks are removed");
+		System.out.println("Stocks left in list are");
+		for(String stock : stocks)
+		{
+			System.out.print(stock + " ");
+		}
+		System.out.println("");
+		
+		//Second, we have to go through each of the stocks and determine which one has the
+		//earliest start date and which has the latest end date
+		String earliestStartDate = "";
+		String latestEndDate = "";
+		
+		//Set stocks[0] as the default
+		ArrayList<ArrayList<String>> firstLine = new ArrayList<ArrayList<String>>();
+		try {
+			firstLine = getOneLineAllData(stocks.get(0));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.out.println("Error in Function 5, getMultipleLinesAllData");
+			return dataset;
+		}
+		
+		if(firstLine.size() >= 3)
+		{
+			earliestStartDate = firstLine.get(1).get(0);
+			latestEndDate = firstLine.get(firstLine.size()-1).get(0);
+		}
+		else
+		{
+			System.out.println("Strange error in getMultipleLinesAllData, not enough rows");
+		}
+		
+		for(int j = 1; j < stocks.size(); j++)
+		{
+			ArrayList<ArrayList<String>> temp;
+			try {
+				temp = getOneLineAllData(stocks.get(j));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.out.println("getMultipleLinesAllData has an error yo");
+				return dataset;
+			}
+
+			if(stocks.get(j).startsWith("PORTFOLIO_"))
+			{
+				System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
+				continue;
+			}
+			
+			String tempStartDate = temp.get(1).get(0);
+			String tempEndDate = temp.get(temp.size()-1).get(0);
+			System.out.println("j=" + j + " Start: " + tempStartDate + " and End: " + tempEndDate);
+			
+			SimpleDateFormat format = new SimpleDateFormat("MM-DD-YYYY");
+
+			try {
+				Date date1 = format.parse(earliestStartDate);
+				Date date2 = format.parse(tempStartDate);
+				if(date1.compareTo(date2) <= 0)
+				{
+					System.out.println("Earlier start date found!");
+					earliestStartDate = tempStartDate;
+				}
+				
+				Date date3 = format.parse(latestEndDate);
+				Date date4 = format.parse(tempEndDate);
+				if(date3.compareTo(date4) >= 0)
+				{
+					System.out.println("Later end date found!");
+					latestEndDate = tempEndDate;
+				}
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			
+		}
+		
+		System.out.println("Starting to gather stock lines");
+		
+		//Now we have the date range for our dataset, start -> end
+		//We can use Function 6, to fill in the "NULL" and get us what we need
+		for(int k = 0; k < stocks.size(); k++)
+		{
+			String stock = stocks.get(k);
+			if(stock.startsWith("PORTFOLIO_"))
+			{
+				System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
+				continue;
+			}
+			
+			
+			ArrayList<ArrayList<String>> temp = getOneLineWithDateRange(stock, earliestStartDate, latestEndDate);
+			if(k == 0)
+			{
+				dataset = temp;
+			}
+			else
+			{
+				//We want to append to dataset, start from row index of 1
+				dataset.get(0).add(stock);
+				for(int row = 1; row < dataset.size(); row++)
+				{
+					dataset.get(row).add( temp.get(row).get(1)  );
+				}
+			}
+		}
+		
+		
+		return dataset;
 	}
-	
+
 	/*
 	 * Function #6: Works exactly like Function 4 but you specify a date range.
 	 * So this function essentially retrieves all stock data for a stock like "NTNX"
@@ -223,8 +462,172 @@ public class Api {
 	 */
 	public static ArrayList<ArrayList<String>> getOneLineWithDateRange(String stock, String start, String end)
 	{
-		return null;
+		//TO DO: make sure the "NULL" entries come properly
+		
+		
+		
+				ArrayList<ArrayList<String>> dataset = new ArrayList<ArrayList<String>>();
+				
+				//First, check if the stock is valid
+				boolean valid = false;
+				try {
+					valid = isValidStock(stock);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					System.out.println("IOException in getOneLineWithDateRange, terminating function!");
+					e.printStackTrace();
+					return dataset;
+				}
+				
+				if(valid == false)
+				{
+					System.out.println(stock + " is invalid, returing empty dataset!");
+					return dataset;
+				}
+				
+				//Second, retrieve the data for that line
+				if(stock.startsWith("PORTFOLIO_"))
+				{
+					//This is not a stock, use Portfolio.java helper function
+					String idAsString = stock.substring(10);
+					int portfolio_number = Integer.parseInt(idAsString);
+					System.out.println("In Api.java, getOneLineWithDateRange(), Portfolio " + portfolio_number + " was requested!");
+					
+					//Portfolio.java helper function to retrieve portfolio with date range
+					dataset = Portfolio.getLineForPortfolioWithDateRange(portfolio_number, start, end);
+				}
+				else
+				{
+					//This is a stock, use Function 4 and delete rows that fall outside date range
+					
+					//First, call Function 4
+					try {
+						dataset = getOneLineAllData(stock);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						System.out.println("Error in getOneLineWithDateRange");
+						return dataset;
+					}
+					
+					//Next, filter out rows that fall outside the start and end date
+					Iterator<ArrayList<String>> i = dataset.iterator();
+					SimpleDateFormat format = new SimpleDateFormat("MM-DD-YYYY");
+					Date startDate = null;
+					Date endDate = null;
+					try {
+						startDate = format.parse(start);
+						endDate = format.parse(end);
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						System.out.println("Error parsing start and end date in getOneLineWithDateRange");
+						return dataset;
+					}
+					
+					Date date = null;
+					
+					while(i.hasNext())
+					{
+						ArrayList<String> row = i.next();
+						String dateStr = row.get(0); //get the date
+						try {
+							date = format.parse(dateStr);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							//e.printStackTrace();
+							System.out.println("Ignore this, it's meant to happen: Slight error parsing row's date in getOneLineWithDateRange");
+							continue;
+						}
+						
+						//This date is before the specified start date, filter it out
+						if(date.compareTo(startDate) < 0)
+						{
+							System.out.println(dateStr + " is less than " + start + " removing it!* itr");
+							i.remove();
+						}
+						else if(date.compareTo(endDate) > 0)
+						{
+							//This date is after the specified end date, filter it out
+							System.out.println(dateStr + " is bigger than " + end + " removing it!* itr");
+							i.remove();
+						}
+					}
+					
+					
+					//As a final measure, we want to add "NULL" entries to pad up the array
+					String firstDateInDataset = dataset.get(1).get(0);
+					try {
+						date = format.parse(firstDateInDataset);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						System.out.println("Error parsing row's date in getOneLineWithDateRange");
+						return dataset;
+					}
+					
+					try {
+						startDate = format.parse(start);
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					if(date.compareTo(startDate) > 0) {
+						System.out.println("PRE-PADDING NULLs");
+						while(date.compareTo(startDate) > 0)
+						{
+							ArrayList<String> nullRow = new ArrayList<String>();
+							Calendar cal = Calendar.getInstance();
+							cal.setTime(date);
+							int howManyBefore = -1;
+							cal.add(Calendar.DATE, howManyBefore);
+							Date oneBeforeDate = cal.getTime();
+							String oneBeforeString = format.format(oneBeforeDate);
+							
+							nullRow.add(oneBeforeString);
+							nullRow.add("NULL");
+							dataset.add(1, nullRow);
+							
+							//Update date and check again
+							firstDateInDataset = dataset.get(1).get(0);
+							try {
+								date = format.parse(firstDateInDataset);
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								System.out.println("Error parsing row's date in getOneLineWithDateRange");
+								return dataset;
+							}
+						}
+					}
+					else {
+						System.out.println("No need to pre pad nulls");
+					}
+					
+					
+				}
+				
+			
+
+			
+				return dataset;
 	}
+	
+
+	
+	
+	
+	// ======================   Functions 1-6 are all set
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/*
 	 * Function #7: Works exactly like Function 5 except you specify a date range.

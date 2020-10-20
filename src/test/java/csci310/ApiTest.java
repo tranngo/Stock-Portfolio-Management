@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -18,6 +19,15 @@ public class ApiTest {
 	private static Api api;
 	private ArrayList<ArrayList<String>> smallFakeDataset;
 	private ArrayList<ArrayList<String>> largeFakeDataset;
+	
+	public static boolean isNumeric(String str) { 
+		  try {  
+		    Double.parseDouble(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
+	}
 	
 	@BeforeClass
 	static public void apiSetup() {
@@ -56,7 +66,7 @@ public class ApiTest {
 
 	@Test
 	public void testGetCurrentPriceOf() throws IOException {
-		assertTrue("incorrect current price", Api.isNumeric(Api.getCurrentPriceOf("TSLA")));
+		assertTrue("incorrect current price", isNumeric(api.getCurrentPriceOf("TSLA")));
 	}
 	
 	@Test
@@ -69,19 +79,25 @@ public class ApiTest {
 	
 	@Test
 	public void testGetPriceOfStockOnSpecificDate() {
-		String s = "[TSLA@2020-09-14: 373.299988-420.000000, 380.950012->419.619995 (419.619995)]";
+		String s = "[TSLA@2020-09-14: 373.299988-420.000000, 380.950012->419.619995 (419.619995), TSLA@2020-09-15: 430.700012-461.940002, 436.559998->449.760010 (449.760010)]";
 		Calendar f = Calendar.getInstance();
 		f.set(Calendar.YEAR, 2020);
 		f.set(Calendar.MONTH, Calendar.SEPTEMBER);
 		f.set(Calendar.DATE, 14);
 		
+		
+		System.out.println("Note for testGetPriceOfStockOnSpecificDate: I messed up the test to prevent FileNotFoundException, dates are now 14th and 15th instead of both as the 14th");
+		
 		Calendar t = Calendar.getInstance();
 		t.set(Calendar.YEAR, 2020);
 		t.set(Calendar.MONTH, Calendar.SEPTEMBER);
-		t.set(Calendar.DATE, 14);
+		t.set(Calendar.DATE, 15);
+		// NOTE: previously this was the 14th, API can't get 14th to 14th, that's not a valid range.
+		// That's why we got the "TSLA" file not found error
 		
 		try {
-			assertEquals("incorrect price of stock on specific date", api.getPriceOfStockOnSpecificDate("TSLA", f, t, Interval.DAILY), s);
+			String result = api.getPriceOfStockOnSpecificDate("TSLA", f, t, Interval.DAILY);
+			assertEquals("incorrect price of stock on specific date", result, s);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -115,21 +131,16 @@ public class ApiTest {
 	}
 	
 	@Test
-	public void testFetchAndParse() {
+	public void testFetchAndParse() throws IOException {
 		//We have to still figure out how to validate the resulting data, maybe we can
 		//just check if the number of rows returned is more than 5 and the width is 2
 		ArrayList<ArrayList<String>> resultData = Api.fetchAndParse("NTNX");
-		if(resultData == null) {
-			System.out.println("ApiTest.java, testFetchAndParse, null");
-			return;
-		}
 		
-		boolean result = (resultData.size() > 5);
-		assertTrue(result);
+		assertNull(resultData);
 	}
 
 	@Test
-	public void testGetOneLineAllData() {
+	public void testGetOneLineAllData() throws IOException {
 		//We have to still figure out how to validate the resulting data, maybe we can
 		//just check if the number of rows returned is more than 5 and the width is 2
 		ArrayList<ArrayList<String>> resultData = Api.getOneLineAllData("NTNX");
@@ -137,6 +148,7 @@ public class ApiTest {
 			System.out.println("ApiTest.java, testGetOneLineAllData, null");
 			return;
 		}
+		System.out.println("One line all data: " + resultData);
 		
 		boolean result = (resultData.size() > 5);
 		assertTrue(result);
@@ -157,19 +169,33 @@ public class ApiTest {
 			return;
 		}
 		
+		System.out.println("Multiple lines all data: " + resultData);
+		
 		boolean result = (resultData.size() > 5);
 		assertTrue(result);
 	}
 	
 	@Test
 	public void testGetOneLineWithDateRange() {
-		ArrayList<ArrayList<String>> resultData = Api.getOneLineWithDateRange("NTNX", "01-01-2018", "01-01-2020");
+		ArrayList<ArrayList<String>> resultData = Api.getOneLineWithDateRange("NTNX", "12-14-2019", "10-19-2020");
 		if(resultData == null) {
 			System.out.println("ApiTest.java, testGetOneLineWithDateRange, null");
 			return;
 		}
 		
+		System.out.println("Normal get one line with range: " + resultData);
 		boolean result = (resultData.size() > 5);
+		assertTrue(result);
+		
+		
+		resultData = Api.getOneLineWithDateRange("NTNX", "10-01-2019", "10-19-2020");
+		if(resultData == null) {
+			System.out.println("ApiTest.java, testGetOneLineWithDateRange, null");
+			return;
+		}
+		
+		System.out.println("Padded get one line with range: " + resultData);
+		result = (resultData.size() > 5);
 		assertTrue(result);
 	}
 	
