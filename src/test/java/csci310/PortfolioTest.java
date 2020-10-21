@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -17,6 +18,16 @@ public class PortfolioTest {
 	@Before
 	public void setUp() throws Exception {
 		portfolio = new Portfolio();
+	}
+	
+	@Test
+	public void testAddTransaction() {
+		int result = Portfolio.addTransaction(1, "NTNX", 10, "09-05-2020", "10-05-202");
+		assertEquals(result, 1);
+		
+		// reset db
+		assertTrue(removeStockTransaction(1, "bought", "NTNX", 10, "09-05-2020"));
+		assertTrue(removeStockTransaction(1, "sold", "NTNX", 10, "10-05-2020"));
 	}
 
 	@Test
@@ -234,10 +245,45 @@ public class PortfolioTest {
 		removeStockTransaction(1, "bought", "JNJ", 10, "09-30-2020");
 	}
 	
-	private void removeStockTransaction(
+	@Test
+	public void testRemoveStockFromPortfolio() {
+		Portfolio.addStock(1, "NTNX", 10, "09-05-2020"); // buy 10 "NTNX" stocks
+		
+		ArrayList<ArrayList<String>> result = Portfolio.retrieveCurrentPortfolio(1);
+		assertEquals(2, result.size());
+		
+		// remove NTNX
+		Portfolio.removeStockFromPortfolio(1, "NTNX");
+		Connection con = JDBC.connectDB();
+		if(con != null) {
+			try {
+			    // insert entry into users table
+			    PreparedStatement ps = con.prepareStatement("SELECT * from stocks WHERE user_id = ? " +
+			    		"AND name = ? ");
+			    ps.setInt(1, 1);
+			    ps.setString(2, "NTNX");
+			    ResultSet rs = ps.executeQuery();
+				assertFalse(rs.next());
+			} catch (SQLException e) {
+				System.out.println("Error inserting user data to DB when adding to stocks.");
+				e.printStackTrace();
+			} finally {
+	            try {
+	                if(con != null) {
+	                    con.close();
+	                }
+	            } catch (SQLException ex) {
+	                System.out.println(ex.getMessage());
+	            }
+	        }
+		}
+	}
+	
+	private Boolean removeStockTransaction(
 			int userId, String transaction, String stock, int quantity, String date) {
 		Connection con = JDBC.connectDB();
 		
+		boolean success = false;
 		if(con != null) {
 			try {
 			    // insert entry into users table
@@ -252,7 +298,9 @@ public class PortfolioTest {
 			    ps.setInt(4, quantity);
 			    ps.setString(5, date);
 			    ps.execute();
+			    success = true;
 			} catch (SQLException e) {
+				success = false;
 				System.out.println("Error inserting user data to DB when adding to stocks.");
 				e.printStackTrace();
 			} finally {
@@ -265,6 +313,7 @@ public class PortfolioTest {
 	            }
 	        }
 		}
+		return success;
 	}
 
 }
