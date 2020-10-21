@@ -79,7 +79,7 @@ public class ApiTest {
 	
 	@Test
 	public void testGetPriceOfStockOnSpecificDate() {
-		String s = "[TSLA@2020-09-14: 373.299988-420.000000, 380.950012->419.619995 (419.619995), TSLA@2020-09-15: 430.700012-461.940002, 436.559998->449.760010 (449.760010)]";
+		String s = "[TSLA@2020-09-14: 373.299988-420.000000, 380.950012->419.619995 (419.619995)]";
 		Calendar f = Calendar.getInstance();
 		f.set(Calendar.YEAR, 2020);
 		f.set(Calendar.MONTH, Calendar.SEPTEMBER);
@@ -97,6 +97,8 @@ public class ApiTest {
 		
 		try {
 			String result = api.getPriceOfStockOnSpecificDate("TSLA", f, t, Interval.DAILY);
+			System.out.println("Left, actual api result: " + result);
+			System.out.println("Right, expected string: " + s);
 			assertEquals("incorrect price of stock on specific date", result, s);
 		} catch (IOException e) {
 			e.printStackTrace();
