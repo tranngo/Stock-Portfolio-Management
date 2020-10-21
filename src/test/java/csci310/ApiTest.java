@@ -167,7 +167,6 @@ public class ApiTest {
 		ArrayList<String> stocks = new ArrayList<String>();
 		stocks.add("NTNX");
 		stocks.add("JNJ");
-		stocks.add("PORTFOLIO_1");
 		
 		System.out.println("testGetMultipleLinesAllData, Before");
 		ArrayList<ArrayList<String>> resultData = Api.getMultipleLinesAllData(stocks);
