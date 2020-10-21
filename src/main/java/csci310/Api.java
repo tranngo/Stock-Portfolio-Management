@@ -3,6 +3,7 @@ package csci310;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Iterator;
 
 import com.google.gson.Gson;
 
@@ -22,6 +23,32 @@ public class Api {
 		    return false;  
 		  }  
 	}
+	
+	//takes in a string double value and rounds it
+	public static String roundDouble(String value1) {
+		Double value = Double.parseDouble(value1);
+		String v = "0";
+		if(value != null){
+		    if(value == (double) Math.round(value)){
+		        if(value/1000000000 > 1.0){
+		            v = String.format("%.1f G", value/1000000000);
+		        }
+		        else if(value/1000000 > 1.0){
+		            v = String.format("%.1f M", value/1000000);
+		        }
+		        else if(value/1000 > 1.0){
+		            v = String.format("%.1f K", value/1000);
+		        }
+		        else{
+		            v = String.format("%.1f", value);
+		        }
+		    }
+		    else{
+		        v = String.format("%.2f", value);
+		    }
+		}
+		return v;
+	}
 
 	
 	/*
@@ -39,8 +66,9 @@ public class Api {
 	 * parameters: stock ticker
 	 * returns: a ArrayList of the stock's daily values for the past year as a string
 	 */
-	public String getHistoricalPricesOf(String name) throws IOException {
+	public static String getHistoricalPricesOf(String name) throws IOException {
 		Stock stock = YahooFinance.get(name);
+		System.out.println(stock.getHistory(Interval.MONTHLY).toString());
 		return stock.getHistory(Interval.MONTHLY).toString();
 	}
 
@@ -100,13 +128,9 @@ public class Api {
 	{
 		Gson gson = new Gson();
 		String result = "[" + gson.toJson(dataset.get(0)) + ",";
-		int datasetSize = dataset.size();
-		for (int i = 1; i < datasetSize; i++) {
+		for (int i = 1; i < dataset.size(); i++) {
 			result += "[";
-			int firstDatasetSize = dataset.get(0).size();
-			
-			//Go over the dataset entry
-			for (int j = 0; j < firstDatasetSize; j++) {
+			for (int j = 0; j < dataset.get(0).size(); j++) {
 				if(isNumeric(dataset.get(i).get(j))){
 	//				if (j == dataset.get(0).size()-1) {
 						result += gson.toJson(Double.parseDouble(dataset.get(i).get(j)));
@@ -119,12 +143,10 @@ public class Api {
 					result += gson.toJson(dataset.get(i).get(j)) + ",";
 				}
 			}
-			//For the last entry
 			if (i == dataset.size()-1) {
 				result += "]";
 			}
 			else {
-				//For all other entries
 				result += "],";
 			}
 		}
@@ -150,8 +172,17 @@ public class Api {
 	 * parameters: String for the stock name
 	 * returns: ArrayList<ArrayList<String> > basically a n x 2 array
 	 */
-	public static ArrayList<ArrayList<String>> fetchAndParse(String stock)
+	public static ArrayList<ArrayList<String>> fetchAndParse(String name) throws IOException
 	{
+		Stock stock = YahooFinance.get(name);
+		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
+		ArrayList<String> first_line = new ArrayList<String>();
+		first_line.add("Date");
+		first_line.add(name);
+		output.add(first_line);
+		
+		
+		
 		return null;
 	}
 	
@@ -173,9 +204,50 @@ public class Api {
 	 * parameters: String for the stock name
 	 * returns: ArrayList<ArrayList<String> > basically a n x 2 array
 	 */
-	public static ArrayList<ArrayList<String>> getOneLineAllData(String stock)
+	public static ArrayList<ArrayList<String>> getOneLineAllData(String name) throws IOException
 	{
-		return null;
+		String s = getHistoricalPricesOf(name);
+		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
+		ArrayList<String> first_line = new ArrayList<String>();
+		
+		//add date and the name of the stock to the first line
+		first_line.add("Date");
+		first_line.add(name);
+		
+		//add the first line to the output array
+		output.add(first_line);
+		
+		/*call split() based on commas in the string. 
+		 * Each individual stock price will take 2 indexes 
+		 * The first index will be used to get the date
+		 * The second index will be used to get the price*/
+		String[] myStrings = s.split(",");
+		
+		//loop through the substrings from the split and add appropriate data to the output
+		for (int i = 0; i < myStrings.length; i+=2) {
+			//new line for the array
+			ArrayList<String> new_line = new ArrayList<String>();
+			
+			//capture the first index and the incorrectly formatted date
+			String str_date = myStrings[i];
+			str_date = str_date.substring(str_date.indexOf("@")+1,str_date.indexOf(":"));
+			
+			//reformat the date into proper order and add to the new line
+			String[] dates = str_date.split("-");
+			String new_date = dates[1] + "-" + dates[2] + "-" + dates[0];
+			new_line.add(new_date);
+			
+			//capture the second index and gather it's price
+			String str = myStrings[i+1];
+			String price = str.substring(str.indexOf("(")+1,str.indexOf(")"));
+			//round the value and add to the new line
+			new_line.add(roundDouble(price));
+			
+			//add to the output array
+			output.add(new_line);
+		}
+		
+		return output;
 	}
 	
 	/*

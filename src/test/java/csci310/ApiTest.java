@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -18,6 +19,15 @@ public class ApiTest {
 	private static Api api;
 	private ArrayList<ArrayList<String>> smallFakeDataset;
 	private ArrayList<ArrayList<String>> largeFakeDataset;
+	
+	public static boolean isNumeric(String str) { 
+		  try {  
+		    Double.parseDouble(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
+	}
 	
 	@BeforeClass
 	static public void apiSetup() {
@@ -56,7 +66,7 @@ public class ApiTest {
 
 	@Test
 	public void testGetCurrentPriceOf() throws IOException {
-		assertTrue("incorrect current price", Api.isNumeric(Api.getCurrentPriceOf("TSLA")));
+		assertTrue("incorrect current price", isNumeric(api.getCurrentPriceOf("TSLA")));
 	}
 	
 	@Test
@@ -115,7 +125,7 @@ public class ApiTest {
 	}
 	
 	@Test
-	public void testFetchAndParse() {
+	public void testFetchAndParse() throws IOException {
 		//We have to still figure out how to validate the resulting data, maybe we can
 		//just check if the number of rows returned is more than 5 and the width is 2
 		ArrayList<ArrayList<String>> resultData = Api.fetchAndParse("NTNX");
@@ -129,7 +139,7 @@ public class ApiTest {
 	}
 
 	@Test
-	public void testGetOneLineAllData() {
+	public void testGetOneLineAllData() throws IOException {
 		//We have to still figure out how to validate the resulting data, maybe we can
 		//just check if the number of rows returned is more than 5 and the width is 2
 		ArrayList<ArrayList<String>> resultData = Api.getOneLineAllData("NTNX");
@@ -137,6 +147,7 @@ public class ApiTest {
 			System.out.println("ApiTest.java, testGetOneLineAllData, null");
 			return;
 		}
+		System.out.print(resultData);
 		
 		boolean result = (resultData.size() > 5);
 		assertTrue(result);
