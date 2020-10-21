@@ -84,25 +84,8 @@ google.charts.load("current", { packages: ["corechart"] });
  
 
 $("#add-stock-button").on("click", function() {
-	$(".modal-title").html("Add Stock");
-	$("#stock-date-input-label").html("Purchase Date");
-	$("#modal-add-sell-button").html("Add");
-	$("#add-remove-modal-content").attr("class", "display-block");
-	$("#upload-file-modal-content").attr("class", "display-none");
-	
-	$("#mainModal").modal({
-		backdrop: true,
-		keyboard: true,
-		focus: true,
-		show: true
-	});
-});
-
-$("#remove-stock-button").on("click", function() {
-	$(".modal-title").html("Remove Stock");
-	$("#stock-date-input-label").html("Sell Date");
-	$("#modal-add-sell-button").html("Sell");
-	$("#add-remove-modal-content").attr("class", "display-block");
+	$(".modal-title").html("Add Stock Transaction");
+	$("#add-modal-content").attr("class", "display-block");
 	$("#upload-file-modal-content").attr("class", "display-none");
 	
 	$("#mainModal").modal({
@@ -116,7 +99,7 @@ $("#remove-stock-button").on("click", function() {
 $("#upload-file-button").on("click", function() {
 	$(".modal-title").html("Upload File");
 	$("#modal-add-sell-button").html("Upload");
-	$("#add-remove-modal-content").attr("class", "display-none");
+	$("#add-modal-content").attr("class", "display-none");
 	$("#upload-file-modal-content").attr("class", "display-block");
 	
 	$("#mainModal").modal({
@@ -126,3 +109,19 @@ $("#upload-file-button").on("click", function() {
 		show: true
 	});
 });
+
+$(".toggle-button").on("click", function() {
+	if ($(this).attr("class").includes("fa-toggle-on")) {
+		$(this).attr("class", $(this).attr("class").replace("fa-toggle-on", "fa-toggle-off"));
+	} else {
+		$(this).attr("class", $(this).attr("class").replace("fa-toggle-off", "fa-toggle-on"));
+	}
+});
+
+$("#sp-button").on("click", function() {
+	if ($(this).attr("class").includes("btn-primary")) {
+		$(this).attr("class", $(this).attr("class").replace("btn-primary", "btn-secondary"));
+	} else {
+		$(this).attr("class", $(this).attr("class").replace("btn-secondary", "btn-primary"));
+	}
+})
