@@ -2,9 +2,4 @@ language: java
 branches:
   only:
   - develop
-services:
-  - mysql
-before_install:
-  - mysql -e "CREATE DATABASE IF NOT EXISTS stocks;"
-  - mysql -u root --password="" stocks < src/test/java/travis.sql
   
