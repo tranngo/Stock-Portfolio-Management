@@ -9,6 +9,21 @@ google.charts.load("current", { packages: ["corechart"] });
     ["2007", 1030, 540],
   ];
   
+  
+  //Explanation: the graph has a bunch of things going on. There's toggles that are on,
+  //toggles that are off. A certain start/end date that might have been selected. Maybe
+  //a few external stock lines that we need to display.
+  //At this point, let's say the user turns on the toggle for "NTNX", we want to send a
+  //request to GraphServlet saying "gimme all the stuff I had before and also take into
+  //account this NTNX toggle". The state of the graph which is tracked by the variables
+  //below is the "all the stuff I had before" piece. When "NTNX" is toggled on, you
+  //add it to the state_portfolioContributors array and then call refreshGraph().
+  //refreshGraph() will take the whole current state and magically fetch the right
+  //data for the graph.
+  
+  
+  
+  
   //These are the state variables which affect the graph, setting default values
   state_portfolioContributors = [];
   state_externalStocks = ["NTNX", "JNJ", "FB", "TSLA"];
@@ -40,7 +55,7 @@ google.charts.load("current", { packages: ["corechart"] });
     console.log("State variable (but as a string) -> Portfolio contributors: " + state_portfolioContributors_asAString);
     console.log("State variable (but as a string) -> External stocks: " + state_externalStocks_asAString);
     
-    //Eventually this part of the code will be replaced by state update and refreshGraph()
+    //Send the state as part of the request to GraphServlet
     $.ajax({
       url: "GraphServlet",
       type: "GET",
@@ -71,21 +86,32 @@ google.charts.load("current", { packages: ["corechart"] });
     return false;
   }
   
-  //Add to portfolio contributors
-  function addPortfolioContributor(s) {
-  	state_portfolioContributors.push(s);
+  					//IMPLEMENTATION NOTES: these functions have to use the state_ variables
+  					//calling refreshGraph() will send the state as a request to GraphServlet
+  					//and magically get exactly what you want to show up on the graph.
+  					//refreshGraph() might not work currently. Right now, the GraphServlet only
+  					//expects the request to have start/end date. It doesn't even check
+  					//for portfolio contributors and external stocks. We can add that later.
+  
+  //#1: Add to portfolio contributors
+  function addPortfolioContributor(stock) {
+  	state_portfolioContributors.push(stock);
   	refreshGraph();
   }
   
-  //Remove from portfolio contributors
+  //#2: Remove from portfolio contributors, TODO
  
-  //Add an external stock
+  //#3: Add an external stock
+  function addExternalStock(stock) {
+  	state_externalStocks.push(stock);
+  	refreshGraph();
+  }
   
-  //Remove an external stock
+  //#4: Remove an external stock, TODO
   
-  //Change the start date
+  //#5: Change the start date, TODO
   
-  //Change the end date
+  //#6: Change the end date, TODO
   
   
   
