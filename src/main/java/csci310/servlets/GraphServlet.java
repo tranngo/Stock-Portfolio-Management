@@ -69,8 +69,18 @@ public class GraphServlet extends HttpServlet{
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
 		
+		
 		System.out.println("GraphServlet, startDate passed was: " + startDate);
 		System.out.println("GraphServlet, endDate passed was: " + endDate);
+		
+		if(startDate == null) {
+			System.out.println("Since start date was null, setting start to default date of 2020-01-01");
+			startDate = "2020-01-01";
+		}
+		if(endDate == null) {
+			System.out.println("Since start date was null, setting start to default end date of 2020-10-01");
+			endDate = "2020-10-01";
+		}
 		
 		//Convert the dates to MM-DD-YYYY
 		String startYr = startDate.substring(0, 4);
