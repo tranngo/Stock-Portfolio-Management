@@ -71,6 +71,7 @@ public class Api {
 	 */
 	public static String getHistoricalPricesOf(String name) throws IOException {
 		Stock stock = YahooFinance.get(name);
+		System.out.println(stock.getHistory(Interval.MONTHLY).toString());
 		return stock.getHistory(Interval.MONTHLY).toString();
 	}
 	
@@ -239,6 +240,7 @@ public class Api {
 		
 		
 		String s = getDailyHistoricalPricesOf(name);
+
 		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
 		ArrayList<String> first_line = new ArrayList<String>();
 		

@@ -153,6 +153,7 @@ public class ApiTest {
 			System.out.println("ApiTest.java, testGetOneLineAllData, null");
 			return;
 		}
+
 		System.out.println("One line all data: " + resultData);
 		
 		boolean result = (resultData.size() > 5);
