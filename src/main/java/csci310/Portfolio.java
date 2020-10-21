@@ -17,6 +17,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Portfolio {
+	
+	/*
+	 * Function #0: add a stock to the user's portfolio, including start and end dates.
+	 * Add both the buying and selling transaction for this user and stock name to the DB. 
+	 * 
+	 * parameters: user_id, stock, quantity, date of purchase, and date of selling
+	 * returns: 1 if successfully added, 0 if not, later we will add error codes
+	 */
+	public static int addTransaction(int userId, String stock, int quantity, String dateOfPurchase, String dateOfSelling) {
+		if((addStock(userId, stock, quantity, dateOfPurchase) == 1) && 
+				(sellStock(userId, stock, quantity, dateOfSelling) == 1)) {
+			return 1;
+		} else { // add error codes here?
+			return 0;
+		}
+	}
+	
 	/*
 	 * Function #1: add a stock to the user's portfolio. First make sure that the stock
 	 * name is valid by using isValidStock() in Api.java. Next, make sure the quantity is
@@ -568,9 +585,35 @@ public class Portfolio {
 	}
 	
 	/*
-	 * Function #:
+	 * Function #9: remove all transactions for a stock in the user's portfolio. Search through
+	 * the DB for all transactions (buying and selling) with the correct userid and stock name.
+	 * Delete these entries from the DB so they no longer exist in the user's portfolio.
 	 * 
-	 * parameters:
-	 * returns:
+	 * parameters: userId, stock name
+	 * returns: n/a
 	 */
+	public static void removeStockFromPortfolio(int userId, String stock) {
+		Connection con = JDBC.connectDB();
+		
+		if(con != null) {
+			try {
+			    // insert entry into users table
+			    PreparedStatement ps = con.prepareStatement("DELETE from stocks WHERE user_id = ? AND name = ?");
+			    ps.setInt(1, userId);
+			    ps.setString(2, stock);
+			    ps.execute();
+			} catch (SQLException e) {
+				System.out.println("Error removing stock from DB.");
+				e.printStackTrace();
+			} finally {
+	            try {
+	                if(con != null) {
+	                    con.close();
+	                }
+	            } catch (SQLException ex) {
+	                System.out.println(ex.getMessage());
+	            }
+	        }
+		}
+	}
 }
