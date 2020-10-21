@@ -127,8 +127,8 @@ public class Api {
 	 * entries from strings to doubles.
 	 * 
 	 * Special Case: Handle "NULL" strings
-	 * And Also: convert the date strings to be in MM-DD-YYYY format, right now the API
-	 * returns them in YYYY-MM-DD format
+	 * And Also: convert the date strings to be in MM-dd-yyyy format, right now the API
+	 * returns them in yyyy-MM-DD format
 	 * 
 	 * Here's an example:
 	 * ['Date', 'Stock 1', 'Stock 2']			  ['Date', 'Stock 1', 'Stock 2']
@@ -176,8 +176,8 @@ public class Api {
 	 *			+ "TSLA@2020-02-01: 122.304001-193.798004, 134.738007->133.598007 (133.598007), "
 	 * Result: n x 2 ArrayList
 	 * 
-	 * Also: convert the date strings to be in MM-DD-YYYY format, right now the API
-	 * returns them in YYYY-MM-DD format
+	 * Also: convert the date strings to be in MM-dd-yyyy format, right now the API
+	 * returns them in yyyy-MM-DD format
 	 * 
 	 * Output:
 	 * ["Date", "NTNX"]
@@ -384,20 +384,24 @@ public class Api {
 			String tempEndDate = temp.get(temp.size()-1).get(0);
 			System.out.println("j=" + j + " Start: " + tempStartDate + " and End: " + tempEndDate);
 			
-			SimpleDateFormat format = new SimpleDateFormat("MM-DD-YYYY");
+			SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
 
 			try {
-				Date date1 = format.parse(earliestStartDate);
-				Date date2 = format.parse(tempStartDate);
-				if(date1.compareTo(date2) <= 0)
+				Calendar date1 = Calendar.getInstance();
+				date1.setTime(format.parse(earliestStartDate));
+				Calendar date2 = Calendar.getInstance();
+				date2.setTime(format.parse(tempStartDate));
+				if(date1.before(date2))
 				{
 					System.out.println("Earlier start date found!");
 					earliestStartDate = tempStartDate;
 				}
 				
-				Date date3 = format.parse(latestEndDate);
-				Date date4 = format.parse(tempEndDate);
-				if(date3.compareTo(date4) >= 0)
+				Calendar date3 = Calendar.getInstance();
+				date3.setTime(format.parse(latestEndDate));
+				Calendar date4 = Calendar.getInstance();
+				date4.setTime(format.parse(tempEndDate));
+				if(date3.after(date4))
 				{
 					System.out.println("Later end date found!");
 					latestEndDate = tempEndDate;
@@ -512,12 +516,12 @@ public class Api {
 					
 					//Next, filter out rows that fall outside the start and end date
 					Iterator<ArrayList<String>> i = dataset.iterator();
-					SimpleDateFormat format = new SimpleDateFormat("MM-DD-YYYY");
-					Date startDate = null;
-					Date endDate = null;
+					SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+					Calendar startDate = Calendar.getInstance();
+					Calendar endDate = Calendar.getInstance();
 					try {
-						startDate = format.parse(start);
-						endDate = format.parse(end);
+						startDate.setTime(format.parse(start));
+						endDate.setTime(format.parse(end));
 					} catch (ParseException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -525,14 +529,14 @@ public class Api {
 						return dataset;
 					}
 					
-					Date date = null;
+					Calendar date = Calendar.getInstance();
 					
 					while(i.hasNext())
 					{
 						ArrayList<String> row = i.next();
 						String dateStr = row.get(0); //get the date
 						try {
-							date = format.parse(dateStr);
+							date.setTime(format.parse(dateStr));
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
 							//e.printStackTrace();
@@ -541,12 +545,12 @@ public class Api {
 						}
 						
 						//This date is before the specified start date, filter it out
-						if(date.compareTo(startDate) < 0)
+						if(date.before(startDate))
 						{
 							System.out.println(dateStr + " is less than " + start + " removing it!* itr");
 							i.remove();
 						}
-						else if(date.compareTo(endDate) > 0)
+						else if(date.after(endDate))
 						{
 							//This date is after the specified end date, filter it out
 							System.out.println(dateStr + " is bigger than " + end + " removing it!* itr");
@@ -558,7 +562,7 @@ public class Api {
 					//As a final measure, we want to add "NULL" entries to pad up the array
 					String firstDateInDataset = dataset.get(1).get(0);
 					try {
-						date = format.parse(firstDateInDataset);
+						date.setTime(format.parse(firstDateInDataset));
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -567,19 +571,18 @@ public class Api {
 					}
 					
 					try {
-						startDate = format.parse(start);
+						startDate.setTime(format.parse(start));
 					} catch (ParseException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					
-					if(date.compareTo(startDate) > 0) {
+					if(date.after(startDate)) {
 						System.out.println("PRE-PADDING NULLs");
-						while(date.compareTo(startDate) > 0)
+						while(date.after(startDate))
 						{
 							ArrayList<String> nullRow = new ArrayList<String>();
-							Calendar cal = Calendar.getInstance();
-							cal.setTime(date);
+							Calendar cal = date;
 							int howManyBefore = -1;
 							cal.add(Calendar.DATE, howManyBefore);
 							Date oneBeforeDate = cal.getTime();
@@ -592,7 +595,7 @@ public class Api {
 							//Update date and check again
 							firstDateInDataset = dataset.get(1).get(0);
 							try {
-								date = format.parse(firstDateInDataset);
+								date.setTime(format.parse(firstDateInDataset));
 							} catch (ParseException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -650,23 +653,27 @@ public class Api {
 	public static ArrayList<ArrayList<String>> getMultipleLinesWithDateRange(ArrayList<String> stocks, String start, String end) throws IOException
 	{
 		
-				//TO DO: make sure the "NULL" entries come properly from Function 6!
-		
-		
 		//stocks = ["NTNX", "SLFS", "PORTFOLIO_37"]
 		//start = 01-30-2020
 		//end= 02-05-2020
 		
-		//Go through each stock and check if valid
-	/*	Iterator<String> i = stocks.iterator();
+		ArrayList<ArrayList<String>> dataset = new ArrayList<ArrayList<String>>();
+		
+		//First, remove any invalid stocks
+		Iterator<String> i = stocks.iterator();
 		while(i.hasNext())
 		{
 			String stock = i.next();
 			//An invalid stock is found
-			if(isValidStock(stock) == false)
-			{
-				System.out.println("Warning: " + stock + " is not a valid stock!");
-				i.remove();
+			try {
+				if(isValidStock(stock) == false)
+				{
+					System.out.println("Warning: " + stock + " is not a valid stock!");
+					i.remove();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
@@ -677,71 +684,40 @@ public class Api {
 		{
 			System.out.print(stock + " ");
 		}
+		System.out.println("");
 		
-		//Retrieve each stock's values using function 6
-		ArrayList<ArrayList<String>> finalDataset = null;
-		for(String stock : stocks)
+		
+		System.out.println("Starting to gather stock lines");
+		
+		//We can use Function 6, to fill in the "NULL" and get us what we need
+		for(int k = 0; k < stocks.size(); k++)
 		{
-			//Special case if the stock is PORTFOLIO_userid
+			String stock = stocks.get(k);
 			if(stock.startsWith("PORTFOLIO_"))
 			{
-				//Get the user id
-				String user_id = stock.substring(10);
-				System.out.println("PORTFOLIO_ is for user id: " + user_id);
-				int id = Integer.parseInt(user_id);
-				
-				//Call the portfolio.java function
-				ArrayList<ArrayList<String>> oneTable = Portfolio.getLineForPortfolioWithDateRange(id, start, end);
-			
-				if(finalDataset == null) // for first column
-				{
-					finalDataset = oneTable;
-				}
-				else // for other columns
-				{
-					//We want to drop the whole first column of oneTabel, because that has the dates
-					//We just need the second column which has the stock prices
-					for(ArrayList<String> row : oneTable)
-					{
-						row.remove(0);
-					}
-					
-					//Next we want to append to the finalDataset
-					for(int p = 0; p < oneTable.size(); p++)
-					{
-						String entryInColumn = oneTable.get(p).get(0); // ["NTNX"] , ["130.11"], ["133.59"]
-						finalDataset.get(p).add(entryInColumn);
-					}
-				}
+				System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
+				continue;
 			}
-			else 
+			
+			
+			ArrayList<ArrayList<String>> temp = getOneLineWithDateRange(stock, start, end);
+			if(k == 0)
 			{
-				ArrayList<ArrayList<String>> oneTable = getOneLineWithDateRange(stock, start, end);
-				if(finalDataset == null) // for first column
+				dataset = temp;
+			}
+			else
+			{
+				//We want to append to dataset, start from row index of 1
+				dataset.get(0).add(stock);
+				for(int row = 1; row < dataset.size(); row++)
 				{
-					finalDataset = oneTable;
-				}
-				else // for other columns
-				{
-					//We want to drop the whole first column of oneTabel, because that has the dates
-					//We just need the second column which has the stock prices
-					for(ArrayList<String> row : oneTable)
-					{
-						row.remove(0);
-					}
-					
-					//Next we want to append to the finalDataset
-					for(int p = 0; p < oneTable.size(); p++)
-					{
-						String entryInColumn = oneTable.get(p).get(0); // ["NTNX"] , ["130.11"], ["133.59"]
-						finalDataset.get(p).add(entryInColumn);
-					}
+					dataset.get(row).add( temp.get(row).get(1)  );
 				}
 			}
 		}
 		
-		return finalDataset; */
-		return null;
+		
+		return dataset;
 	}
 	
 	/*

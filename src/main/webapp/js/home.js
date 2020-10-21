@@ -16,6 +16,7 @@ google.charts.load("current", { packages: ["corechart"] });
       title: "Company Performance",
       curveType: "function",
       legend: { position: "bottom" },
+      interpolateNulls: true,
     };
 
     var chart = new google.visualization.LineChart(
@@ -34,9 +35,23 @@ google.charts.load("current", { packages: ["corechart"] });
 
   function submitForm(e) {
     // e.preventDefault();
+    
+    //Read the form input for the calendar: from date and to date
+    var startDate = document.getElementById("fromDate").value;
+    var endDate = document.getElementById("toDate").value;
+    
+    console.log("Yoooo");
+    console.log("Start date requested: " + startDate);
+    console.log("End date requested: " + endDate);
+    
+    //Eventually this part of the code will be replaced by state update and refreshGraph()
     $.ajax({
       url: "GraphServlet",
       type: "GET",
+      data: {
+      	startDate: startDate,
+      	endDate: endDate 
+      },
 
       success: function (result) {
         jsonArray = eval(result);
