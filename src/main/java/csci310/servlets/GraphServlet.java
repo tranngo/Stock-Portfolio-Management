@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -68,6 +69,8 @@ public class GraphServlet extends HttpServlet{
 		//Read just the startDate and endDate parameters, eventually it will be more
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
+		String portfolioContributors = request.getParameter("portfolioContributors");
+		String externalStocks = request.getParameter("externalStocks"); //NTNX,JNJ,SLFS,
 		
 		
 		System.out.println("GraphServlet, startDate passed was: " + startDate);
@@ -93,11 +96,21 @@ public class GraphServlet extends HttpServlet{
 		//System.out.println("jsonArray: " + jsonArray);
 		
 		
-		
 		ArrayList<String> stocks = new ArrayList<String>();
 		stocks.add("NTNX"); // so far only one stock can be displayed at a time
 		stocks.add("JNJ");
 		stocks.add("FB");
+		
+		//Testing out the state machine code for externalStocks
+		if(externalStocks == null) {
+			System.out.println("External stocks passed by request was null! Using default values of NTNX, JNJ, and FB");
+		}
+		else {
+			System.out.println("Received some external stocks " + externalStocks);
+			externalStocks.substring(0, externalStocks.length()-1);
+			String[] strings = externalStocks.split(",");
+			stocks = new ArrayList<String>(Arrays.asList(strings));
+		}
 		
 		//Print out what we will request
 		System.out.println("GraphServlet, request package");

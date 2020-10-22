@@ -104,6 +104,8 @@
           <div class="d-flex flex-column justify-content-center">
           	<button type="button" id="add-stock-button" class="btn btn-primary mx-2 mt-2">Add</button>
           	<button type="button" id="upload-file-button" class="btn btn-primary mx-2 mt-2">Upload</button>
+          	<!-- Just for testing state machine code with a demo -->
+        	<button id="demo" class="btn btn-primary mx-2 mt-2" onclick="demo()">Demo</button>
           </div>
         </div>
 
@@ -112,12 +114,13 @@
           <div class="chart" id="main-chart"></div>
           <div id="date-picker" class="text-center">
             <form onsubmit="return submitForm(event)">
-              <input type="date" id="from-date-portfolio" name="fromDate" /> to
-              <input type="date" id="to-date-portfolio" name="toDate" />
-              <!-- <button id="date-submit">Show me</button> -->
+              <input type="date" id="fromDate" name="fromDate" /> to
+              <input type="date" id="toDate" name="toDate" />
+              <button id="date-submit">Show me</button>
             </form>
           </div>
         </div>
+        
 
         <!-- Right column -->
         <div id="right-col" class="col-sm-12 col-md-2">
