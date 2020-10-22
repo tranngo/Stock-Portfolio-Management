@@ -1,7 +1,10 @@
 package cucumber;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Iterator;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -172,6 +175,7 @@ public class StepDefinitions {
 	@When("I click on the login button")
 	public void i_click_on_the_login_button() {
 	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/div/div[5]/button"));
+	    button.click();
 	}
 
 	@When("I type {string} into the login username text box")
@@ -198,6 +202,203 @@ public class StepDefinitions {
 		// Please enter your password error message
 		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div[2]/form/div/div[2]/div")).size() != 0);
 	}
+	
+	// requirement2.feature
+	@When("I log in")
+	public void i_log_in() {
+		WebElement login = driver.findElement(By.xpath("//*[@id=\"username\"]"));
+	    login.sendKeys("wilson133");
+		WebElement password = driver.findElement(By.xpath("//*[@id=\"password\"]"));
+	    password.sendKeys("racket");
+	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/div/div[5]/button"));
+	    button.click();
+	}
+
+	@Then("I should see a button to add a stock to my portfolio on the home page")
+	public void i_should_see_a_button_to_add_a_stock_to_my_portfolio_on_the_home_page() {
+		assertTrue(driver.findElements(By.xpath("/html/body/div[2]/div/div[1]/div[2]/button[1]")).size() != 0);
+	}
+	
+	@Then("I should see a button to upload a stock to my portfolio on the home page")
+	public void i_should_see_a_button_to_upload_a_stock_to_my_portfolio_on_the_home_page() {
+		assertTrue(driver.findElements(By.xpath("/html/body/div[2]/div/div[1]/div[2]/button[2]")).size() != 0);
+	}
+	
+	@When("I click on the add to portfolio button")
+	public void i_click_on_the_add_to_portfolio_button() {
+	    WebElement button = driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[2]/button[1]"));
+	    button.click();
+	}
+	
+	@Then("I should see a modal with a confirm and cancel button")
+	public void i_should_see_a_modal_with_a_confirm_and_cancel_button() {
+		// Checks if modal has display: block
+		WebElement modal = driver.findElement(By.xpath("/html/body/div[1]"));
+		assertTrue(driver.findElements(By.xpath("/html/body/div[1]")).size() != 0);
+		assertTrue(modal.getAttribute("style").contains("display: block;"));
+		
+		// Modal should have confirm and cancel buttons
+		assertTrue(driver.findElements(By.xpath("/html/body/div[1]/div/div/div[3]/button[1]")).size() != 0);
+		assertTrue(driver.findElements(By.xpath("/html/body/div[1]/div/div/div[3]/button[2]")).size() != 0);
+	}
+	
+	@Then("I should see a field for stock name, stock quantity, purchase date, and sell date")
+	public void i_should_see_a_field_for_stock_name_stock_quantity_purchase_date_and_sell_date() {
+		// Checks if modal has display: block
+		WebElement modal = driver.findElement(By.xpath("/html/body/div[1]"));
+		assertTrue(driver.findElements(By.xpath("/html/body/div[1]")).size() != 0);
+		assertTrue(modal.getAttribute("style").contains("display: block;"));
+
+		// Check if #add-modal-content has .display-block class
+		WebElement addModalContent = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]"));
+		assertTrue(driver.findElements(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]")).size() != 0);
+		assertTrue(addModalContent.getAttribute("class").contains("display-block"));
+		
+		// Check for stock name input field
+		assertTrue(driver.findElements(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[1]/input")).size() != 0);
+		
+		// Check for stock quantity input field
+		assertTrue(driver.findElements(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[2]/input")).size() != 0);
+		
+		// Check for purchase date input field
+		assertTrue(driver.findElements(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[3]/input")).size() != 0);
+		
+		// Check for sell date input field
+		assertTrue(driver.findElements(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[4]/input")).size() != 0);
+		
+	}
+	
+	@When("I click on the upload to portfolio button")
+	public void i_click_on_the_upload_to_portfolio_button() {
+	    WebElement button = driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[2]/button[2]"));
+	    button.click();
+	}
+	
+	@When("I click on upload to portfolio button")
+	public void i_click_on_upload_to_portfolio_button() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+	
+	@Then("I should see an input to upload a file")
+	public void i_should_see_an_input_to_upload_a_file() {
+		// Checks if modal has display: block
+		WebElement modal = driver.findElement(By.xpath("/html/body/div[1]"));
+		assertTrue(driver.findElements(By.xpath("/html/body/div[1]")).size() != 0);
+		assertTrue(modal.getAttribute("style").contains("display: block;"));
+
+		// Check if #upload-file-modal-content has .display-block class
+		WebElement uploadModalContent = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[2]"));
+		assertTrue(driver.findElements(By.xpath("/html/body/div[1]/div/div/div[2]/div[2]")).size() != 0);
+		assertTrue(uploadModalContent.getAttribute("class").contains("display-block"));
+		
+		// Check for upload input button
+		assertTrue(driver.findElements(By.xpath("/html/body/div[1]/div/div/div[2]/div[2]/form/div/input")).size() != 0);
+	}
+	
+	@When("I have one or more stocks in my portfolio")
+	public void i_have_one_or_more_stocks_in_my_portfolio() {
+	    assertTrue(driver.findElements(By.className("stock-item")).size() > 0);
+	}
+
+	@Then("I should see a button to remove a stock from my portfolio")
+	public void i_should_see_a_button_to_remove_a_stock_from_my_portfolio() {
+	    assertTrue(driver.findElements(By.className("close-icon")).size() > 0);
+	}
+
+	@When("I enter {string} into the stock name input field")
+	public void i_enter_into_the_stock_name_input_field(String string) {
+		WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[1]/input"));
+		input.sendKeys(string);
+	}
+	
+
+	@When("I enter {string} into the stock quantity input field")
+	public void i_enter_into_the_stock_quantity_input_field(String string) {
+		WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[2]/input"));
+		input.sendKeys(string);
+	}
+
+
+	@When("I enter {string} into the stock purchase date input field")
+	public void i_enter_into_the_stock_purchase_date_input_field(String string) {
+		WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[3]/input"));
+		input.sendKeys(string);
+	}
+
+	@When("I enter {string} into the stock sell date input field")
+	public void i_enter_into_the_stock_sell_date_input_field(String string) {
+		WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[4]/input"));
+		input.sendKeys(string);
+	}
+	
+	@When("I click on the confirm button")
+	public void i_click_on_the_confirm_button() {
+	    WebElement button = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[3]/button[1]"));
+	    button.click();
+	}
+
+	@Then("I should see {string} under my list of stocks in my portfolio")
+	public void i_should_see_under_my_list_of_stocks_in_my_portfolio(String string) {
+	    List<WebElement> stockItems = driver.findElements(By.className("stock-item"));
+	    
+	    Iterator<WebElement> iter = stockItems.iterator();
+
+	    while(iter.hasNext()) {
+	        WebElement stockItem = iter.next();
+
+	        if (stockItem.getAttribute("innerHTML").equalsIgnoreCase(string)) {
+	            assertTrue(true);
+	        }
+	    }
+	    
+	    assertTrue(false);
+	}
+
+	@When("I upload a CSV file with a TSLA stock")
+	public void i_upload_a_CSV_file_with_a_TSLA_stock() {
+	    assertTrue(false);
+	}
+
+	@When("I have {string} stock in my portfolio")
+	public void i_have_stock_in_my_portfolio(String string) {
+		List<WebElement> stockItems = driver.findElements(By.className("stock-item"));
+	    
+	    Iterator<WebElement> iter = stockItems.iterator();
+
+	    while(iter.hasNext()) {
+	        WebElement stockItem = iter.next();
+
+	        if (stockItem.getAttribute("innerHTML").equalsIgnoreCase(string)) {
+	            assertTrue(true);
+	        }
+	    }
+	    
+	    assertTrue(false);
+	}
+
+	@When("I press on the remove stock button")
+	public void i_press_on_the_remove_stock_button() {
+	    assertTrue(false);
+	}
+
+	@Then("I should no longer see {string} in my portfolio")
+	public void i_should_no_longer_see_the_stock_in_my_portfolio(String string) {
+		List<WebElement> stockItems = driver.findElements(By.className("stock-item"));
+	    
+	    Iterator<WebElement> iter = stockItems.iterator();
+
+	    while(iter.hasNext()) {
+	        WebElement stockItem = iter.next();
+
+	        if (stockItem.getAttribute("innerHTML").equalsIgnoreCase(string)) {
+	            assertTrue(false);
+	        }
+	    }
+	    
+	    assertTrue(true);
+	}
+
 
 	@After()
 	public void after() {
