@@ -1,17 +1,12 @@
 package csci310;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 
 import com.google.common.hash.Hashing;
 
@@ -64,7 +59,7 @@ public class Register {
 	public static boolean checkUserExists(String username)
 	{
 		// connect to mysql
-		Connection con = connectDB();
+		Connection con = JDBC.connectDB();
 		
 		if(con != null) {
 			try {
@@ -77,7 +72,13 @@ public class Register {
 	        } catch (SQLException e) {
 	        	System.out.println("Error querying user data from DB during registration.");
 	        	e.printStackTrace();
-	        }
+	        } finally {
+			    if (con != null) {
+			        try {
+			            con.close();
+			        } catch (SQLException e) { /* ignored */}
+			    }
+			}
 		}
 		
 		// error querying users table; for security, assume username is taken
@@ -88,7 +89,7 @@ public class Register {
 	public static boolean insertUser(String username, String hashed_password)
 	{
 		// connect to mysql
-		Connection con = connectDB();
+		Connection con = JDBC.connectDB();
 		
 		if(con != null) {
 			try {
@@ -113,47 +114,5 @@ public class Register {
 		}
 		
 		return false; // error connecting to db or failed insertion
-	}
-	
-	// open connection to mysql db
-	public static Connection connectDB(){
-        try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
-            return con;
-        } catch (ClassNotFoundException e) {
-			e.printStackTrace();
-        } catch (SQLException e) {
-        	System.out.println("Error connecting to MySQL Workbench; Please check account credentials.");
-        	e.printStackTrace();
-        }
-        return null;
-    }
-	
-	// private method to retrieve private db password from "db-credentials.txt" file
-	private static String readDBCredentials() {
-		String dbPassword = ""; // default pass
-        try {
-        	// open file
-        	File myObj = new File("db-credentials.txt");
-	        Scanner myReader = new Scanner(myObj);
-	        
-	        // check if password exists in file
-	        while(myReader.hasNextLine()) {
-	          String line = myReader.nextLine();
-	          if(!line.isEmpty()) {
-	        	  dbPassword = line.trim();
-	        	  break;
-	          }
-	          else {
-	        	  System.out.println("Debug: Else in Register.java readDBCredentials");
-	          }
-	        }
-	        myReader.close();
-        } catch (FileNotFoundException e) {
-        	// error opening file
-        	System.out.println("Error opening db-credentials.txt; Returning default password.");
-        }
-        return dbPassword;
 	}
 }

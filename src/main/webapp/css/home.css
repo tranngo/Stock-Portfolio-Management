@@ -4,7 +4,6 @@
 
 .title {
   color: white;
-  font-family: "Times New Roman", Times, serif;
   font-size: 20px;
 }
 
@@ -13,10 +12,27 @@
   height: 500px;
 }
 
-#left-col {
-  background-color: pink;
+body {
+	font-family: 'Roboto', sans-serif;
 }
 
-#right-col {
-  background-color: lightgreen;
+ul {
+    list-style: none;
+    padding-left: 0;
+}​
+
+.display-block {
+	display: block !important;
+}
+
+.display-none {
+	display: none !important;
+}
+
+.column-border {
+	border: 1px solid #d5d8de;
+}
+
+.close-icon {
+	color: #d65a5c;
 }
