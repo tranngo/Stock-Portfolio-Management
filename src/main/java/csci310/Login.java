@@ -23,7 +23,8 @@ public class Login {
 		
 	public static boolean checkForLoginCredentials(String username, String password) {
 		// connect to mysql
-		Connection con = JDBC.connectDB();
+		JDBC db = new JDBC();
+		Connection con = db.connectDB();
 		
 		if(con != null) {
 			try {
