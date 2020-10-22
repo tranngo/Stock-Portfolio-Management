@@ -252,7 +252,8 @@ public class PortfolioTest {
 	
 	private void removeStockTransaction(
 			int userId, String transaction, String stock, int quantity, String date) {
-		Connection con = JDBC.connectDB();
+		JDBC db = new JDBC();
+		Connection con = db.connectDB();
 		
 		if(con != null) {
 			try {

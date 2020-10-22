@@ -4,12 +4,14 @@
 package csci310;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import org.junit.Test;
@@ -159,9 +161,11 @@ public class RegisterTest {
 
 	/**
 	 * Test method for {@link csci310.Register#checkUsernameNotAlreadyTaken(java.lang.String)}.
+	 * @throws SQLException 
 	 */
 	@Test
-	public void testCheckUserExists() {
+	public void testCheckUserExists() throws SQLException {
+	
 		//The username "serena" is already taken
 		String test1 = "serena";
 		boolean result = Register.checkUserExists(test1);
@@ -194,6 +198,12 @@ public class RegisterTest {
 		
 		//Fix "db-credentials.txt" by putting the right password back
 		changePassword(password);
+		
+		//COVERAGE THROWING EXCEPTION
+		JDBC connection = mock(JDBC.class);
+		when(connection.connectDB()).thenReturn(null);
+		result = Register.checkUserExists("mockito");
+		assertFalse(result);
 	}
 
 	/**
@@ -204,6 +214,7 @@ public class RegisterTest {
 	public void testInsertUser() throws NoSuchAlgorithmException {
 		//After putting info into database, we should get "true" back
 		//if everything worked
+		Register r = new Register();
 		String test_username = "sharapova415";
 		String test_password = "maria45*";
 		String hashed_password = Register.hashPasswordWithSHA256(test_password);

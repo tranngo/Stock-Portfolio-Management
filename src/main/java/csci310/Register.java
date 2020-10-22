@@ -59,7 +59,8 @@ public class Register {
 	public static boolean checkUserExists(String username)
 	{
 		// connect to mysql
-		Connection con = JDBC.connectDB();
+		JDBC db = new JDBC();
+		Connection con = db.connectDB();
 		
 		if(con != null) {
 			try {
@@ -89,7 +90,8 @@ public class Register {
 	public static boolean insertUser(String username, String hashed_password)
 	{
 		// connect to mysql
-		Connection con = JDBC.connectDB();
+		JDBC db = new JDBC();
+		Connection con = db.connectDB();
 		
 		if(con != null) {
 			try {
