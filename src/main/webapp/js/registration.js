@@ -95,21 +95,6 @@ function submitForm(e) {
         console.log("failed");
         console.log(data.responseText);
         $("#username-error").text(data.responseText);
-        //   let username = document.getElementById("username").value.trim();
-        //   let usernameErrorMsg = "This username already exists";
-        //   if (username.length == 0) {
-        //     document
-        //       .getElementById("username-invalid")
-        //       .classList.add("is-invalid");
-        //     document.getElementById(
-        //       "username-invalid"
-        //     ).innerHTML = usernameErrorMsg;
-        //   } else {
-        //     document
-        //       .getElementById("username-invalid")
-        //       .classList.remove("is-invalid");
-        //     document.getElementById("username-invalid").innerHTML = "";
-        //   }
       },
     });
   }
