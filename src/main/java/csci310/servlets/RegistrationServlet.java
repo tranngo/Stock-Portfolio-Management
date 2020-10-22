@@ -1,14 +1,12 @@
 package csci310.servlets;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
+import java.io.PrintWriter;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
 
 import csci310.Register;
 
@@ -63,8 +61,11 @@ public class RegistrationServlet extends HttpServlet {
 			//NOTE: Improve this! Return a response telling the user that they messed up
 			System.out.println("User info is not valid");
 			//NOTE: If you change this line make sure to fix RegistrationServletTest too
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			// response.sendRedirect("registration.html");
+			PrintWriter out = response.getWriter();
+			out.print("Username is invalid!!");
+			out.flush();
 			return;
 		}
 		
@@ -75,8 +76,11 @@ public class RegistrationServlet extends HttpServlet {
 			//NOTE: Improve this! Return a response saying the user already is registered
 			System.out.println("User already in database");
 			//NOTE: If you change this line make sure to fix RegistrationServletTest too
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			// response.sendRedirect("registration.html");
+			PrintWriter out = response.getWriter();
+			out.print("This user already exists in the database");
+			out.flush();
 			return;
 		}
 		
@@ -91,7 +95,7 @@ public class RegistrationServlet extends HttpServlet {
 		
 		//Redirect user to the login page
 		response.setStatus(HttpServletResponse.SC_OK);
-		response.sendRedirect("login.html");
+		response.sendRedirect("home.html");
 		return;
 	}
 }

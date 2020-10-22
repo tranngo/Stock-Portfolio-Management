@@ -42,9 +42,7 @@ function checkPw() {
 
 sessionStorage.clear();
 
-// Check if all entries are filled
-document.querySelector("form").onsubmit = function () {
-  // event.preventDefault();
+function checkUserInput() {
   let username = document.getElementById("username").value.trim();
   let password = document.getElementById("password").value.trim();
   let confirmPW = document.getElementById("passwordConfirmation").value.trim();
@@ -77,30 +75,44 @@ document.querySelector("form").onsubmit = function () {
   }
 
   return !document.querySelectorAll(".is-invalid").length > 0;
-};
+}
 
 function submitForm(e) {
   // e.preventDefault();
-  $.ajax({
-    url: "RegistrationServlet",
-    type: "POST",
+  console.log("form submit");
+  if (checkUserInput) {
+    var data = $("form").serialize();
+    $.ajax({
+      url: "/RegistrationServlet",
+      type: "POST",
+      data: data,
 
-    error: function (data) {
-      console.log("failed");
-      let username = document.getElementById("username").value.trim();
-      let usernameErrorMsg = "This username already exists";
-      if (username.length == 0) {
-        document.getElementById("username-invalid").classList.add("is-invalid");
-        document.getElementById(
-          "username-invalid"
-        ).innerHTML = usernameErrorMsg;
-      } else {
-        document
-          .getElementById("username-invalid")
-          .classList.remove("is-invalid");
-        document.getElementById("username-invalid").innerHTML = "";
-      }
-    },
-  });
+      success: function (data) {
+        window.location.replace("../home.html");
+      },
+
+      error: function (data) {
+        console.log("failed");
+        console.log(data.responseText);
+        $("#username-error").text(data.responseText);
+        //   let username = document.getElementById("username").value.trim();
+        //   let usernameErrorMsg = "This username already exists";
+        //   if (username.length == 0) {
+        //     document
+        //       .getElementById("username-invalid")
+        //       .classList.add("is-invalid");
+        //     document.getElementById(
+        //       "username-invalid"
+        //     ).innerHTML = usernameErrorMsg;
+        //   } else {
+        //     document
+        //       .getElementById("username-invalid")
+        //       .classList.remove("is-invalid");
+        //     document.getElementById("username-invalid").innerHTML = "";
+        //   }
+      },
+    });
+  }
+
   return false;
 }
