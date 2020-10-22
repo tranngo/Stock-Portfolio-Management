@@ -274,8 +274,13 @@ google.charts.load("current", { packages: ["corechart"] });
 
 $("#add-stock-button").on("click", function() {
 	$(".modal-title").html("Add Stock Transaction");
+	$("#modal-confirm-button").html("Confirm");
 	$("#add-modal-content").attr("class", "display-block");
 	$("#upload-file-modal-content").attr("class", "display-none");
+	$("#add-external-stock-modal-content").attr("class", "display-none");
+	$("#remove-external-stock-modal-content").attr("class", "display-none");
+	
+	$("#modal-confirm-button").data("type", "addStock");
 	
 	$("#mainModal").modal({
 		backdrop: true,
@@ -287,9 +292,68 @@ $("#add-stock-button").on("click", function() {
 
 $("#upload-file-button").on("click", function() {
 	$(".modal-title").html("Upload File");
-	$("#modal-add-sell-button").html("Upload");
+	$("#modal-confirm-button").html("Upload");
 	$("#add-modal-content").attr("class", "display-none");
 	$("#upload-file-modal-content").attr("class", "display-block");
+	$("#add-external-stock-modal-content").attr("class", "display-none");
+	$("#remove-external-stock-modal-content").attr("class", "display-none");
+	
+	$("#modal-confirm-button").data("type", "uploadFile");
+	
+	$("#mainModal").modal({
+		backdrop: true,
+		keyboard: true,
+		focus: true,
+		show: true
+	});
+});
+
+$("#add-external-stock-button").on("click", function() {
+	$(".modal-title").html("Add External Stock");
+	$("#modal-confirm-button").html("View Stock");
+	$("#add-modal-content").attr("class", "display-none");
+	$("#upload-file-modal-content").attr("class", "display-none");
+	$("#add-external-stock-modal-content").attr("class", "display-block");
+	$("#remove-external-stock-modal-content").attr("class", "display-none");
+	
+	$("#modal-confirm-button").data("type", "addExternal");
+	
+	$("#mainModal").modal({
+		backdrop: true,
+		keyboard: true,
+		focus: true,
+		show: true
+	});
+});
+
+$("#remove-external-stock-button").on("click", function() {
+	$(".modal-title").html("Remove External Stock");
+	$("#modal-confirm-button").html("Remove Stock");
+	$("#add-modal-content").attr("class", "display-none");
+	$("#upload-file-modal-content").attr("class", "display-none");
+	$("#add-external-stock-modal-content").attr("class", "display-none");
+	$("#remove-external-stock-modal-content").attr("class", "display-block");
+	
+	$("#modal-confirm-button").data("type", "removeExternal");
+	
+	$("#mainModal").modal({
+		backdrop: true,
+		keyboard: true,
+		focus: true,
+		show: true
+	});
+});
+
+$("#modal-confirm-button").on("click", function() {
+	if ($(this).data("type") === "addStock") {
+		
+	} else if ($(this).data("type") === "uploadStock") {
+		
+	} else if ($(this).data("type") === "addExternal") {
+		addExternalStock($("#add-external-stock-name-input").val());
+	} else if ($(this).data("type") === "removeExternal") {
+		removeExternalStock($("#remove-external-stock-name-input").val());
+	}
 	
 	$("#mainModal").modal({
 		backdrop: true,
@@ -310,7 +374,9 @@ $(".toggle-button").on("click", function() {
 $("#sp-button").on("click", function() {
 	if ($(this).attr("class").includes("btn-primary")) {
 		$(this).attr("class", $(this).attr("class").replace("btn-primary", "btn-secondary"));
+		turnSpOn();
 	} else {
 		$(this).attr("class", $(this).attr("class").replace("btn-secondary", "btn-primary"));
+		turnSpOff();
 	}
 })
