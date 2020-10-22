@@ -67,3 +67,7 @@ body {
 .w-100 {
   margin-top: 10px;
 }
+
+#username-error {
+  margin-bottom: 0px;
+}
