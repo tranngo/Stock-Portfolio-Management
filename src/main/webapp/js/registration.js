@@ -85,7 +85,8 @@ function submitForm(e) {
     url: "RegistrationServlet",
     type: "POST",
 
-    error: function () {
+    error: function (data) {
+      console.log("failed");
       let username = document.getElementById("username").value.trim();
       let usernameErrorMsg = "This username already exists";
       if (username.length == 0) {

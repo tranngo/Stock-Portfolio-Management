@@ -64,7 +64,7 @@ public class RegistrationServlet extends HttpServlet {
 			System.out.println("User info is not valid");
 			//NOTE: If you change this line make sure to fix RegistrationServletTest too
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.sendRedirect("registration.html");
+			// response.sendRedirect("registration.html");
 			return;
 		}
 		
@@ -76,7 +76,7 @@ public class RegistrationServlet extends HttpServlet {
 			System.out.println("User already in database");
 			//NOTE: If you change this line make sure to fix RegistrationServletTest too
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.sendRedirect("registration.html");
+			// response.sendRedirect("registration.html");
 			return;
 		}
 		
