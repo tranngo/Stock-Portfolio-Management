@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Cucumber.class)
 
-//@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement2.feature"})
+@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement2.feature"})
 //@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement3.feature"})
 //@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement4.feature"})
 //@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement5.feature"})
