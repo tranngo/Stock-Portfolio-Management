@@ -1,51 +1,54 @@
 .border-md {
-border-width: 2px;
+  border-width: 2px;
 }
 
 body {
-min-height: 100vh;
+  min-height: 100vh;
 }
 
 .form-control:not(select) {
-padding: 1.5rem 0.5rem;
+  padding: 1.5rem 0.5rem;
 }
 
 select.form-control {
-height: 52px;
-padding-left: 0.5rem;
+  height: 52px;
+  padding-left: 0.5rem;
 }
 
 .form-control::placeholder {
-color: #ccc;
-font-weight: bold;
-font-size: 0.9rem;
+  color: #ccc;
+  font-weight: bold;
+  font-size: 0.9rem;
 }
 
 .form-control:focus {
-box-shadow: none;
+  box-shadow: none;
 }
 
-.missing-entries
-{
-    margin-top: -10px;
+.missing-entries {
+  margin-top: -10px;
 }
 
-.navbar{
-    background-color: #787878
+.navbar {
+  background-color: #787878;
 }
 
-.title{
-    color: white;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 20px;
+.title {
+  color: white;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
 }
 
-.button{
-    background-color: #960e29;
-    color: white;
-    height: 115%;
+.button {
+  background-color: #960e29;
+  color: white;
+  height: 115%;
 }
 
-.text{
-    color: #960e29;
+.text {
+  color: #960e29;
+}
+
+.titleP {
+  float: left;
 }
