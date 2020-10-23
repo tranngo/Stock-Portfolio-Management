@@ -46,7 +46,8 @@ public class Portfolio {
 		}
 		
 		// connect to mysql
-		Connection con = JDBC.connectDB();
+		JDBC db = new JDBC();
+		Connection con = db.connectDB();
 		
 		if(con != null) {
 			try {
@@ -120,7 +121,8 @@ public class Portfolio {
 		}
 		
 		// connect to mysql
-		Connection con = JDBC.connectDB();
+		JDBC db = new JDBC();
+		Connection con = db.connectDB();
 		
 		if(con != null) {
 			try {
@@ -177,7 +179,8 @@ public class Portfolio {
 		HashMap<String, Integer> hmap = new HashMap<>(); 
 					 
 		// connect to mysql
-		Connection con = JDBC.connectDB();
+		JDBC db = new JDBC();
+		Connection con = db.connectDB();
 		if(con != null) {
 			try {
 				// query stocks table for user id
@@ -272,7 +275,8 @@ public class Portfolio {
 		HashMap<String, Integer> hmap = new HashMap<>(); 
 					 
 		// connect to mysql
-		Connection con = JDBC.connectDB();
+		JDBC db = new JDBC();
+		Connection con = db.connectDB();
 		if(con != null) {
 			try {
 				// query stocks table for user id
@@ -419,7 +423,8 @@ public class Portfolio {
 		portfolio.add(header);
 		
 		// connect to mysql
-		Connection con = JDBC.connectDB();
+		JDBC db = new JDBC();
+		Connection con = db.connectDB();
 		if(con != null) {
 			try {
 				// query stocks table for user id

@@ -188,59 +188,8 @@ public class Api {
 	 * parameters: String for the stock name
 	 * returns: ArrayList<ArrayList<String> > basically a n x 2 array
 	 */
-	public static ArrayList<ArrayList<String>> fetchAndParse(String name) throws IOException
+	public static ArrayList<ArrayList<String>> fetchAndParse(String name, String s) throws IOException
 	{
-		Stock stock = YahooFinance.get(name);
-		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
-		ArrayList<String> first_line = new ArrayList<String>();
-		first_line.add("Date");
-		first_line.add(name);
-		output.add(first_line);
-		
-		
-		
-		return null;
-	}
-	
-	/*
-	 * Function #4: retrieves all the historical stock prices for a single stock ("NTNX").
-	 * First calls Function 1, to check if the stock is valid.
-	 * Then uses Function 3 (fetchAndParse) to do most of the heavy lifting.
-	 * Special case: a stock can be "PORTFOLIO_userid" in that case you retrieve
-	 * the historical value of the portfolio. Don't use the Api.java function for that
-	 * there is a special function that will be written in Portfolio.java to make this easy
-	 * for us to do.
-	 * 
-	 * 
-	 * The output is like this, let's say "NTNX" started in 10/2/2014 and now it is 10/5/2020
-	 * ["Date", "NTNX"]
-	 * ["01-30-2020", "130.11"]
-	 * ["02-02-2020", "133.59"]
-	 * 
-	 * parameters: String for the stock name
-	 * returns: ArrayList<ArrayList<String> > basically a n x 2 array
-	 */
-	public static ArrayList<ArrayList<String>> getOneLineAllData(String name) throws IOException
-	{
-		
-		if(name.startsWith("PORTFOLIO_"))
-		{
-			ArrayList<ArrayList<String>> dataset = new ArrayList<ArrayList<String>>();
-			//This is not a stock, use Portfolio.java helper function
-			String idAsString = name.substring(10);
-			int portfolio_number = Integer.parseInt(idAsString);
-			System.out.println("In Api.java, getOneLineAllData(), Portfolio " + portfolio_number + " was requested!");
-			
-			//Portfolio.java helper function to retrieve portfolio with date range
-			dataset = Portfolio.getFullLineForPortfolio(portfolio_number);
-			
-			System.out.println("TODO: getOneLineAllData, once Portfolio is implemented there should be no errors");
-			return dataset;
-		}
-		
-		
-		String s = getDailyHistoricalPricesOf(name);
-
 		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
 		ArrayList<String> first_line = new ArrayList<String>();
 		
@@ -282,6 +231,47 @@ public class Api {
 		}
 		
 		return output;
+	}
+	
+	/*
+	 * Function #4: retrieves all the historical stock prices for a single stock ("NTNX").
+	 * First calls Function 1, to check if the stock is valid.
+	 * Then uses Function 3 (fetchAndParse) to do most of the heavy lifting.
+	 * Special case: a stock can be "PORTFOLIO_userid" in that case you retrieve
+	 * the historical value of the portfolio. Don't use the Api.java function for that
+	 * there is a special function that will be written in Portfolio.java to make this easy
+	 * for us to do.
+	 * 
+	 * 
+	 * The output is like this, let's say "NTNX" started in 10/2/2014 and now it is 10/5/2020
+	 * ["Date", "NTNX"]
+	 * ["01-30-2020", "130.11"]
+	 * ["02-02-2020", "133.59"]
+	 * 
+	 * parameters: String for the stock name
+	 * returns: ArrayList<ArrayList<String> > basically a n x 2 array
+	 */
+	public static ArrayList<ArrayList<String>> getOneLineAllData(String name) throws IOException
+	{
+		
+		if(name.startsWith("PORTFOLIO_"))
+		{
+			ArrayList<ArrayList<String>> dataset = new ArrayList<ArrayList<String>>();
+			//This is not a stock, use Portfolio.java helper function
+			String idAsString = name.substring(10);
+			int portfolio_number = Integer.parseInt(idAsString);
+			System.out.println("In Api.java, getOneLineAllData(), Portfolio " + portfolio_number + " was requested!");
+			
+			//Portfolio.java helper function to retrieve portfolio with date range
+			dataset = Portfolio.getFullLineForPortfolio(portfolio_number);
+			
+			System.out.println("TODO: getOneLineAllData, once Portfolio is implemented there should be no errors");
+			return dataset;
+		}
+		
+		
+		String s = getDailyHistoricalPricesOf(name);
+		return fetchAndParse(name, s);
 	}
 	
 	/*

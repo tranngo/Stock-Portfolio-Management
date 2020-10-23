@@ -3,11 +3,11 @@ google.charts.load("current", { packages: ["corechart"] });
   google.charts.setOnLoadCallback(drawStockHistoryChart);
 
   var jsonArray = [
-    ["Year", "Sales", "Expenses"],
-    ["2004", 1000, 400],
-    ["2005", 1170, 460],
-    ["2006", 660, 1120],
-    ["2007", 1030, 540],
+    ["Year", "Example Stock"],
+    ["2004", 1000],
+    ["2005", 1170],
+    ["2006", 660],
+    ["2007", 1030],
   ];
   
   
@@ -28,8 +28,8 @@ google.charts.load("current", { packages: ["corechart"] });
   //These are the state variables which affect the graph, setting default values
   state_portfolioContributors = [];
   state_externalStocks = ["NTNX", "JNJ", "FB", "TSLA"];
-  state_start = "2020-01-01";
-  state_end = "2020-06-01";
+  state_start = "2020-04-15";
+  state_end = "2020-10-12";
   
   //Calling this function will take the "state" and pass it to GraphServlet as your request
   function refreshGraph() {
@@ -87,12 +87,7 @@ google.charts.load("current", { packages: ["corechart"] });
     return false;
   }
   
-  					//IMPLEMENTATION NOTES: these functions have to use the state_ variables
-  					//calling refreshGraph() will send the state as a request to GraphServlet
-  					//and magically get exactly what you want to show up on the graph.
-  					//refreshGraph() might not work currently. Right now, the GraphServlet only
-  					//expects the request to have start/end date. It doesn't even check
-  					//for portfolio contributors and external stocks. We can add that later.
+  					//These 8 functions should handle most of the work
   
   //#1: Add to portfolio contributors
   function addPortfolioContributor(stock) {
@@ -100,7 +95,32 @@ google.charts.load("current", { packages: ["corechart"] });
   	refreshGraph();
   }
   
-  //#2: Remove from portfolio contributors, TODO
+  //#2: Remove from portfolio contributors
+  function removePortfolioContributor(stock) {
+  
+  	console.log("Remove portfolio contributor called on " + stock);
+  	console.log("state_portfolioContributors was previously " + state_portfolioContributors);
+  
+  	//Find that portfolio contributor
+  	var pos = 0;
+  	var toRemoveIndex = -1;
+  	for(pos = 0; pos < state_portfolioContributors.length; pos++) {
+  		if(stock === state_portfolioContributors[pos]) {
+  			toRemoveIndex = pos;
+  		}
+  	}
+  	
+  	console.log("toRemoveIndex was determined to be " + toRemoveIndex);
+  	
+  	//Remove that portfolio contributor
+  	if(toRemoveIndex != -1) {
+  		state_portfolioContributors.splice(toRemoveIndex, 1);
+  	}
+  	
+  	console.log("After removing " + stock + " state_portfolioContributors is now " + state_portfolioContributors);
+ 	console.log("Refreshing graph now");
+ 	refreshGraph();
+  }
  
   //#3: Add an external stock
   function addExternalStock(stock) {
@@ -108,15 +128,77 @@ google.charts.load("current", { packages: ["corechart"] });
   	refreshGraph();
   }
   
-  //#4: Remove an external stock, TODO
+  //#4: Remove an external stock
+  function removeExternalStock(stock) {
   
-  //#5: Change the start date, TODO
+  	console.log("Remove external stock called on " + stock);
+  	console.log("state_externalStocks was previously " + state_externalStocks);
   
-  //#6: Change the end date, TODO
+  	//Find that external stock in our list
+  	var pos = 0;
+  	var toRemoveIndex = -1;
+  	for(pos = 0; pos < state_externalStocks.length; pos++) {
+  		if(stock === state_externalStocks[pos]) {
+  			toRemoveIndex = pos;
+  		}
+  	}
+  	
+  	console.log("toRemoveIndex was determined to be " + toRemoveIndex);
+  	
+  	//Remove that external stock
+  	if(toRemoveIndex != -1) {
+  		state_externalStocks.splice(toRemoveIndex, 1);
+  	}
+  	
+  	console.log("After removing " + stock + " state_externalStocks is now " + state_externalStocks);
+ 	console.log("Refreshing graph now");
+ 	refreshGraph();
+  }
+  
+  //#5: Change the start date
+  function changeStartDate(newDate) {
+  	console.log("Called changeStartDate, previously it was: " + state_start);
+  	state_start = newDate;
+  	console.log("Now it is: " + state_start);
+  	// console.log("Refreshing graph");       Taking out for now
+  	// refreshGraph();
+  }
+  
+  //#6: Change the end date
+  function changeEndDate(newDate) {
+  	console.log("Called changeEndDate, previously it was: " + state_end);
+  	state_end = newDate;
+  	console.log("Now it is: " + state_end);
+  	// console.log("Refreshing graph");		Taking out for now
+  	// refreshGraph();
+  }
+  
+  //#7: Add S&P 500 to external stocks
+  function turnSpOn() {
+  	addExternalStock("^GSPC");
+  }
+  
+  //#8: Remove S&P 500 from external stocks
+  function turnSpOff() {
+  	removeExternalStock("^GSPC");
+  }
   
   
-  
-  
+  //Just to test the state machine code
+  function demo() {
+  	console.log("Demo!");
+  	refreshGraph();
+  	
+  	console.log("Removing TSLA");
+  	removeExternalStock("TSLA");
+  	
+  	console.log("Adding MSFT");
+  	addExternalStock("MSFT");
+  	
+  	console.log("Changing start and end date");
+  	changeStartDate("2020-05-15");
+  	changeEndDate("2020-09-12");
+  }
   
   
   
@@ -128,7 +210,7 @@ google.charts.load("current", { packages: ["corechart"] });
     var data = google.visualization.arrayToDataTable(jsonArray);
 
     var options = {
-      title: "Company Performance",
+      title: "Stock Performance",
       curveType: "function",
       legend: { position: "bottom" },
       interpolateNulls: true,
@@ -182,40 +264,23 @@ google.charts.load("current", { packages: ["corechart"] });
     console.log("Start date requested: " + startDate);
     console.log("End date requested: " + endDate);
     
-    //Eventually this part of the code will be replaced by state update and refreshGraph()
-    $.ajax({
-      url: "GraphServlet",
-      type: "GET",
-      data: {
-      	startDate: startDate,
-      	endDate: endDate 
-      },
-
-      success: function (result) {
-        jsonArray = eval(result);
-        console.log(jsonArray);
-
-        for (let i = 1; i < jsonArray.length; ++i) {
-          for (let j = 1; j < jsonArray[i].length; ++j) {
-            if (jsonArray[i][j] === "null") {
-              jsonArray[i][j] = null;
-            } else {
-              jsonArray[i][j] = parseInt(jsonArray[i][j]);
-            }
-          }
-        }
-        
-        drawMainChart();
-      },
-    });
+    //Update state and refresh graph
+    changeStartDate(startDate);
+    changeEndDate(endDate);
+    refreshGraph();
     return false;
   }
  
 
 $("#add-stock-button").on("click", function() {
 	$(".modal-title").html("Add Stock Transaction");
+	$("#modal-confirm-button").html("Confirm");
 	$("#add-modal-content").attr("class", "display-block");
 	$("#upload-file-modal-content").attr("class", "display-none");
+	$("#add-external-stock-modal-content").attr("class", "display-none");
+	$("#remove-external-stock-modal-content").attr("class", "display-none");
+	
+	$("#modal-confirm-button").data("type", "addStock");
 	
 	$("#mainModal").modal({
 		backdrop: true,
@@ -227,9 +292,68 @@ $("#add-stock-button").on("click", function() {
 
 $("#upload-file-button").on("click", function() {
 	$(".modal-title").html("Upload File");
-	$("#modal-add-sell-button").html("Upload");
+	$("#modal-confirm-button").html("Upload");
 	$("#add-modal-content").attr("class", "display-none");
 	$("#upload-file-modal-content").attr("class", "display-block");
+	$("#add-external-stock-modal-content").attr("class", "display-none");
+	$("#remove-external-stock-modal-content").attr("class", "display-none");
+	
+	$("#modal-confirm-button").data("type", "uploadFile");
+	
+	$("#mainModal").modal({
+		backdrop: true,
+		keyboard: true,
+		focus: true,
+		show: true
+	});
+});
+
+$("#add-external-stock-button").on("click", function() {
+	$(".modal-title").html("Add External Stock");
+	$("#modal-confirm-button").html("View Stock");
+	$("#add-modal-content").attr("class", "display-none");
+	$("#upload-file-modal-content").attr("class", "display-none");
+	$("#add-external-stock-modal-content").attr("class", "display-block");
+	$("#remove-external-stock-modal-content").attr("class", "display-none");
+	
+	$("#modal-confirm-button").data("type", "addExternal");
+	
+	$("#mainModal").modal({
+		backdrop: true,
+		keyboard: true,
+		focus: true,
+		show: true
+	});
+});
+
+$("#remove-external-stock-button").on("click", function() {
+	$(".modal-title").html("Remove External Stock");
+	$("#modal-confirm-button").html("Remove Stock");
+	$("#add-modal-content").attr("class", "display-none");
+	$("#upload-file-modal-content").attr("class", "display-none");
+	$("#add-external-stock-modal-content").attr("class", "display-none");
+	$("#remove-external-stock-modal-content").attr("class", "display-block");
+	
+	$("#modal-confirm-button").data("type", "removeExternal");
+	
+	$("#mainModal").modal({
+		backdrop: true,
+		keyboard: true,
+		focus: true,
+		show: true
+	});
+});
+
+$("#modal-confirm-button").on("click", function() {
+	if ($(this).data("type") === "addStock") {
+		
+	} else if ($(this).data("type") === "uploadStock") {
+		
+	} else if ($(this).data("type") === "addExternal") {
+		addExternalStock($("#add-external-stock-name-input").val());
+	} else if ($(this).data("type") === "removeExternal") {
+		removeExternalStock($("#remove-external-stock-name-input").val());
+	}
 	
 	$("#mainModal").modal({
 		backdrop: true,
@@ -250,7 +374,9 @@ $(".toggle-button").on("click", function() {
 $("#sp-button").on("click", function() {
 	if ($(this).attr("class").includes("btn-primary")) {
 		$(this).attr("class", $(this).attr("class").replace("btn-primary", "btn-secondary"));
+		turnSpOn();
 	} else {
 		$(this).attr("class", $(this).attr("class").replace("btn-secondary", "btn-primary"));
+		turnSpOff();
 	}
 })

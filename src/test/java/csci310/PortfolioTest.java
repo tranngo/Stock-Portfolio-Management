@@ -13,22 +13,26 @@ import org.junit.Test;
 public class PortfolioTest {
 	
 	Portfolio portfolio;
+	String ntnx;
+	String jnj;
 
 	@Before
 	public void setUp() throws Exception {
 		portfolio = new Portfolio();
+		ntnx = "NTNX";
+		jnj = "JNJ";
 	}
 
 	@Test
 	public void testAddStock() {
-		int result = Portfolio.addStock(1, "NTNX", 10, "09-05-2020");
+		int result = Portfolio.addStock(1, ntnx, 10, "09-05-2020");
 		assertEquals(result, 1);
 		
-		result = Portfolio.addStock(1, "NTNX", -1, "09-05-2020");
+		result = Portfolio.addStock(1, ntnx, -1, "09-05-2020");
 		assertEquals(result, 0);
 		
 		// reset db
-		removeStockTransaction(1, "bought", "NTNX", 10, "09-05-2020");
+		removeStockTransaction(1, "bought", ntnx, 10, "09-05-2020");
 	}
 	
 	/*
@@ -41,24 +45,24 @@ public class PortfolioTest {
 
 	@Test
 	public void testSellStock() {
-		Portfolio.addStock(1, "NTNX", 10, "09-05-2020"); // buy 10 "NTNX" stocks
-		int result = Portfolio.sellStock(1, "NTNX", 5, "09-05-2020"); //sell 5
+		Portfolio.addStock(1, ntnx, 10, "09-05-2020"); // buy 10 ntnx stocks
+		int result = Portfolio.sellStock(1, ntnx, 5, "09-05-2020"); //sell 5
 		assertEquals(result, 1);
 		
-		result = Portfolio.sellStock(1, "NTNX", 100, "09-05-2020"); //sell 100
+		result = Portfolio.sellStock(1, ntnx, 100, "09-05-2020"); //sell 100
 		assertEquals(result, 0);
 		
-		result = Portfolio.sellStock(1, "NTNX", -1, "09-05-2020"); //sell -1
+		result = Portfolio.sellStock(1, ntnx, -1, "09-05-2020"); //sell -1
 		assertEquals(result, 0);
 		
 		// reset db
-		removeStockTransaction(1, "sold", "NTNX", 5, "09-05-2020");
+		removeStockTransaction(1, "sold", ntnx, 5, "09-05-2020");
 	}
 
 	@Test
 	public void testRetrieveCurrentPortfolio() {
-		Portfolio.addStock(1, "NTNX", 10, "09-05-2020"); // buy 10 "NTNX" stocks
-		Portfolio.addStock(1, "JNJ", 10, "09-05-2020"); // buy 10 "JNJ" stocks
+		Portfolio.addStock(1, ntnx, 10, "09-05-2020"); // buy 10 ntnx stocks
+		Portfolio.addStock(1, jnj, 10, "09-05-2020"); // buy 10 jnj stocks
 		ArrayList<ArrayList<String>> result = Portfolio.retrieveCurrentPortfolio(1);
 		assertEquals(3, result.size());
 		
@@ -77,28 +81,28 @@ public class PortfolioTest {
 			valid = false;
 		if(!result.get(0).get(1).equals("Quantity"))
 			valid = false;
-		if(!result.get(1).get(0).equals("NTNX"))
+		if(!result.get(1).get(0).equals(ntnx))
 			valid = false;	
-		if(!result.get(2).get(0).equals("JNJ"))
+		if(!result.get(2).get(0).equals(jnj))
 			valid = false;
 		
 		assertTrue(valid);
 		
-		Portfolio.sellStock(1, "JNJ", 10, "09-05-2020");
+		Portfolio.sellStock(1, jnj, 10, "09-05-2020");
 		result = Portfolio.retrieveCurrentPortfolio(1);
 		assertEquals(2, result.size());
 				
 		// reset db
-		removeStockTransaction(1, "bought", "NTNX", 10, "09-05-2020");
-		removeStockTransaction(1, "bought", "JNJ", 10, "09-05-2020");
-		removeStockTransaction(1, "sold", "JNJ", 10, "09-05-2020");
+		removeStockTransaction(1, "bought", ntnx, 10, "09-05-2020");
+		removeStockTransaction(1, "bought", jnj, 10, "09-05-2020");
+		removeStockTransaction(1, "sold", jnj, 10, "09-05-2020");
 	}
 	
 	@Test
 	public void testRetrievePortfolioOnADate() {
-		Portfolio.addStock(1, "NTNX", 10, "09-05-2020"); // buy 10 "NTNX" stocks
-		Portfolio.addStock(1, "NTNX", 10, "09-06-2020"); // buy 10 "NTNX" stocks
-		Portfolio.addStock(1, "JNJ", 10, "09-30-2020"); // buy 10 "JNJ" stocks
+		Portfolio.addStock(1, ntnx, 10, "09-05-2020"); // buy 10 ntnx stocks
+		Portfolio.addStock(1, ntnx, 10, "09-06-2020"); // buy 10 ntnx stocks
+		Portfolio.addStock(1, jnj, 10, "09-30-2020"); // buy 10 jnj stocks
 		ArrayList<ArrayList<String>> result = Portfolio.retrievePortfolioOnADate(1, "09-06-2020");
 		assertEquals(2, result.size());
 		
@@ -117,21 +121,21 @@ public class PortfolioTest {
 			valid = false;
 		if(!result.get(0).get(1).equals("Quantity"))
 			valid = false;
-		if(!result.get(1).get(0).equals("NTNX"))
+		if(!result.get(1).get(0).equals(ntnx))
 			valid = false;
 		
 		assertTrue(valid);
 				
 		// reset db
-		removeStockTransaction(1, "bought", "NTNX", 10, "09-05-2020");
-		removeStockTransaction(1, "bought", "NTNX", 10, "09-06-2020");
-		removeStockTransaction(1, "bought", "JNJ", 10, "09-30-2020");
+		removeStockTransaction(1, "bought", ntnx, 10, "09-05-2020");
+		removeStockTransaction(1, "bought", ntnx, 10, "09-06-2020");
+		removeStockTransaction(1, "bought", jnj, 10, "09-30-2020");
 	}
 
 	@Test
 	public void testGetCurrentPortfolioValue() {
-		Portfolio.addStock(1, "NTNX", 10, "09-05-2020"); // buy 10 "NTNX" stocks
-		Portfolio.addStock(1, "JNJ", 10, "09-05-2020"); // buy 10 "JNJ" stocks
+		Portfolio.addStock(1, ntnx, 10, "09-05-2020"); // buy 10 ntnx stocks
+		Portfolio.addStock(1, jnj, 10, "09-05-2020"); // buy 10 jnj stocks
 		
 		String result = Portfolio.getCurrentPortfolioValue(1);
 		double value = Double.parseDouble(result);
@@ -140,16 +144,16 @@ public class PortfolioTest {
 		assertTrue(valid);
 		
 		// reset db
-		removeStockTransaction(1, "bought", "NTNX", 10, "09-05-2020");
-		removeStockTransaction(1, "bought", "JNJ", 10, "09-05-2020");
+		removeStockTransaction(1, "bought", ntnx, 10, "09-05-2020");
+		removeStockTransaction(1, "bought", jnj, 10, "09-05-2020");
 	}
 
 	@Test
 	public void testGetFullLineForPortfolio() {
 		
-		Portfolio.addStock(1, "NTNX", 10, "09-05-2020"); // buy 10 "NTNX" stocks
-		Portfolio.addStock(1, "JNJ", 10, "09-07-2020"); // buy 10 "JNJ" stocks
-		Portfolio.addStock(1, "JNJ", 10, "09-08-2020"); // buy 10 "JNJ" stocks
+		Portfolio.addStock(1, ntnx, 10, "09-05-2020"); // buy 10 ntnx stocks
+		Portfolio.addStock(1, jnj, 10, "09-07-2020"); // buy 10 jnj stocks
+		Portfolio.addStock(1, jnj, 10, "09-08-2020"); // buy 10 jnj stocks
 		
 		ArrayList<ArrayList<String>> result = Portfolio.getFullLineForPortfolio(1);
 		if(result == null) {
@@ -185,15 +189,15 @@ public class PortfolioTest {
 		assertTrue(valid);
 		
 		// reset db
-		removeStockTransaction(1, "bought", "NTNX", 10, "09-05-2020");
-		removeStockTransaction(1, "bought", "JNJ", 10, "09-07-2020");
-		removeStockTransaction(1, "bought", "JNJ", 10, "09-08-2020");
+		removeStockTransaction(1, "bought", ntnx, 10, "09-05-2020");
+		removeStockTransaction(1, "bought", jnj, 10, "09-07-2020");
+		removeStockTransaction(1, "bought", jnj, 10, "09-08-2020");
 	}
 
 	@Test
 	public void testGetLineForPortfolioWithDateRange() {
-		Portfolio.addStock(1, "NTNX", 10, "09-05-2020"); // buy 10 "NTNX" stocks
-		Portfolio.addStock(1, "JNJ", 10, "09-30-2020"); // buy 10 "JNJ" stocks
+		Portfolio.addStock(1, ntnx, 10, "09-05-2020"); // buy 10 ntnx stocks
+		Portfolio.addStock(1, jnj, 10, "09-30-2020"); // buy 10 jnj stocks
 		
 		ArrayList<ArrayList<String>> result = Portfolio.getLineForPortfolioWithDateRange(1, "09-01-2020", "09-06-2020");
 		if(result == null) {
@@ -221,14 +225,14 @@ public class PortfolioTest {
 		assertTrue(valid);
 		
 		// reset db
-		removeStockTransaction(1, "bought", "NTNX", 10, "09-05-2020");
-		removeStockTransaction(1, "bought", "JNJ", 10, "09-30-2020");
+		removeStockTransaction(1, "bought", ntnx, 10, "09-05-2020");
+		removeStockTransaction(1, "bought", jnj, 10, "09-30-2020");
 	}
 
 	@Test
 	public void testGetPortfolioValueOnADate() {
-		Portfolio.addStock(1, "NTNX", 10, "09-05-2020"); // buy 10 "NTNX" stocks
-		Portfolio.addStock(1, "JNJ", 10, "09-30-2020"); // buy 10 "JNJ" stocks
+		Portfolio.addStock(1, ntnx, 10, "09-05-2020"); // buy 10 ntnx stocks
+		Portfolio.addStock(1, jnj, 10, "09-30-2020"); // buy 10 jnj stocks
 		
 		String result = Portfolio.getPortfolioValueOnADate(1, "09-10-2020");
 		if(result == "") {
@@ -242,13 +246,14 @@ public class PortfolioTest {
 		assertTrue(valid);
 		
 		// reset db
-		removeStockTransaction(1, "bought", "NTNX", 10, "09-05-2020");
-		removeStockTransaction(1, "bought", "JNJ", 10, "09-30-2020");
+		removeStockTransaction(1, "bought", ntnx, 10, "09-05-2020");
+		removeStockTransaction(1, "bought", jnj, 10, "09-30-2020");
 	}
 	
 	private void removeStockTransaction(
 			int userId, String transaction, String stock, int quantity, String date) {
-		Connection con = JDBC.connectDB();
+		JDBC db = new JDBC();
+		Connection con = db.connectDB();
 		
 		if(con != null) {
 			try {

@@ -39,6 +39,7 @@ select.form-control {
   font-size: 20px;
 }
 
+
 .button,
 .button:active {
   background-color: #960e29;
@@ -52,7 +53,6 @@ select.form-control {
   color: #960e29;
   border-color: #960e29;
 }
-
 .text {
   color: #960e29;
 }
@@ -70,4 +70,6 @@ body {
 
 #username-error {
   margin-bottom: 0px;
+.titleP {
+  float: left;
 }
