@@ -31,25 +31,12 @@ public class Api {
 	public static String roundDouble(String value1) {
 		Double value = Double.parseDouble(value1);
 		String v = "0";
-		if(value != null){
-		    if(value == (double) Math.round(value)){
-		        if(value/1000000000 > 1.0){
-		            v = String.format("%.1f G", value/1000000000);
-		        }
-		        else if(value/1000000 > 1.0){
-		            v = String.format("%.1f M", value/1000000);
-		        }
-		        else if(value/1000 > 1.0){
-		            v = String.format("%.1f K", value/1000);
-		        }
-		        else{
-		            v = String.format("%.1f", value);
-		        }
-		    }
-		    else{
-		        v = String.format("%.2f", value);
-		    }
-		}
+	    if(value == (double) Math.round(value)){
+	    	v = String.format("%.1f", value);
+	    }
+	    else{
+	        v = String.format("%.2f", value);
+	    }
 		return v;
 	}
 

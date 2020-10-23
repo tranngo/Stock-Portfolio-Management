@@ -90,6 +90,14 @@ public class RegistrationServletTest extends Mockito {
 		} catch (IOException e1) {
 			System.out.println("RegistrationServletTest IOException");
 		}
+		
+		//For cobertura coverage: catch error
+		try {
+			when(request.getReader()).thenThrow(IOException.class);
+			rs.doPost(request, response);
+		} catch (IOException e) {
+			System.out.println("RegistrationServletTest IOException");
+		}
 	}
 
 }
