@@ -399,6 +399,103 @@ public class StepDefinitions {
 	    assertTrue(true);
 	}
 
+	// requirement 4
+	@Then("I should see a button to add an external stock on the home page")
+	public void i_should_see_a_button_to_add_an_external_stock_on_the_home_page() {
+	    assertTrue(driver.findElements(By.xpath("/html/body/div[2]/div/div[3]/div/div/button[1]")).size() > 0);
+	}
+
+	@Then("I should see a button to remove an external stock on the home page")
+	public void i_should_see_a_button_to_remove_an_external_stock_on_the_home_page() {
+		assertTrue(driver.findElements(By.xpath("/html/body/div[2]/div/div[3]/div/div/button[2]")).size() > 0);
+	}
+
+	@Then("I should see a button to toggle S&P on the home page")
+	public void i_should_see_a_button_to_toggle_S_P_on_the_home_page() {
+	    assertTrue(driver.findElements(By.xpath("/html/body/div[2]/div/div[3]/button")).size() > 0);
+	}
+
+	@Then("I should see a list of external stocks I added")
+	public void i_should_see_a_list_of_external_stocks_I_added() {
+	    assertTrue(driver.findElements(By.xpath("/html/body/div[2]/div/div[3]/div/ul")).size() > 0);
+	}
+
+	@When("I click on the add external stock button")
+	public void i_click_on_the_add_external_stock_button() {
+	    WebElement button = driver.findElement(By.xpath("/html/body/div[2]/div/div[3]/div/div/button[1]"));
+	    button.click();
+	}
+
+	@When("I enter {string} into the add external stock name field")
+	public void i_enter_into_the_add_external_stock_name_field(String string) {
+//	    WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[3]/form/div/div/input"));
+//	    input.sendKeys(string);
+		assertTrue(false);
+	}
+
+	@When("I click on the view stock button")
+	public void i_click_on_the_view_stock_button() {
+//	    WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[3]/button[1]"));
+//	    input.click();
+		assertTrue(false);
+	}
+
+	@Then("I should see {string} in my list of external stocks")
+	public void i_should_see_in_my_list_of_external_stocks(String string) {
+//		List<WebElement> externalStockItems = driver.findElements(By.className("external-stock"));
+//	    
+//	    Iterator<WebElement> iter = externalStockItems.iterator();
+//
+//	    while(iter.hasNext()) {
+//	        WebElement stockItem = iter.next();
+//
+//	        if (stockItem.getAttribute("innerHTML").equalsIgnoreCase(string)) {
+//	            assertTrue(true);
+//	        }
+//	    }
+//	    
+//	    assertTrue(false);
+		assertTrue(false);
+	}
+
+	@When("I click on the remove external stock button")
+	public void i_click_on_the_remove_external_stock_button() {
+//	    WebElement button = driver.findElement(By.xpath("/html/body/div[2]/div/div[3]/div/div/button[2]"));
+//	    button.click();
+		assertTrue(false);
+	}
+
+	@When("I enter {string} into the remove external stock name field")
+	public void i_enter_into_the_remove_external_stock_name_field(String string) {
+//	    WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[4]/form/div/div/input"));
+//	    input.sendKeys(string);
+		assertTrue(false);
+	}
+
+	@When("I click on the remove stock button")
+	public void i_click_on_the_remove_stock_button() {
+//	    WebElement button = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[3]/button[1]"));
+//	    button.click();
+		assertTrue(false);
+	}
+
+	@Then("I shouldn't see {string} in my list of external stocks")
+	public void i_shouldn_t_see_in_my_list_of_external_stocks(String string) {
+//		List<WebElement> externalStockItems = driver.findElements(By.className("external-stock"));
+//	    
+//	    Iterator<WebElement> iter = externalStockItems.iterator();
+//
+//	    while(iter.hasNext()) {
+//	        WebElement stockItem = iter.next();
+//
+//	        if (stockItem.getAttribute("innerHTML").equalsIgnoreCase(string)) {
+//	            assertTrue(false);
+//	        }
+//	    }
+//	    
+//	    assertTrue(true);
+		assertTrue(false);
+	}
 
 	@After()
 	public void after() {
