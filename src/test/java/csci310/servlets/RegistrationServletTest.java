@@ -71,6 +71,7 @@ public class RegistrationServletTest extends Mockito {
 		//For cobertura coverage: try inserting same user again
 		try {
 			when(request.getReader()).thenReturn(new BufferedReader(new StringReader(requestBody)));
+			when(response.getWriter()).thenReturn(new PrintWriter("Yo"));
 			rs.doPost(request, response);
 			assertEquals(response.getStatus(), 0);
 		} catch (IOException e) {
@@ -83,6 +84,7 @@ public class RegistrationServletTest extends Mockito {
 		requestBody2 += "&password=racket&passwordConfirmation=racket";
 		try {
 			when(request.getReader()).thenReturn(new BufferedReader(new StringReader(requestBody2)));
+			when(response.getWriter()).thenReturn(new PrintWriter("Yo"));
 			rs.doPost(request, response);
 			assertEquals(response.getStatus(), 0);
 		} catch (IOException e1) {

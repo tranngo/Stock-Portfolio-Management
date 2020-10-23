@@ -39,16 +39,37 @@ select.form-control {
   font-size: 20px;
 }
 
-.button {
+
+.button,
+.button:active {
   background-color: #960e29;
   color: white;
   height: 115%;
+  border-color: #960e29;
 }
 
+.button:hover {
+  background-color: white;
+  color: #960e29;
+  border-color: #960e29;
+}
 .text {
   color: #960e29;
 }
 
+body {
+  background-image: url("../assets/invest.svg");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: 20%;
+}
+
+.w-100 {
+  margin-top: 10px;
+}
+
+#username-error {
+  margin-bottom: 0px;
 .titleP {
   float: left;
 }
