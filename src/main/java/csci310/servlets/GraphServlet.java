@@ -102,7 +102,7 @@ public class GraphServlet extends HttpServlet{
 		stocks.add("FB");
 		
 		//Testing out the state machine code for externalStocks
-		if(externalStocks == null) {
+		if(externalStocks == null || externalStocks == "" || externalStocks.length() < 2) {
 			System.out.println("External stocks passed by request was null! Using default values of NTNX, JNJ, and FB");
 		}
 		else {

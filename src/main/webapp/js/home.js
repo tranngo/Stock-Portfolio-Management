@@ -1,6 +1,5 @@
 google.charts.load("current", { packages: ["corechart"] });
-  google.charts.setOnLoadCallback(drawMainChart);
-  google.charts.setOnLoadCallback(drawStockHistoryChart);
+  google.charts.setOnLoadCallback(refreshGraph);
 
   var jsonArray = [
     ["Year", "Example Stock"],
@@ -26,15 +25,49 @@ google.charts.load("current", { packages: ["corechart"] });
   
   
   //These are the state variables which affect the graph, setting default values
-  state_portfolioContributors = [];
-  state_externalStocks = ["NTNX", "JNJ", "FB", "TSLA"];
-  state_start = "2020-04-15";
-  state_end = "2020-10-12";
+  state_portfolioContributors = ["NTNX", "JNJ", "FB"];
+  state_externalStocks = ["NTNX"];
+  state_start = "-1";
+  state_end = "-1";
   
   //Calling this function will take the "state" and pass it to GraphServlet as your request
   function refreshGraph() {
 
     console.log("Graph refresh requested");
+    if(state_start === "-1") {
+    	console.log("We have to set default dates");
+    	//Referenced from: https://stackoverflow.com/questions/12409299/how-to-get-current-formatted-date-dd-mm-yyyy-in-javascript-and-append-it-to-an-i
+	  	const monthNames = ["January", "February", "March", "April", "May", "June",
+	        "July", "August", "September", "October", "November", "December"];
+	    let dateObj = new Date();
+	    let month = dateObj.getMonth() + 1;
+	    month = month - 3;
+	    if(month <= 0) {
+	    	month = month + 12;
+	    }
+	
+	    let day = String(dateObj.getDate()).padStart(2, '0');
+	    let year = dateObj.getFullYear();
+	    let opt = '';
+	    if(month < 10) {
+	    	opt = '0';
+	    }
+	    let output = year + '-' + opt + month + '-' + day;
+	    state_start = output;
+	    console.log("Setting default start date to: " + state_start);
+	    
+	    month = dateObj.getMonth() + 1;
+	    day = String(dateObj.getDate()).padStart(2, '0');
+	    year = dateObj.getFullYear();
+	    opt = '';
+	    if(month < 10) {
+	    	opt = '0';
+	    }
+	    output = year + '-' + opt + month + '-' + day;
+	    state_end = output;
+	    console.log("Setting default end date to: " + state_end);
+    }
+    
     console.log("State variable -> Start date: " + state_start);
     console.log("State variable -> End date: " + state_end);
     
@@ -175,11 +208,13 @@ google.charts.load("current", { packages: ["corechart"] });
   
   //#7: Add S&P 500 to external stocks
   function turnSpOn() {
+  	console.log("Turn SP on was called");
   	addExternalStock("^GSPC");
   }
   
   //#8: Remove S&P 500 from external stocks
   function turnSpOff() {
+  	console.log("Turn SP off was called");
   	removeExternalStock("^GSPC");
   }
   
