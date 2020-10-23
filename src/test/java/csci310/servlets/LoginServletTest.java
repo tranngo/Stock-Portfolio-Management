@@ -65,11 +65,23 @@ public class LoginServletTest extends Mockito {
 		}
 		
 		//For cobertura coverage: enter a invalid username
-		String invalidUsername = "yo";
-		String requestBody2 = "username="+invalidUsername;
+		String invalidUsername = "";
+		String requestBody2 = "username=yo"+invalidUsername;
 		requestBody2 += "&password=yo&passwordConfirmation=yo";
+		
+		HttpServletRequest request1 = mock(HttpServletRequest.class);
+		HttpServletResponse response1 = mock(HttpServletResponse.class);
 		try {
-			when(request.getReader()).thenReturn(new BufferedReader(new StringReader(requestBody2)));
+			when(request1.getReader()).thenReturn(new BufferedReader(new StringReader(requestBody2)));
+			ls.doPost(request1, response1);
+			assertEquals(response1.getStatus(), 0);
+		} catch (IOException e1) {
+			System.out.println("RegistrationServletTest IOException");
+		}
+		
+		//cobertura coverage: throw error
+		try {
+			when(request.getReader()).thenThrow(IOException.class);
 			ls.doPost(request, response);
 			assertEquals(response.getStatus(), 0);
 		} catch (IOException e1) {

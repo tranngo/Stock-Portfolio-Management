@@ -47,7 +47,7 @@ public class Portfolio {
 		
 		// connect to mysql
 		JDBC db = new JDBC();
-		Connection con = db.connectDB();
+		Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 		
 		if(con != null) {
 			try {
@@ -122,7 +122,7 @@ public class Portfolio {
 		
 		// connect to mysql
 		JDBC db = new JDBC();
-		Connection con = db.connectDB();
+		Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 		
 		if(con != null) {
 			try {
@@ -180,7 +180,7 @@ public class Portfolio {
 					 
 		// connect to mysql
 		JDBC db = new JDBC();
-		Connection con = db.connectDB();
+		Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 		if(con != null) {
 			try {
 				// query stocks table for user id
@@ -276,7 +276,7 @@ public class Portfolio {
 					 
 		// connect to mysql
 		JDBC db = new JDBC();
-		Connection con = db.connectDB();
+		Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 		if(con != null) {
 			try {
 				// query stocks table for user id
@@ -424,7 +424,7 @@ public class Portfolio {
 		
 		// connect to mysql
 		JDBC db = new JDBC();
-		Connection con = db.connectDB();
+		Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 		if(con != null) {
 			try {
 				// query stocks table for user id

@@ -18,11 +18,17 @@ public class GraphServletTest extends Mockito {
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
 		GraphServlet gs = new GraphServlet();
+		gs.CreateArray();
 		when(response.getWriter()).thenReturn(new PrintWriter("Yo"));
 		gs.doGet(request, response);
 		String result = gs.GetArray();
 		System.out.println(result);
 		assertTrue(!result.isEmpty());
+		
+		when(request.getParameter("startDate")).thenReturn(null);
+		when(request.getParameter("endDate")).thenReturn(null);
+		when(request.getParameter("externalStocks")).thenReturn(null);
+		gs.doGet(request, response);
 	}
 
 }
