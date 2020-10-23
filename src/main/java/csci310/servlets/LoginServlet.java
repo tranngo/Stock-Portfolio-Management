@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
 			username = username.substring(firstEquals+1); //just "wilson103"
 			password = password.substring(secondEquals+1); //just "racket"
 			
-			boolean userInfoIsValid = Login.checkForLoginCredentials(username, password);
+			boolean userInfoIsValid = Login.checkForLoginCredentials(username, password, "com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 			
 			//Invalid user info
 			if(userInfoIsValid == false) {

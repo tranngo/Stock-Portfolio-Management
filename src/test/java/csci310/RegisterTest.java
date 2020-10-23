@@ -201,7 +201,7 @@ public class RegisterTest {
 		
 		//COVERAGE THROWING EXCEPTION
 		JDBC connection = mock(JDBC.class);
-		when(connection.connectDB()).thenReturn(null);
+		when(connection.connectDB("", "", "", "")).thenReturn(null);
 		result = Register.checkUserExists("mockito");
 		assertFalse(result);
 	}

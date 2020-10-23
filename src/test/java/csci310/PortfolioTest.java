@@ -253,7 +253,7 @@ public class PortfolioTest {
 	private void removeStockTransaction(
 			int userId, String transaction, String stock, int quantity, String date) {
 		JDBC db = new JDBC();
-		Connection con = db.connectDB();
+		Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 		
 		if(con != null) {
 			try {
