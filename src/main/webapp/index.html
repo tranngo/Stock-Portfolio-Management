@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stock Portfolio Management | User Registration</title>
+    <title>Stock Portfolio Management | Login</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -27,22 +27,23 @@
           <p class="titleP">
             <span class="title" style="margin-left: 250px">Registration</span>
           </p>
-          <!-- </a> -->
         </div>
       </nav>
     </header>
     <br /><br /><br /><br />
 
     <div class="container">
+      <!-- <div class="row py-5 mt-4 align-items-center">
+      <div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
+        <img src="assets/login.svg" alt="" class="img-fluid mb-3 d-none d-md-block">
+      </div> -->
+
+      <!-- Login Form -->
       <div class="row justify-content-md-center">
-        <!-- Registration Form -->
         <div class="col col-lg-5">
-          <form onsubmit="return submitForm(event)">
+          <form action="LoginServlet" method="POST">
             <div class="row">
-              <div class="col-lg-12 mb-4 missing-entries">
-                <div id="username-error" class="text-danger"></div>
-              </div>
-              <!-- Username -->
+              <!-- Email Address -->
               <div class="input-group col-lg-12 mb-4">
                 <div class="input-group-prepend">
                   <span
@@ -60,8 +61,11 @@
                 />
               </div>
 
-              <div class="col-lg-12 mb-4 missing-entries">
-                <div id="username-invalid" class="text-danger"></div>
+              <div class="col-lg-12 mb-4">
+                <div
+                  id="username-invalid"
+                  class="text-danger missing-entries"
+                ></div>
               </div>
 
               <!-- Password -->
@@ -82,59 +86,26 @@
                 />
               </div>
 
-              <div class="col-lg-12 mb-4 missing-entries">
-                <div class="errorPassword text-danger"></div>
-                <div id="pw-invalid" class="text-danger"></div>
+              <div class="col-lg-12 mb-4">
+                <div id="pw-invalid" class="text-danger missing-entries"></div>
               </div>
 
-              <!-- Password Confirmation -->
-              <div class="input-group col-lg-12 mb-4">
-                <div class="input-group-prepend">
-                  <span
-                    class="input-group-text bg-white px-4 border-md border-right-0"
-                  >
-                    <i class="fa fa-lock text-muted"></i>
-                  </span>
-                </div>
-                <input
-                  id="passwordConfirmation"
-                  type="password"
-                  name="passwordConfirmation"
-                  placeholder="Confirm Password"
-                  class="form-control bg-white border-left-0 border-md"
-                  onchange="checkPw()"
-                />
-              </div>
-
-              <div class="col-lg-12 mb-4 missing-entries">
-                <div class="errorPassword text-danger"></div>
-                <div id="pwConfirm-invalid" class="text-danger"></div>
-              </div>
-
-              <!-- Submit Button and Cancel Button -->
+              <!-- Submit Button -->
               <div class="form-group col-lg-12 mx-auto mb-0">
                 <button
                   type="submit"
-                  class="btn btn-sm py-2 button"
-                  style="width: 49%"
+                  class="btn btn-block py-2 button"
+                  style="width: 100%"
                 >
-                  <span class="font-weight-bold">Create your account</span>
-                </button>
-                <button
-                  type="submit"
-                  class="btn btn-sm py-2 button"
-                  onclick="location.href='index.html';"
-                  style="width: 50%"
-                >
-                  <span class="font-weight-bold">Cancel</span>
+                  <span class="font-weight-bold">Login</span>
                 </button>
               </div>
 
-              <!-- Already Registered -->
+              <!-- Registration -->
               <div class="text-center w-100">
                 <p class="text-muted font-weight-bold">
-                  Already Registered?
-                  <a href="index.html" class="text">Login</a>
+                  Need an account?
+                  <a href="registration.html" class="text">Sign up!</a>
                 </p>
               </div>
             </div>
@@ -159,6 +130,6 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="js/registration.js"></script>
+    <script src="js/login.js"></script>
   </body>
 </html>

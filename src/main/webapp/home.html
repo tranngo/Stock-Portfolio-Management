@@ -17,20 +17,202 @@
     />
     <link rel="stylesheet" type="text/css" href="css/home.css" />
 
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
     <title>USC CS310 Stock Portfolio Management</title>
 
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/22f27996cf.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
+    <!-- Modal -->
+    <div id="mainModal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Stock Transaction</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="add-modal-content">
+              <form>
+                <div class="row">
+                  <div class="col">
+                    <label for="stock-name-input">Stock (e.g. TSLA)</label>
+                    <input
+                      type="text"
+                      id="stock-name-input"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="col">
+                    <label for="stock-quantity-input">Quantity</label>
+                    <input
+                      type="number"
+                      id="stock-quantity-input"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="col">
+                    <label
+                      id="stock-purchase-date-input-label"
+                      for="stock-purchase-date-input"
+                      >Purchase Date</label
+                    >
+                    <input
+                      type="date"
+                      id="stock-purchase-date-input"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="col">
+                    <label
+                      id="stock-sell-date-input-label"
+                      for="stock-sell-date-input"
+                      >Sell Date</label
+                    >
+                    <input
+                      type="date"
+                      id="stock-sell-date-input"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div id="upload-file-modal-content">
+              <form>
+                <div class="form-group">
+                  <label for="uploadFile">Upload CSV file</label>
+                  <input
+                    type="file"
+                    class="form-control-file"
+                    id="uploadFile"
+                  />
+                </div>
+              </form>
+            </div>
+            <div id="add-external-stock-modal-content">
+              <form>
+                <div class="row">
+                  <div class="col">
+                    <label for="add-external-stock-name-input"
+                      >Stock (e.g. TSLA)</label
+                    >
+                    <input
+                      type="text"
+                      id="add-external-stock-name-input"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div id="remove-external-stock-modal-content">
+              <form>
+                <div class="row">
+                  <div class="col">
+                    <label for="remove-external-stock-name-input"
+                      >Stock (e.g. TSLA)</label
+                    >
+                    <input
+                      type="text"
+                      id="remove-external-stock-name-input"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="modal-confirm-button"
+              type="button"
+              class="btn btn-primary"
+              data-dismiss="modal"
+            >
+              Confirm
+            </button>
+            <button
+              id="modal-remove-button"
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <nav class="navbar navbar-dark" id="navbar-bg">
-      <a class="title" href="#"> USC CS310 Stock Portfolio Management </a>
+      <a class="title bold" href="#"> USC CS310 Stock Portfolio Management </a>
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid mb-5">
       <div class="row">
         <!-- Left column -->
         <div id="left-col" class="col-sm-12 col-md-2">
-          <p>Left Column</p>
+          <div
+            class="d-flex flex-column justify-content-center mt-5 column-border text-center"
+          >
+            <h5 class="font-weight-bold">Portfolio</h5>
+
+            <div
+              class="stock-item d-flex flex-row justify-content-around align-items-center"
+            >
+              <i class="fas fa-times close-icon"></i>
+              <p class="m-0 p-0 stock-name">TSLA</p>
+              <i class="toggle-button fas fa-toggle-on fa-lg"></i>
+            </div>
+
+            <div
+              class="stock-item d-flex flex-row justify-content-around align-items-center"
+            >
+              <i class="fas fa-times close-icon"></i>
+              <p class="m-0 p-0 stock-name">AAPL</p>
+              <i class="toggle-button fas fa-toggle-on fa-lg"></i>
+            </div>
+          </div>
+          <div class="d-flex flex-column justify-content-center">
+            <button
+              type="button"
+              id="add-stock-button"
+              class="btn btn-primary mx-2 mt-2"
+            >
+              Add
+            </button>
+            <button
+              type="button"
+              id="upload-file-button"
+              class="btn btn-primary mx-2 mt-2"
+            >
+              Upload
+            </button>
+            <!-- Just for testing state machine code with a demo -->
+            <button
+              id="demo"
+              class="btn btn-primary mx-2 mt-2"
+              onclick="demo()"
+            >
+              Demo
+            </button>
+          </div>
         </div>
 
         <!-- Chart column -->
@@ -47,7 +229,41 @@
 
         <!-- Right column -->
         <div id="right-col" class="col-sm-12 col-md-2">
-          <p>Right column</p>
+          <div
+            class="d-flex flex-column justify-content-center mt-5 column-border text-center"
+          >
+            <h5 class="font-weight-bold">External Stocks</h5>
+
+            <ul id="external-stocks" class="text-center">
+              <li>AAPL</li>
+              <li>GOOG</li>
+            </ul>
+
+            <div class="d-flex flex-column justify-content-center">
+              <button
+                type="button"
+                id="add-external-stock-button"
+                class="btn btn-primary mx-2 mt-2"
+              >
+                Add
+              </button>
+              <button
+                type="button"
+                id="remove-external-stock-button"
+                class="btn btn-primary mx-2 my-2"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            id="sp-button"
+            class="btn btn-primary mx-2 mt-5"
+          >
+            S&P
+          </button>
         </div>
       </div>
     </div>

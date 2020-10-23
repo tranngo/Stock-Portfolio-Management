@@ -23,7 +23,8 @@ public class Login {
 		
 	public static boolean checkForLoginCredentials(String username, String password) {
 		// connect to mysql
-		Connection con = JDBC.connectDB();
+		JDBC db = new JDBC();
+		Connection con = db.connectDB();
 		
 		if(con != null) {
 			try {
@@ -41,6 +42,13 @@ public class Login {
 	        	System.out.println("Error querying user data from DB during registration.");
 	        	e.printStackTrace();
 	        }
+			finally {
+			    if (con != null) {
+			        try {
+			            con.close();
+			        } catch (SQLException e) { /* ignored */}
+			    }
+			}
 		}
 		
 		// error querying users table; for security, assume wrong credentials
