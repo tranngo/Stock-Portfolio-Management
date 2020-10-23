@@ -149,7 +149,7 @@ public class ApiTest {
 		//We have to still figure out how to validate the resulting data, maybe we can
 		//just check if the number of rows returned is more than 5 and the width is 2
 		ArrayList<ArrayList<String>> resultData = Api.getOneLineAllData("NTNX");
-		ArrayList<ArrayList<String>> resultData2 = Api.getOneLineAllData("PORTFOLIO_1");
+		//ArrayList<ArrayList<String>> resultData2 = Api.getOneLineAllData("PORTFOLIO_1");
 		if(resultData == null) {
 			System.out.println("ApiTest.java, testGetOneLineAllData, null");
 			return;
@@ -169,7 +169,7 @@ public class ApiTest {
 		stocks.add("NTNX");
 		stocks.add("JNJ");
 		stocks.add("INVALID");
-		stocks.add("PORTFOLIO_1");
+		//stocks.add("PORTFOLIO_1");
 		
 		System.out.println("testGetMultipleLinesAllData, Before");
 		ArrayList<ArrayList<String>> resultData = Api.getMultipleLinesAllData(stocks);
@@ -209,7 +209,7 @@ public class ApiTest {
 		assertTrue(result);
 		
 		ArrayList<ArrayList<String>> resultData2 = Api.getOneLineWithDateRange("INVALID", "12-14-2019", "10-19-2020");
-		ArrayList<ArrayList<String>> resultData3 = Api.getOneLineWithDateRange("PORTFOLIO_1", "12-14-2019", "10-19-2020");
+		//ArrayList<ArrayList<String>> resultData3 = Api.getOneLineWithDateRange("PORTFOLIO_1", "12-14-2019", "10-19-2020");
 	}
 	
 	@Test
