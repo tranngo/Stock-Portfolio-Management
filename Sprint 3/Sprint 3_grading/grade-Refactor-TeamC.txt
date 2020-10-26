@@ -1,0 +1,16 @@
+Best Practice Refactor Report
+Owner: TeamC
+Grade: 9.4/10
+Comments: 
+Issue 23
+	The issue was not assigned
+	Issue was not closed by assignee
+	pkyaw satisfied 5 of 7 requirements for this issue.
+Issue 22
+	leetheod satisfied 7 of 7 requirements for this issue.
+Issue 21
+	tranngo satisfied 7 of 7 requirements for this issue.
+Issue 14
+	allusai satisfied 7 of 7 requirements for this issue.
+Issue 7
+	maggiemshi satisfied 7 of 7 requirements for this issue.
