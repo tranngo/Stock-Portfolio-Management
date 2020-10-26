@@ -88,7 +88,7 @@ function submitForm(e) {
       data: data,
 
       success: function (data) {
-        window.location.replace("../home.html");
+        window.location.replace("../index.html");
       },
 
       error: function (data) {
