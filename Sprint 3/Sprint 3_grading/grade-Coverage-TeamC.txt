@@ -1,0 +1,8 @@
+Best Practice Coverage Report
+Owner: TeamC
+Grade: 8.0/10
+Comments: 
+Using commit: https://github.com/CSCI310/project-20203b-groupc-20203/commit/80858c2772d71f2e2a5cbb7804a762e71946a3ae
+Reported statement coverage: 80.0
+Reported branch coverage: 79.0
+Average coverage: 79.5
