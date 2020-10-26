@@ -1,0 +1,13 @@
+Best Practice TDD Report
+Owner: TeamC
+Grade: 5.7/10
+Comments: 
+	No test method found for: api.rounddouble
+		Commit: https://github.com/CSCI310/project-20203b-groupc-20203/commit/d013403201397a423e7ae1ebe088fc87f4ea89f2
+	Test method was not created before method : registrationservlet.dopost
+		Method commit: https://github.com/CSCI310/project-20203b-groupc-20203/commit/2d8681b258198a087666fd2666a1eedb9ddac212
+	No test method found for: jdbc.readdbcredentials
+		Commit: https://github.com/CSCI310/project-20203b-groupc-20203/commit/68a278ccd2ba84b1c78f1078cf823dbf43bb46f6
+Correct TDD methods: 4
+Incorrect TDD methods: 3
+Total methods evaluated for TDD: 7
