@@ -75,11 +75,13 @@ public class GraphServlet extends HttpServlet{
 		
 		Cookie cookies[] = request.getCookies();
 		int user_id = -99;
-		for(int i = 0; i < cookies.length; i++) {
-			System.out.println("Reading cookie number " + i);
-			if(cookies[i].getName().equals("user_id")) {
-				user_id = Integer.parseInt(cookies[i].getValue());
-				System.out.println("Found the user_id cookie! Value found is " + user_id);
+		if(cookies != null) {
+			for(int i = 0; i < cookies.length; i++) {
+				System.out.println("Reading cookie number " + i);
+				if(cookies[i].getName().equals("user_id")) {
+					user_id = Integer.parseInt(cookies[i].getValue());
+					System.out.println("Found the user_id cookie! Value found is " + user_id);
+				}
 			}
 		}
 
