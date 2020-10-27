@@ -65,6 +65,7 @@ public class PortfolioTest {
 		assertEquals(1, result);
 	}
 
+	// Messed up this test!
 	@Test
 	public void testRetrieveCurrentPortfolio() {
 		// reset db
@@ -99,14 +100,16 @@ public class PortfolioTest {
 		
 		assertTrue(valid);
 		
+
 		Portfolio.sellStock(99, jnj);
 		result = Portfolio.retrieveCurrentPortfolio(99);
 		assertEquals(2, result.size());
-				
+
 		// reset db
 		Portfolio.sellStock(99, ntnx);
 	}
 	
+	// Messed up this test!
 	@Test
 	public void testRetrievePortfolioOnADate() {
 		// reset db
@@ -183,7 +186,7 @@ public class PortfolioTest {
 			System.out.println("PortfolioTest.java, testGetFullLineForPortfolio, null");
 			return;
 		}
-		
+
 		//Print statements
 		System.out.println("testGetFullLineForPortfolio's result for NTNX and JNJ (9/5 to 9/15): ");
 		for(int i = 0; i < result.size(); i++) {

@@ -10,18 +10,19 @@ $(function () {
 
 document.querySelector('form').onsubmit = function()
 {
-    let email = document.getElementById("email").value.trim();
+	console.log("Login form was submitted!");
+    let username = document.getElementById("username").value.trim();
     let password = document.getElementById("password").value.trim();
 
-    if (email.length == 0)
+    if (username.length == 0)
     {
-        document.getElementById("email-invalid").classList.add("is-invalid");
-        document.getElementById("email-invalid").innerHTML = "Please enter a username";
+        document.getElementById("username-invalid").classList.add("is-invalid");
+        document.getElementById("username-invalid").innerHTML = "Please enter a username";
     }
     else
     {
-        document.getElementById("email-invalid").classList.remove("is-invalid");
-        document.getElementById("email-invalid").innerHTML = "";
+        document.getElementById("username-invalid").classList.remove("is-invalid");
+        document.getElementById("username-invalid").innerHTML = "";
     }
 
     if (password.length == 0)

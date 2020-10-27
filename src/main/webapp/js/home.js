@@ -1,4 +1,5 @@
 google.charts.load("current", { packages: ["corechart"] });
+  google.charts.setOnLoadCallback(drawMainChart);
   google.charts.setOnLoadCallback(refreshGraph);
 
   var jsonArray = [
@@ -216,23 +217,6 @@ google.charts.load("current", { packages: ["corechart"] });
   function turnSpOff() {
   	console.log("Turn SP off was called");
   	removeExternalStock("^GSPC");
-  }
-  
-  
-  //Just to test the state machine code
-  function demo() {
-  	console.log("Demo!");
-  	refreshGraph();
-  	
-  	console.log("Removing TSLA");
-  	removeExternalStock("TSLA");
-  	
-  	console.log("Adding MSFT");
-  	addExternalStock("MSFT");
-  	
-  	console.log("Changing start and end date");
-  	changeStartDate("2020-05-15");
-  	changeEndDate("2020-09-12");
   }
   
   

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,9 +22,8 @@ import io.cucumber.java.en.When;
  */
 public class StepDefinitions {
 	private static final String ROOT_URL = "http://localhost:8080/";
-	private static final String LOGIN_URL = "http://localhost:8080/login.html";
+	private static final String LOGIN_URL = "http://localhost:8080/index.html";
 	private static final String REGISTER_URL = "http://localhost:8080/registration.html";
-	private static final String REGISTER_SERVLET_URL = "http://localhost:8080/registrationServlet";
 	private static final String HOME_URL = "http://localhost:8080/home.html";
 
 	private final WebDriver driver = new ChromeDriver();
@@ -57,7 +57,9 @@ public class StepDefinitions {
 	@When("I type {string} into the username text box")
 	public void i_type_into_the_username_text_box(String string) {
 	    WebElement textbox = driver.findElement(By.xpath("//*[@id=\"username\"]"));
-	    textbox.sendKeys(string);
+	    double rand = Math.random();
+	    int randomNumber = (int) (rand * 10000000);
+	    textbox.sendKeys(string + randomNumber);
 	}
 
 	@When("I type {string} into the password text box")
@@ -74,20 +76,20 @@ public class StepDefinitions {
 	
 	@When("I click on the create account button")
 	public void i_click_on_the_create_account_button() {
-		WebElement button = driver.findElement(By.cssSelector("body > div > div.row.py-5.mt-4.align-items-center > div.col-md-7.col-lg-6.ml-auto > form > div > div.form-group.col-lg-12.mx-auto.mb-0 > button"));
+		WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[8]/button[1]"));
 	    button.click();
 	}
 	
 	@When("I click on the already registered login button")
 	public void i_click_on_the_already_registered_login_button() {
-	    WebElement button = driver.findElement(By.xpath("/html/body/div/div[2]/div[2]/form/div/div[8]/p/a"));
+	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[9]/p/a"));
 	    button.click();
 	}
 
 	@Then("I should be on the login page")
 	public void i_should_be_on_the_login_page() {
 		try {
-			Thread.sleep(1500);
+			Thread.sleep(7000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -104,17 +106,6 @@ public class StepDefinitions {
 		}
 		String result = driver.getCurrentUrl();
 	    assertTrue(result.equalsIgnoreCase(REGISTER_URL));
-	}
-	
-	@Then("I should be on the registration servlet page")
-	public void i_should_be_on_the_registration_servlet_page() {
-		try {
-			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		String result = driver.getCurrentUrl();
-	    assertTrue(result.equalsIgnoreCase(REGISTER_SERVLET_URL));
 	}
   
 	// requirement3.feature
@@ -133,6 +124,7 @@ public class StepDefinitions {
 	@Given("I am on the home page")
 	public void i_am_on_the_home_page() {
 		driver.get(HOME_URL);
+		driver.manage().timeouts().implicitlyWait(7, TimeUnit.SECONDS);
 	}
 
 	@Then("I should see a gray banner across the top with {string} text")
@@ -156,7 +148,7 @@ public class StepDefinitions {
 
 	@When("I click on the sign up button")
 	public void i_click_on_the_sign_up_button() {
-	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/div/div[6]/p/a"));
+	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[6]/p/a"));
 	    button.click();
 	}
 
@@ -168,49 +160,50 @@ public class StepDefinitions {
 	
 	@When("I type {string} into the login password text box")
 	public void i_type_into_the_login_password_text_box(String string) {
-	    WebElement textbox = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/div/div[3]/input"));
+	    WebElement textbox = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[3]/input"));
 	    textbox.sendKeys(string);
 	}
 
 	@When("I click on the login button")
 	public void i_click_on_the_login_button() {
-	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/div/div[5]/button"));
+	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[5]/button"));
 	    button.click();
 	}
 
 	@When("I type {string} into the login username text box")
 	public void i_type_into_the_login_username_text_box(String string) {
-		WebElement textbox = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/div/div[1]/input"));
+		WebElement textbox = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[1]/input"));
 	    textbox.sendKeys(string);
 	}
 	
 	@Then("I should see please enter a username error message")
 	public void i_should_see_please_enter_a_username_error_message() {
-	    assertTrue(driver.findElements(By.xpath("/html/body/div/div/div[2]/form/div/div[2]/div")).size() != 0);
+	    assertTrue(driver.findElements(By.xpath("/html/body/div/div/div/form/div/div[2]/div")).size() != 0);
 	}
 	
 	@Then("I should see please enter your password error message")
 	public void i_should_see_please_enter_your_password_error_message() {
-		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div[2]/form/div/div[4]/div")).size() != 0);
+		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div/form/div/div[4]/div")).size() != 0);
 	}
 
 	@Then("I should see please enter a username and please enter your password error messages")
 	public void i_should_see_please_enter_a_username_and_please_enter_your_password_error_messages() {
 		// Please enter a username error message
-		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div[2]/form/div/div[2]/div")).size() != 0);
+		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div/form/div/div[2]/div")).size() != 0);
 		
 		// Please enter your password error message
-		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div[2]/form/div/div[2]/div")).size() != 0);
+		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div/form/div/div[4]/div")).size() != 0);
 	}
 	
 	// requirement2.feature
 	@When("I log in")
 	public void i_log_in() {
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 		WebElement login = driver.findElement(By.xpath("//*[@id=\"username\"]"));
 	    login.sendKeys("wilson133");
 		WebElement password = driver.findElement(By.xpath("//*[@id=\"password\"]"));
 	    password.sendKeys("racket");
-	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div[2]/form/div/div[5]/button"));
+	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[5]/button"));
 	    button.click();
 	}
 
