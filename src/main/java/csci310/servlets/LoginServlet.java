@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,6 +68,9 @@ public class LoginServlet extends HttpServlet {
 			
 			//Redirect user to the login page
 			System.out.println("User info is valid, redirecting to home.html");
+			Cookie c = new Cookie("user_id", "-1");
+			c.setMaxAge(3600);
+			response.addCookie(c);
 			response.setStatus(HttpServletResponse.SC_OK);
 			response.sendRedirect("home.html");
 			return;

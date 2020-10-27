@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -72,7 +73,17 @@ public class GraphServlet extends HttpServlet{
 		String portfolioContributors = request.getParameter("portfolioContributors");
 		String externalStocks = request.getParameter("externalStocks"); //NTNX,JNJ,SLFS,
 		
-		
+		Cookie cookies[] = request.getCookies();
+		int user_id = -99;
+		for(int i = 0; i < cookies.length; i++) {
+			System.out.println("Reading cookie number " + i);
+			if(cookies[i].getName().equals("user_id")) {
+				user_id = Integer.parseInt(cookies[i].getValue());
+				System.out.println("Found the user_id cookie! Value found is " + user_id);
+			}
+		}
+
+		System.out.println("User id stored in cookie was " + user_id);
 		System.out.println("GraphServlet, startDate passed was: " + startDate);
 		System.out.println("GraphServlet, endDate passed was: " + endDate);
 		

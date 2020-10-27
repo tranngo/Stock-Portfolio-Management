@@ -31,7 +31,8 @@ public class Portfolio {
 	 * parameters: user_id, stock, quantity, and date of purchase
 	 * returns: 1 if successfully inserted, 0 if not, later we will add error codes
 	 */
-	public static int addStock(int userId, String stock, int quantity, String dateOfPurchase)
+	//Edit: params increased
+	public static int addStock(int userId, String stock, int quantity, String dateOfPurchase, String dateOfSelling)
 	{
 		// check stock name & quantity valid
 		Boolean validStock = false;
@@ -51,18 +52,19 @@ public class Portfolio {
 		
 		if(con != null) {
 			try {
+				//edit: use stocks_new instead, and the whole code block is changed
 			    // insert entry into users table
-			    PreparedStatement ps = con.prepareStatement("INSERT into stocks (user_id, transaction, name, quantity, date) VALUES (?, ?, ?, ?, ?)");
+			    PreparedStatement ps = con.prepareStatement("INSERT into stocks_new (user_id, name, quantity, dateOfPurchase, dateOfSelling) VALUES (?, ?, ?, ?, ?)");
 			    ps.setInt(1, userId);
-			    ps.setString(2, "bought");
-			    ps.setString(3, stock);
-			    ps.setInt(4, quantity);
-			    ps.setString(5, dateOfPurchase);
+			    ps.setString(2, stock);
+			    ps.setInt(3, quantity);
+			    ps.setString(4, dateOfPurchase);
+			    ps.setString(4, dateOfSelling);
 			    ps.execute();
 			    con.close();
 			    return 1;
 			} catch (SQLException e) {
-				System.out.println("Error inserting user data to DB when adding to stocks.");
+				System.out.println("Error inserting user data to DB when adding to stocks_new.");
 				e.printStackTrace();
 			} finally {
 	            try {
@@ -93,7 +95,8 @@ public class Portfolio {
 	 * parameters: user_id, stock, quantity, and date of selling
 	 * returns: 1 if successfully sold, 0 if not, later we will add error codes
 	 */
-	public static int sellStock(int userId, String stock, int quantity, String dateOfSelling)
+	//Edit: params reduced
+	public static int sellStock(int userId, String stock)
 	{
 		// check stock name valid
 		try {
@@ -105,20 +108,7 @@ public class Portfolio {
 			return 0;
 		}
 		
-		// get current quantity for stock
-		int curQuant = 0;
-		ArrayList<ArrayList<String>> portfolio = retrieveCurrentPortfolio(userId);
-		for(int i = 1; i < portfolio.size(); i++) { // starting at 1 to ignore header
-			ArrayList<String> portStock = portfolio.get(i);
-			if(portStock.get(0).equals(stock)) { // if found stock
-				curQuant = Integer.parseInt(portStock.get(1)); // update current quantity of stock
-			}
-		}
-		
-		// if user wants to sell invalid number of stocks, or wants to sell more stocks than they own, return 0
-		if(quantity <= 0 || curQuant < quantity) {
-			return 0;
-		}
+		//Edit: remove checking for a valid quantity, since that is no longer a param
 		
 		// connect to mysql
 		JDBC db = new JDBC();
@@ -126,13 +116,11 @@ public class Portfolio {
 		
 		if(con != null) {
 			try {
+				//edit: actually call "delete from" instead
 			    // insert entry into users table
-			    PreparedStatement ps = con.prepareStatement("INSERT into stocks (user_id, transaction, name, quantity, date) VALUES (?, ?, ?, ?, ?)");
+			    PreparedStatement ps = con.prepareStatement("DELETE FROM stocks_new WHERE user_id=? AND name=?");
 			    ps.setInt(1, userId);
-			    ps.setString(2, "sold");
-			    ps.setString(3, stock);
-			    ps.setInt(4, quantity);
-			    ps.setString(5, dateOfSelling);
+			    ps.setString(2, stock);
 			    ps.execute();
 			    con.close();
 			    return 1;
@@ -184,38 +172,22 @@ public class Portfolio {
 		if(con != null) {
 			try {
 				// query stocks table for user id
-				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks WHERE user_id = ?");
+				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks_new WHERE user_id = ?");
 				ps.setInt(1, userId);
 				ResultSet rs = ps.executeQuery();
 	
 				// while there are stocks in the portfolio
 				while(rs.next()) {
-					// example rs returned: [id, user_id, "bought", "NTNX", 7, "02-01-2020"]
-					// parse string for stock name and quantity
-					String transaction = rs.getString(3); // either "bought" or "sold"
-					String stockName = rs.getString(4);
-					int stockQuantInt = rs.getInt(5);
 					
-					// if stock doesn't exist in hashmap yet
-					if(!hmap.containsKey(stockName)) {
-						// if sold stock, decrease quant ('bought' should be queried first, but just in case)
-						if(transaction.toLowerCase().equals("sold")) {
-							stockQuantInt *= -1; // make quantity neg (aka subtract)
-						} // else, user bought stock. no calculation needed here
-						
-						hmap.put(stockName, stockQuantInt);
-					// else, already exists. need to calculate quantity
-					} else {
-						int curQuant = hmap.get(stockName);
-						
-						// if sold stock, decrease quant
-						if(transaction.toLowerCase().equals("sold")) {
-							stockQuantInt *= -1; // make quantity neg (aka subtract)
-						} // else, user bought stock. no calculation needed here
-						
-						// replace quantity for stockName in hmap
-						hmap.put(stockName, curQuant + stockQuantInt);
-					}
+					//Edit: removed the previous code checking for "bought" and "sold"
+					
+					
+					// example rs returned: [id, user_id, "NTNX", 7, "02-01-2020", "03-05-2020"]
+					// parse string for stock name and quantity
+					String stockName = rs.getString(3);
+					int stockQuantInt = rs.getInt(4);
+					hmap.put(stockName, stockQuantInt);
+					
 				} // end while
 	        } catch (SQLException e) {
 	        	System.out.println("Error querying stock data from DB when retrieving current portfolio.");
@@ -280,7 +252,7 @@ public class Portfolio {
 		if(con != null) {
 			try {
 				// query stocks table for user id
-				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks WHERE user_id = ?");
+				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks_new WHERE user_id = ?");
 				ps.setInt(1, user_id);
 				ResultSet rs = ps.executeQuery();
 	
@@ -292,32 +264,15 @@ public class Portfolio {
 						continue; // skip this db entry, not on valid date
 					}
 					
-					// example rs returned: [id, user_id, "bought", "NTNX", 7, "02-01-2020"]
-					// parse string for stock name and quantity
-					String transaction = rs.getString(3); // either "bought" or "sold"
-					String stockName = rs.getString(4);
-					int stockQuantInt = rs.getInt(5);
+					//Edit: removed the previous code checking for "bought" and "sold"
 					
-					// if stock doesn't exist in hashmap yet
-					if(!hmap.containsKey(stockName)) {
-						// if sold stock, decrease quant ('bought' should be queried first, but just in case)
-						if(transaction.toLowerCase().equals("sold")) {
-							stockQuantInt *= -1; // make quantity neg (aka subtract)
-						} // else, user bought stock. no calculation needed here
-						
-						hmap.put(stockName, stockQuantInt);
-					// else, already exists. need to calculate quantity
-					} else {
-						int curQuant = hmap.get(stockName);
-						
-						// if sold stock, decrease quant
-						if(transaction.toLowerCase().equals("sold")) {
-							stockQuantInt *= -1; // make quantity neg (aka subtract)
-						} // else, user bought stock. no calculation needed here
-						
-						// replace quantity for stockName in hmap
-						hmap.put(stockName, curQuant + stockQuantInt);
-					}
+					
+					// example rs returned: [id, user_id, "NTNX", 7, "02-01-2020", "03-05-2020"]
+					// parse string for stock name and quantity
+					String stockName = rs.getString(3);
+					int stockQuantInt = rs.getInt(4);
+					hmap.put(stockName, stockQuantInt);
+					
 				} // end while
 	        } catch (SQLException e) {
 	        	System.out.println("Error querying stock data from DB when retrieving current portfolio.");
@@ -364,6 +319,7 @@ public class Portfolio {
 	
 	public static String getCurrentPortfolioValue(int userId)
 	{
+		// Edit: no changes made
 		ArrayList<ArrayList<String>> portfolio = retrieveCurrentPortfolio(userId);
 		double portfolioVal = 0;
 		
@@ -414,6 +370,7 @@ public class Portfolio {
 	 */
 	public static ArrayList<ArrayList<String>> getFullLineForPortfolio(int userId)
 	{
+		//Edit: now we don't need to consider "bought" and "sold". Not sure about this one!
 		Date start = null, end = null;
 		
 		// init portfolio
@@ -428,30 +385,37 @@ public class Portfolio {
 		if(con != null) {
 			try {
 				// query stocks table for user id
-				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks WHERE user_id = ?");
+				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks_new WHERE user_id = ?");
 				ps.setInt(1, userId);
 				ResultSet rs = ps.executeQuery();
 				
-				String transDateStr = "";
-				String transaction = "";
+				String transDateOfPurchase = "";
+				String transDateOfSelling = "";
+				// example rs returned: [id, user_id, "NTNX", 7, "02-01-2020", "03-05-2020"]
+
 	
 				// while there are stocks in the portfolio, find start and end dates
 				while(rs.next()) {
 					// example rs returned: [id, user_id, "bought", "NTNX", 7, "02-01-2020"]
-					transDateStr = rs.getString(6); // date
-					transaction = rs.getString(3); // bought/sold
+					transDateOfPurchase = rs.getString(5);
+					transDateOfSelling = rs.getString(6);
+					
 					if(start == null && end == null) { // need to init start and end dates
-						if(transaction.toLowerCase().equals("bought")) {
-							start = new SimpleDateFormat("MM-dd-yyyy").parse(transDateStr);
-							end = new SimpleDateFormat("MM-dd-yyyy").parse(transDateStr);
-						}
+						start = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfPurchase);
+						end = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfSelling);
+						
 					} else {
-						Date transDate = new SimpleDateFormat("MM-dd-yyyy").parse(transDateStr);
-						if(transDate.before(start)) {
-							start = transDate;
+						Date transBuy = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfPurchase);
+						Date transSell = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfSelling);
+						
+						//earlier buy date
+						if(transBuy.before(start)) {
+							start = transBuy;
 						}
-						if(transDate.after(end)) {
-							end = transDate;
+						
+						//later sell date
+						if(transSell.after(end)) {
+							end = transSell;
 						}
 					}
 				}
