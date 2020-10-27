@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,7 +60,7 @@ public class Portfolio {
 			    ps.setString(2, stock);
 			    ps.setInt(3, quantity);
 			    ps.setString(4, dateOfPurchase);
-			    ps.setString(4, dateOfSelling);
+			    ps.setString(5, dateOfSelling);
 			    ps.execute();
 			    con.close();
 			    return 1;
@@ -258,9 +259,28 @@ public class Portfolio {
 	
 				// while there are stocks in the portfolio
 				while(rs.next()) {
-					// validate date
-					String transDateStr = rs.getString(6); // date
-					if(transDateStr.compareTo(date) > 0) { // if transaction date > date
+					// date should be in between transBuyDate and transSellDate
+					String transBuyDateStr = rs.getString(5); // purchase date
+					String transSellDateStr = rs.getString(6); // sell date
+					
+					SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+					Calendar transBuyDate = Calendar.getInstance();
+					Calendar transSellDate = Calendar.getInstance();
+					Calendar selectedDate = Calendar.getInstance();
+					try {
+						transBuyDate.setTime(format.parse(transBuyDateStr));
+						transSellDate.setTime(format.parse(transSellDateStr));
+						selectedDate.setTime(format.parse(date));
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						System.out.println("Error parsing transBuy, transSell, or selectedDate in retrievePortfolioOnADate");
+						continue;
+					}
+					
+					
+					// if date falls outside of buy to sell date range
+					if(selectedDate.before(transBuyDate) || selectedDate.after(transSellDate)) {
 						continue; // skip this db entry, not on valid date
 					}
 					
@@ -271,7 +291,15 @@ public class Portfolio {
 					// parse string for stock name and quantity
 					String stockName = rs.getString(3);
 					int stockQuantInt = rs.getInt(4);
-					hmap.put(stockName, stockQuantInt);
+					
+					//If stock already in the map, increment
+					if(hmap.containsKey(stockName)) {
+						hmap.replace(stockName, hmap.get(stockName) + stockQuantInt);
+					}
+					else {
+						//Else, create a new entry
+						hmap.put(stockName, stockQuantInt);
+					}
 					
 				} // end while
 	        } catch (SQLException e) {
@@ -461,6 +489,7 @@ public class Portfolio {
 	 * parameters: user_id, start, end
 	 * returns: ArrayArrayList<ArrayArrayList<String> > basically a n x 2 array
 	 */
+	//Edit: no changes
 	public static ArrayList<ArrayList<String>> getLineForPortfolioWithDateRange(int userId, String start, String end)
 	{
 		ArrayList<ArrayList<String>> portfolioFull = getFullLineForPortfolio(userId);
@@ -512,6 +541,11 @@ public class Portfolio {
 		ArrayList<ArrayList<String>> portfolio = retrievePortfolioOnADate(userId, date);
 		double portfolioVal = 0;
 		
+		//There is no data on the stock price for this date
+		if(portfolio.size() == 1) {
+			return "NULL";
+		}
+		
 		// example portfolio value: { ["Stock", "Quantity"], ["NTNX", "3"], ["SLSF", "4"] }
 		
 		// starting at index 1, ignoring header strings
@@ -523,7 +557,16 @@ public class Portfolio {
 			// api call to get price of stock
 			double stockVal = 0;
 			try {
-				stockVal = Double.parseDouble(Api.getCurrentPriceOf(stockName));
+				//Get the price of the stock on a specific date
+				ArrayList<ArrayList<String>> temp = Api.getOneLineWithDateRange(stockName, date, date);
+				
+				//NOTE: This might not be right!
+				if(temp.size() >= 2 && temp.get(1).size() >= 2) {
+					stockVal = Double.parseDouble(temp.get(1).get(1));
+				}
+				else {
+					stockVal = Double.parseDouble(Api.getCurrentPriceOf(stockName));
+				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
