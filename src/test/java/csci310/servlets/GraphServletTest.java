@@ -19,7 +19,7 @@ public class GraphServletTest extends Mockito {
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
 		GraphServlet gs = new GraphServlet();
-		gs.CreateArray();
+
 		when(response.getWriter()).thenReturn(new PrintWriter("Yo"));
 		Cookie[] cookies = new Cookie[1];
 		cookies[0] = new Cookie("user_id", "15");
