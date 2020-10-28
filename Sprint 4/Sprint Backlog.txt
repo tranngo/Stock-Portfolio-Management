@@ -1,0 +1,16 @@
+Sprint Backlog:
+  1. Roadmap meeting for delegation of tasks for Sprint 4
+  2. Edit and add to the .feature files for cucumber tests
+  3. Switch out Google Line Charts for HighCharts API
+      - Put HighCharts on the website and make sure the UI looks good
+      - make the add/remove external stock buttons work.
+  4. Continue working on the portfolio.
+      - Goal: the left hand side panel of the website should work. The portfolio line should show up on the graph.
+  5. Frontend changes based on feedback from CPs
+
+The first point in this backlog was a continuation of what our group came up with as a means of helping us plan better for the sprint. We agreed that it was useful for the past sprint and allows us to have a better idea of what we needed to address as a team for the sprint. The second and third point somewhat work together because it relates to feedback from out stakeholders. Editing and adding to the .feature files is crucial for our group so that we can receive the proper feedback we need to continue creating the best possible product. We also are making the switch from Google Line CHarts to HighCharts API based on recommendation and accessibility. For the fourth point, we aim to continue developing the portfolio as this is the main bulk of the project. There's a lot set up for this but we need to finalize many of the smaller tasks within the porfolio to clean it up. Lastly, any and all feedback from CPs will be implemented. It's important because we want to clean up the progress from our previous sprint, because each small fix will add up to a better experience for our stakeholders. 
+  
+Meeting Participants (3):
+Sai Allu
+Maggie Shi
+Teddy Lee
