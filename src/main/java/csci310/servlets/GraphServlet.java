@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,36 +32,6 @@ public class GraphServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
 	private String jsonArray;
-	
-	protected void CreateArray() {
-		List<List<String>> list = new ArrayList<List<String>>();
-		List<String> title = new ArrayList<String>();
-		title.add("Year");
-		title.add("Sales");
-		title.add("Expenses");
-		list.add(title);
-		
-		List<String> data = new ArrayList<String>();
-		data.add("2004");
-		data.add("1000");
-		data.add("404");
-		list.add(data);
-		
-		List<String> data1 = new ArrayList<String>();
-		data1.add("2005");
-		data1.add("2340");
-		data1.add("700");
-		list.add(data1);
-		
-		List<String> data2 = new ArrayList<String>();
-		data2.add("2006");
-		data2.add("6894");
-		data2.add("942");
-		list.add(data2);
-		
-		Gson g = new Gson();
-		jsonArray = g.toJson(list);
-	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -72,7 +43,19 @@ public class GraphServlet extends HttpServlet{
 		String portfolioContributors = request.getParameter("portfolioContributors");
 		String externalStocks = request.getParameter("externalStocks"); //NTNX,JNJ,SLFS,
 		
-		
+		Cookie cookies[] = request.getCookies();
+		int user_id = -99;
+		if(cookies != null) {
+			for(int i = 0; i < cookies.length; i++) {
+				System.out.println("Reading cookie number " + i);
+				if(cookies[i].getName().equals("user_id")) {
+					user_id = Integer.parseInt(cookies[i].getValue());
+					System.out.println("Found the user_id cookie! Value found is " + user_id);
+				}
+			}
+		}
+
+		System.out.println("User id stored in cookie was " + user_id);
 		System.out.println("GraphServlet, startDate passed was: " + startDate);
 		System.out.println("GraphServlet, endDate passed was: " + endDate);
 		

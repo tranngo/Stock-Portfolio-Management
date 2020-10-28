@@ -526,19 +526,24 @@ public class Api {
 						//This date is before the specified start date, filter it out
 						if(date.before(startDate))
 						{
-							System.out.println(dateStr + " is less than " + start + " removing it!* itr");
+							//System.out.println(dateStr + " is less than " + start + " removing it!* itr");
 							i.remove();
 						}
 						else if(date.after(endDate))
 						{
 							//This date is after the specified end date, filter it out
-							System.out.println(dateStr + " is bigger than " + end + " removing it!* itr");
+							//System.out.println(dateStr + " is bigger than " + end + " removing it!* itr");
 							i.remove();
 						}
 					}
 					
 					
 					//As a final measure, we want to add "NULL" entries to pad up the array
+					
+					//Let's say there was no data found in this range, return dataset
+					if(dataset.size() == 1) {
+						return dataset;
+					}
 					String firstDateInDataset = dataset.get(1).get(0);
 					try {
 						date.setTime(format.parse(firstDateInDataset));
