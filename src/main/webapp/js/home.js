@@ -221,8 +221,34 @@ google.charts.load("current", { packages: ["corechart"] });
   
   
   
+  //Left side panel (Portfolio related add/remove/upload)
+  function addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling) {
+  		
+  		//First, call the PortfolioServlet
+  		$.ajax({
+		      url: "PortfolioServlet",
+		      type: "POST",
+		      data: {
+		      	type: "add",
+		      	stock: stock,
+		      	quantity: quantity,
+		      	purchaseDate: dateOfPurchase,
+		      	sellDate: dateOfSelling
+		      },
+		
+		      success: function (result) {
+		        console.log("Yay! Stock transaction successfully added to portfolio");
+		        
+		        //Next, add to portfolio contributors
+		 		addPortfolioContributor(stock);
+		      },
+		 });
+		 
+  } 
   
+  function removeFromPortfolio(stock) {
   
+  }
   
 
   function drawMainChart() {
@@ -365,8 +391,14 @@ $("#remove-external-stock-button").on("click", function() {
 
 $("#modal-confirm-button").on("click", function() {
 	if ($(this).data("type") === "addStock") {
-		
+		//Change
+		var stock = $("#stock-name-input").val();
+		var quantity = $("#stock-quantity-input").val();
+		var dateOfPurchase = $("#stock-purchase-date-input").val();
+		var dateOfSelling = $("#stock-sell-date-input").val();
+		addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling);
 	} else if ($(this).data("type") === "uploadStock") {
+		//Change
 		
 	} else if ($(this).data("type") === "addExternal") {
 		addExternalStock($("#add-external-stock-name-input").val());
