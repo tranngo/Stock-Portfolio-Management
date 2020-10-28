@@ -1,0 +1,19 @@
+Meeting Participants (3):
+Sai Allu
+Maggie Shi
+Teddy Lee
+
+Sprint 3 was dedicated towards a majority of our project development. We continued setting up the graph portion of the portfolio and made sure our backend functionality would connect. We also layed out almost all of the features this sprint to set up for the next sprint. Based on our feedback, here are the things our group will change in terms of process aspects.
+
+1. Our group will continue to have a meeting separate from the scrums which will be a roadmap meeting decdicated towards planning how we want to delegate the work we'll need for the sprint. We hope that in doing so, we can limit the variables and won't run into problems along the way with adding extra functions and test cases.
+2. We will continue to work on increasing cobuterra coverage. Our team might need help through CPs or office hours in order to hit the necessary branches and lines in order to hit all of the catch blocks with Mockito and mock objects.
+3. We will continue to work on TDD. Although our team has continued to improve on this, TDD still is a weak point. It will be a priority to get the tests out after the roadmap meeting metioned previously. We will continue look to the best practice of writing and pushing tests prior to implementing code. We hope to have at least 2 different test cases per function.
+4. We will make sure to work on continuous integration. When handling 3rd party API's, we will write code that can handle the responses, regardless of pass or fail. In doing so, our develop branch won't have issues (even if the features pass Travis checks), and we can continue smooth integration.
+5. Lastly, we will make sure to be sustainably paced. We don't want to commit a majority of our code on any specific day over another.
+
+We don't see a need to edit the product backlog based on the tasks mentioned above, but we're definitely going to take into account the feedback we received from our sprint review. Some of these tasks include:
+
+1. Acceptance Tests: changes to make to existing acceptance tests and the new ones we have to make
+2. HighCharts: for feature 4 we want to transition from Google Line Charts to Highcharts
+3. Portfolio: regarding our feature 2 and the left hand panel on the website
+4. Frontend: important frontend changes
