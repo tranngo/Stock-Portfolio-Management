@@ -135,7 +135,7 @@ public class Api {
 		String result = "[" + gson.toJson(dataset.get(0)) + ",";
 		for (int i = 1; i < dataset.size(); i++) {
 			result += "[";
-			for (int j = 0; j < dataset.get(0).size(); j++) {
+			for (int j = 0; j < dataset.get(i).size(); j++) {
 				if(dataset.get(i).get(j) != null && isNumeric(dataset.get(i).get(j))){
 					if (j == dataset.get(0).size()-1) {
 						result += gson.toJson(Double.parseDouble(dataset.get(i).get(j)));
