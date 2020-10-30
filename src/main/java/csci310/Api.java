@@ -145,7 +145,15 @@ public class Api {
 					}           
 				}
 				else {
-					result += gson.toJson(dataset.get(i).get(j)) + ",";
+					if(dataset.get(i).get(j).equals("NULL")) {
+						result += "null";
+						if(j != dataset.get(i).size()-1) {
+							result += ",";
+						}
+					}
+					else {
+						result += gson.toJson(dataset.get(i).get(j)) + ",";
+					}
 				}
 			}
 			if (i == dataset.size()-1) {
@@ -733,7 +741,11 @@ public class Api {
 						}
 					} else {
 //					System.out.println("dataset size: " + dataset.size() + ", temp size: " + temp.size());
-						dataset.get(row).add( temp.get(row).get(1) );
+						
+						//THIS IF STATEMENT MIGHT BE A PROBLEM IF PORTFOLIO_7 NOT SHOWING UP
+						if(temp.size() > row && temp.get(row).size() >= 1) {
+							dataset.get(row).add( temp.get(row).get(1) );
+						}
 					}
 				}
 			}
