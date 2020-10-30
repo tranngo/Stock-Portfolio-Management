@@ -164,11 +164,7 @@
 
     <nav class="navbar navbar-dark" id="navbar-bg">
       <a class="title bold" href="#"> USC CS310 Stock Portfolio Management </a>
-      <!-- <a class="logout-btn" href="/LogoutServlet">Log out</a> -->
-      <!-- <form action="/LogoutServlet" method="POST">
-        <button type="submit" class="logout-btn">Log out</button>
-      </form> -->
-      <a class="logout-btn">Log out</a>
+      <a class="logout-btn" href="/LogoutServlet">Log out</a>
     </nav>
     <div class="container-fluid mb-5">
       <div class="row">
@@ -284,6 +280,5 @@
       crossorigin="anonymous"
     ></script>
     <script src="js/home.js"></script>
-    <script src="js/logout.js"></script>
   </body>
 </html>
