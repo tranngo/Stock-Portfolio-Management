@@ -218,7 +218,7 @@ public class ApiTest {
 		stocks.add("NTNX");
 		stocks.add("JNJ");
 		stocks.add("INVALID");
-		stocks.add("PORTFOLIO_1");
+		stocks.add("PORTFOLIO_7");
 		
 		ArrayList<ArrayList<String>> resultData = Api.getMultipleLinesWithDateRange(stocks, "01-01-2018", "01-01-2020");
 		if(resultData == null) {

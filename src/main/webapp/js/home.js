@@ -246,9 +246,52 @@ google.charts.load("current", { packages: ["corechart"] });
 		 
   } 
   
+  //Call this with the red 'X'
   function removeFromPortfolio(stock) {
-  
+  		//First, call the PortfolioServlet
+  		$.ajax({
+		      url: "PortfolioServlet",
+		      type: "POST",
+		      data: {
+		      	type: "remove",
+		      	stock: stock
+		      },
+		
+		      success: function (result) {
+		        console.log("Yay! Stock successfully removed from portfolio");
+		        
+		        //Next, remove from portfolio contributors
+		 		removePortfolioContributor(stock);
+		      },
+		 });
   }
+  
+  //Read the CSV file
+  //Referenced from: https://stackoverflow.com/questions/7431268/how-to-read-data-from-csv-file-using-javascript
+  function readFile(file) {
+    var fileData = file.split(/\r\n|\n/);
+    var lines = [];
+    var i = 1;
+
+	//Skip the headers
+    for(i = 1; i < fileData.length; i++) 
+    {
+    	//Get one line of data
+        var data = fileData[i].split(',');
+        
+        //There should only be 4 entries
+        if (data.length == 4) {
+            var oneRow = [];
+            var j = 0;
+            
+            for (j = 0; j < 4; j++) {
+                oneRow.push(data[j]);
+            }
+            lines.push(oneRow);
+            console.log("Line " + i + " is " + oneRow);
+        }
+    }
+}
   
 
   function drawMainChart() {
@@ -390,6 +433,7 @@ $("#remove-external-stock-button").on("click", function() {
 });
 
 $("#modal-confirm-button").on("click", function() {
+
 	if ($(this).data("type") === "addStock") {
 		//Change
 		var stock = $("#stock-name-input").val();
@@ -397,9 +441,11 @@ $("#modal-confirm-button").on("click", function() {
 		var dateOfPurchase = $("#stock-purchase-date-input").val();
 		var dateOfSelling = $("#stock-sell-date-input").val();
 		addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling);
-	} else if ($(this).data("type") === "uploadStock") {
+	} else if ($(this).data("type") === "uploadFile") {
 		//Change
-		
+		console.log("Upload file was hit");
+		var file = $("#fileUpload").val();
+		readFile(file);
 	} else if ($(this).data("type") === "addExternal") {
 		addExternalStock($("#add-external-stock-name-input").val());
 	} else if ($(this).data("type") === "removeExternal") {

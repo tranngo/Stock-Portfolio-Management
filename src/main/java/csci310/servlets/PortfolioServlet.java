@@ -60,6 +60,11 @@ public class PortfolioServlet extends HttpServlet{
 			String purchaseDate = request.getParameter("purchaseDate");
 			String sellDate = request.getParameter("sellDate");
 			
+			String startYr = purchaseDate.substring(0, 4);
+			purchaseDate = purchaseDate.substring(5) + "-" + startYr;
+			String endYr = sellDate.substring(0, 4);
+			sellDate = sellDate.substring(5) + "-" + endYr;
+						
 			System.out.println("Stock is: " + stock);
 			System.out.println("Quantity is: " + quantityStr);
 			System.out.println("Purchase date is: " + purchaseDate);

@@ -96,6 +96,8 @@ public class Api {
 	{
 		if(name.startsWith("PORTFOLIO_")) {
 			return true;
+//			String[] strings = name.split("_");
+//			return strings.length == 2; // make sure name matches PORTFOLIO_userid
 		}
 		
 		Stock stock = YahooFinance.get(name);
@@ -133,8 +135,8 @@ public class Api {
 		String result = "[" + gson.toJson(dataset.get(0)) + ",";
 		for (int i = 1; i < dataset.size(); i++) {
 			result += "[";
-			for (int j = 0; j < dataset.get(0).size(); j++) {
-				if(isNumeric(dataset.get(i).get(j))){
+			for (int j = 0; j < dataset.get(i).size(); j++) {
+				if(dataset.get(i).get(j) != null && isNumeric(dataset.get(i).get(j))){
 					if (j == dataset.get(0).size()-1) {
 						result += gson.toJson(Double.parseDouble(dataset.get(i).get(j)));
 					}
@@ -143,7 +145,15 @@ public class Api {
 					}           
 				}
 				else {
-					result += gson.toJson(dataset.get(i).get(j)) + ",";
+					if(dataset.get(i).get(j).equals("NULL")) {
+						result += "null";
+						if(j != dataset.get(i).size()-1) {
+							result += ",";
+						}
+					}
+					else {
+						result += gson.toJson(dataset.get(i).get(j)) + ",";
+					}
 				}
 			}
 			if (i == dataset.size()-1) {
@@ -153,6 +163,7 @@ public class Api {
 				result += "],";
 			}
 		}
+		System.out.println("resul in datasetToJSON: " + result + "]");
 		return result + "]";
 	}
 	
@@ -515,6 +526,7 @@ public class Api {
 						ArrayList<String> row = i.next();
 						String dateStr = row.get(0); //get the date
 						try {
+//							System.out.println("dateStr: " + dateStr);
 							date.setTime(format.parse(dateStr));
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
@@ -677,14 +689,26 @@ public class Api {
 		for(int k = 0; k < stocks.size(); k++)
 		{
 			String stock = stocks.get(k);
+//			ArrayList<ArrayList<String>> portfolioStocks;
+			ArrayList<ArrayList<String>> temp;
 			if(stock.startsWith("PORTFOLIO_"))
 			{
-				System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
-				continue;
+				String[] strings = stock.split("_"); // {"PORTFOLIO_", userid}
+				int userId = Integer.parseInt(strings[1]);
+				System.out.println("userid: " + userId);
+				temp = Portfolio.getLineForPortfolioWithDateRange(userId, start, end);
+//				System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
+//				continue;
+				System.out.println("portfolio line");
+				for(int a = 0; a < temp.size(); a++) {
+					for(int b = 0; b < temp.get(a).size(); b++) {
+						System.out.print(temp.get(a).get(b) + " ");
+					}
+					System.out.println("");
+				}
+			} else {
+				temp = getOneLineWithDateRange(stock, start, end);
 			}
-			
-			
-			ArrayList<ArrayList<String>> temp = getOneLineWithDateRange(stock, start, end);
 			if(k == 0)
 			{
 				dataset = temp;
@@ -693,10 +717,44 @@ public class Api {
 			{
 				//We want to append to dataset, start from row index of 1
 				dataset.get(0).add(stock);
+				boolean canIndexTemp = false;
+				int tempIndex = 1;
 				for(int row = 1; row < dataset.size(); row++)
 				{
-					dataset.get(row).add( temp.get(row).get(1)  );
+					if(stock.startsWith("PORTFOLIO_") && temp.size() > 1) { // if portfolio stocks, and portfolio is not empty
+						if(!canIndexTemp) { // NOT safe to index temp
+//							for(int j = 0; j < temp.size(); j++) {
+								if(dataset.get(row).get(0).equals(temp.get(tempIndex).get(0))) { // if dates match
+//									tempIndex = 0; // save valid 
+									canIndexTemp = true;
+									System.out.println("found matching date: " + temp.get(tempIndex).get(0));
+									dataset.get(row).add( temp.get(tempIndex++).get(1) );
+//									break;
+								} else {
+									dataset.get(row).add("0.00");
+//									dataset.get(row).add(null);
+								}
+//							}
+								
+						} else { // can index temp to populate dataset
+							dataset.get(row).add( temp.get(tempIndex++).get(1) );
+						}
+					} else {
+//					System.out.println("dataset size: " + dataset.size() + ", temp size: " + temp.size());
+						
+						//THIS IF STATEMENT MIGHT BE A PROBLEM IF PORTFOLIO_7 NOT SHOWING UP
+						if(temp.size() > row && temp.get(row).size() >= 1) {
+							dataset.get(row).add( temp.get(row).get(1) );
+						}
+					}
 				}
+			}
+			System.out.println("DATASET: ");
+			for(int a = 0; a < dataset.size(); a++) {
+				for(int b = 0; b < dataset.get(a).size(); b++) {
+					System.out.print(dataset.get(a).get(b) + " ");
+				}
+				System.out.println("");
 			}
 		}
 		

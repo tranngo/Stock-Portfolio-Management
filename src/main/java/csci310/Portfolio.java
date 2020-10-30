@@ -272,7 +272,6 @@ public class Portfolio {
 						transSellDate.setTime(format.parse(transSellDateStr));
 						selectedDate.setTime(format.parse(date));
 					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 						System.out.println("Error parsing transBuy, transSell, or selectedDate in retrievePortfolioOnADate");
 						continue;
@@ -427,7 +426,7 @@ public class Portfolio {
 					// example rs returned: [id, user_id, "bought", "NTNX", 7, "02-01-2020"]
 					transDateOfPurchase = rs.getString(5);
 					transDateOfSelling = rs.getString(6);
-					
+					System.out.println("transaction date purchase: " + transDateOfPurchase + ", selling: " + transDateOfSelling);
 					if(start == null && end == null) { // need to init start and end dates
 						start = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfPurchase);
 						end = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfSelling);
@@ -435,7 +434,7 @@ public class Portfolio {
 					} else {
 						Date transBuy = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfPurchase);
 						Date transSell = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfSelling);
-						
+						System.out.println("transBuy: " + transBuy.toString() + ", transSell: " + transSell.toString());
 						//earlier buy date
 						if(transBuy.before(start)) {
 							start = transBuy;
@@ -464,9 +463,16 @@ public class Portfolio {
 	        }
 		} // end if con != null
 		
+		// if no stocks in portfolio, return empty portfolio
+		if(start == null || end == null) {
+			return portfolio;
+		}
+		
 		// loop through dates to calculate portfolio values
 		LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		System.out.println("start: " + start.toString());
+		System.out.println("end: " + end.toString());
 		for(LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");  
 		    String dateStr = formatter.format(date);  
@@ -496,6 +502,7 @@ public class Portfolio {
 		ArrayList<ArrayList<String>> portfolioRanged = new ArrayList<ArrayList<String>>();
 		portfolioRanged.add(portfolioFull.get(0)); // add header: ["Date", "Value"]
 		
+		System.out.println("full line with date range, start: " + start + " end: " + end);
 		try {
 			// parse date strings as Dates
 			Date startDate = new SimpleDateFormat("MM-dd-yyyy").parse(start);
