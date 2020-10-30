@@ -95,6 +95,9 @@ public class GraphServlet extends HttpServlet{
 			stocks = new ArrayList<String>(Arrays.asList(strings));
 		}
 		
+		// add user's current porfolio to stocks arraylist
+		stocks.add("PORTFOLIO_" + user_id);
+		
 		//Print out what we will request
 		System.out.println("GraphServlet, request package");
 		for(int i = 0; i < stocks.size(); i++) {
