@@ -3,12 +3,16 @@ package csci310.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -114,6 +118,48 @@ public class PortfolioServlet extends HttpServlet{
 		}
 		else if(type.equals("upload")) {
 			System.out.println("Upload not yet implemented");
+		}
+		else if(type.equals("getPortfolioValue")) {
+			//All we need is the user_id
+			String currentPortfolioValue = "$" + Portfolio.getCurrentPortfolioValue(user_id);
+			System.out.println("Answer is: " + currentPortfolioValue);
+			PrintWriter out = response.getWriter();
+			out.print(currentPortfolioValue);
+			out.flush();
+			response.setStatus(HttpServletResponse.SC_OK);
+			return;
+		}
+		else if(type.equals("getPercentChange")) {
+			//Referenced from: https://stackoverflow.com/questions/38955993/how-to-get-yesterday-date
+			//All we need is the user_id
+			//MISSING ERROR CHECKING
+			String currentPortfolioValue = Portfolio.getCurrentPortfolioValue(user_id);
+			SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+			Calendar calendar = Calendar.getInstance();
+			
+			calendar.add(Calendar.DATE, -1);
+			
+			String yesterdayDate = format.format(calendar.getTime());
+			String yesterdayPortfolioValue = Portfolio.getPortfolioValueOnADate(user_id, yesterdayDate);
+			
+			double todayValue = Double.parseDouble(currentPortfolioValue);
+			double yesterdayValue = Double.parseDouble(yesterdayPortfolioValue);
+			
+			double percentChange = 999.99;
+			if(yesterdayValue != 0.0) {
+				percentChange = (todayValue - yesterdayValue) / (yesterdayValue);
+			}
+			DecimalFormat decFormat = new DecimalFormat("#.##");
+			decFormat.format(percentChange);
+			
+			String percentChangeAsStr = percentChange + "%";
+			System.out.println("Answer for percent change is: " + percentChangeAsStr);
+			
+			PrintWriter out = response.getWriter();
+			out.print(percentChangeAsStr);
+			out.flush();
+			response.setStatus(HttpServletResponse.SC_OK);
+			return;
 		}
 		else {
 			System.out.println("Type of request is not recognized, it should have been add/remove/upload");

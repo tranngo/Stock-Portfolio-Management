@@ -1,6 +1,7 @@
 google.charts.load("current", { packages: ["corechart"] });
   google.charts.setOnLoadCallback(drawMainChart);
   google.charts.setOnLoadCallback(refreshGraph);
+  window.setTimeout(timeout, 120000);
 
   var jsonArray = [
     ["Year", "Example Stock"],
@@ -30,6 +31,8 @@ google.charts.load("current", { packages: ["corechart"] });
   state_externalStocks = ["NTNX"];
   state_start = "-1";
   state_end = "-1";
+  state_portfolioValue = "$0";
+  state_percentChange = "0.0%";
   
   //Calling this function will take the "state" and pass it to GraphServlet as your request
   function refreshGraph() {
@@ -116,6 +119,7 @@ google.charts.load("current", { packages: ["corechart"] });
         }
         
         drawMainChart();
+        getMyCurrentPortfolioValue();
       },
     });
     return false;
@@ -269,29 +273,132 @@ google.charts.load("current", { packages: ["corechart"] });
   //Read the CSV file
   //Referenced from: https://stackoverflow.com/questions/7431268/how-to-read-data-from-csv-file-using-javascript
   function readFile(file) {
-    var fileData = file.split(/\r\n|\n/);
-    var lines = [];
-    var i = 1;
+	    var fileData = file.split(/\r\n|\n/);
+	    var lines = [];
+	    var i = 1;
 
-	//Skip the headers
-    for(i = 1; i < fileData.length; i++) 
-    {
-    	//Get one line of data
-        var data = fileData[i].split(',');
-        
-        //There should only be 4 entries
-        if (data.length == 4) {
-            var oneRow = [];
-            var j = 0;
-            
-            for (j = 0; j < 4; j++) {
-                oneRow.push(data[j]);
-            }
-            lines.push(oneRow);
-            console.log("Line " + i + " is " + oneRow);
-        }
-    }
-}
+		//Skip the headers
+	    for(i = 1; i < fileData.length; i++) 
+	    {
+	    	//Get one line of data
+	        var data = fileData[i].split(',');
+	        
+	        //There should only be 4 entries
+	        if (data.length == 4) {
+	            var oneRow = [];
+	            var j = 0;
+	            
+	            for (j = 0; j < 4; j++) {
+	                oneRow.push(data[j]);
+	            }
+	            lines.push(oneRow);
+	            console.log("Line " + i + " is " + oneRow);
+	        }
+	    }
+	}
+	
+	//Get the portfolio value to display on the webpage
+	function getMyCurrentPortfolioValue() {
+		//First, call PortfolioServlet with type="getPortfolioValue"
+		$.ajax({
+		      url: "PortfolioServlet",
+		      type: "POST",
+		      data: {
+		      	type: "getPortfolioValue"
+		      },
+		
+		      success: function (result) {
+		        console.log("Yay! My portfolio value is retrieved");
+		        var value = result;
+		        console.log("It is " + value);
+		        state_portfolioValue = value;
+		        
+		        $.ajax({
+				      url: "PortfolioServlet",
+				      type: "POST",
+				      data: {
+				      	type: "getPercentChange"
+				      },
+				
+				      success: function (result) {
+				        console.log("Yay! My percent change is retrieved");
+				        var per = result;
+				        console.log("It is " + per);
+				        state_percentChange = per;
+				        
+				      },
+				 });
+				        
+		        
+		      },
+		 });
+		
+	}
+	
+	//Security Feature X: Session timeout after 2 mins
+	function timeout() {
+		console.log("Session timeout limit reached");
+		
+		//Referenced from: https://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm
+		var txt;
+		  if (confirm("If you want to continue your session press OK. If you want to end it press Cancel!")) {
+		    txt = "You pressed OK!";
+		  } else {
+		    txt = "You pressed Cancel!";
+		  }
+		  
+		if(txt === "You pressed OK!") {
+			console.log("Alright continuing session");
+			window.setTimeout(timeout, 120000)
+			return;
+		}
+		else {
+			//Call "LogoutServlet"
+			$.ajax({
+			    url: "/LogoutServlet",
+			    type: "POST",
+			
+			    success: function (data) {
+			      window.location.replace("../");
+			    },
+			  });
+		}
+	}
+	
+	
+	//Security Feature X: user must be logged in to see home.html
+	//Referenced from: http://jsfiddle.net/MwKpP/2/
+	function getCookie(name) {
+	    var value = document.cookie;
+	    start = value.indexOf(" " + name + "=");
+	        
+	    if (start == -1) {
+	    	start = value.indexOf(name + "=");
+	        value = null;
+	    } 
+	    else {
+	        start = value.indexOf("=", start) + 1;
+	        
+	        var end = value.indexOf(";", start);
+	        
+	        if (end == -1) 
+	        {
+	            end = value.length;
+	        }
+	        
+	        value = unescape(value.substring(start, end));
+	    }
+	    
+	    return value;
+	}
+	
+	$(document).ready(function() {
+	    var cookie = getCookie("user_id");
+	    if (!cookie) {
+	    	console.log("User was not logged in");
+	        window.location.replace("../");
+	    }
+	});
   
 
   function drawMainChart() {
