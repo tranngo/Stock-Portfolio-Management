@@ -3,6 +3,7 @@ package csci310.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -121,6 +122,7 @@ public class PortfolioServlet extends HttpServlet{
 		else if(type.equals("getPortfolioValue")) {
 			//All we need is the user_id
 			String currentPortfolioValue = "$" + Portfolio.getCurrentPortfolioValue(user_id);
+			System.out.println("Answer is: " + currentPortfolioValue);
 			PrintWriter out = response.getWriter();
 			out.print(currentPortfolioValue);
 			out.flush();
@@ -147,7 +149,11 @@ public class PortfolioServlet extends HttpServlet{
 			if(yesterdayValue != 0.0) {
 				percentChange = (todayValue - yesterdayValue) / (yesterdayValue);
 			}
-			String percentChangeAsStr = percentChange + "";
+			DecimalFormat decFormat = new DecimalFormat("#.##");
+			decFormat.format(percentChange);
+			
+			String percentChangeAsStr = percentChange + "%";
+			System.out.println("Answer for percent change is: " + percentChangeAsStr);
 			
 			PrintWriter out = response.getWriter();
 			out.print(percentChangeAsStr);

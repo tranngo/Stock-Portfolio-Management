@@ -30,6 +30,8 @@ google.charts.load("current", { packages: ["corechart"] });
   state_externalStocks = ["NTNX"];
   state_start = "-1";
   state_end = "-1";
+  state_portfolioValue = "$0";
+  state_percentChange = "0.0%";
   
   //Calling this function will take the "state" and pass it to GraphServlet as your request
   function refreshGraph() {
@@ -116,6 +118,7 @@ google.charts.load("current", { packages: ["corechart"] });
         }
         
         drawMainChart();
+        getMyCurrentPortfolioValue();
       },
     });
     return false;
@@ -269,29 +272,69 @@ google.charts.load("current", { packages: ["corechart"] });
   //Read the CSV file
   //Referenced from: https://stackoverflow.com/questions/7431268/how-to-read-data-from-csv-file-using-javascript
   function readFile(file) {
-    var fileData = file.split(/\r\n|\n/);
-    var lines = [];
-    var i = 1;
+	    var fileData = file.split(/\r\n|\n/);
+	    var lines = [];
+	    var i = 1;
 
-	//Skip the headers
-    for(i = 1; i < fileData.length; i++) 
-    {
-    	//Get one line of data
-        var data = fileData[i].split(',');
-        
-        //There should only be 4 entries
-        if (data.length == 4) {
-            var oneRow = [];
-            var j = 0;
-            
-            for (j = 0; j < 4; j++) {
-                oneRow.push(data[j]);
-            }
-            lines.push(oneRow);
-            console.log("Line " + i + " is " + oneRow);
-        }
-    }
-}
+		//Skip the headers
+	    for(i = 1; i < fileData.length; i++) 
+	    {
+	    	//Get one line of data
+	        var data = fileData[i].split(',');
+	        
+	        //There should only be 4 entries
+	        if (data.length == 4) {
+	            var oneRow = [];
+	            var j = 0;
+	            
+	            for (j = 0; j < 4; j++) {
+	                oneRow.push(data[j]);
+	            }
+	            lines.push(oneRow);
+	            console.log("Line " + i + " is " + oneRow);
+	        }
+	    }
+	}
+	
+	//Get the portfolio value to display on the webpage
+	function getMyCurrentPortfolioValue() {
+		//First, call PortfolioServlet with type="getPortfolioValue"
+		$.ajax({
+		      url: "PortfolioServlet",
+		      type: "POST",
+		      data: {
+		      	type: "getPortfolioValue"
+		      },
+		
+		      success: function (result) {
+		        console.log("Yay! My portfolio value is retrieved");
+		        var value = result;
+		        console.log("It is " + value);
+		        state_portfolioValue = value;
+		        
+		        $.ajax({
+				      url: "PortfolioServlet",
+				      type: "POST",
+				      data: {
+				      	type: "getPercentChange"
+				      },
+				
+				      success: function (result) {
+				        console.log("Yay! My percent change is retrieved");
+				        var per = result;
+				        console.log("It is " + per);
+				        state_percentChange = per;
+				        
+				      },
+				 });
+				        
+		        
+		      },
+		 });
+		
+	}
+	
+	
   
 
   function drawMainChart() {
