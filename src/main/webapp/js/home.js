@@ -370,7 +370,7 @@ google.charts.load("current", { packages: ["corechart"] });
 	//Referenced from: http://jsfiddle.net/MwKpP/2/
 	function getCookie(name) {
 	    var value = document.cookie;
-	    start = value.indexOf(" " + name + "=");
+	    start = value.indexOf(name + "=");
 	        
 	    if (start == -1) {
 	    	start = value.indexOf(name + "=");
