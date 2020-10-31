@@ -149,14 +149,39 @@ public class PortfolioServlet extends HttpServlet{
 			if(yesterdayValue != 0.0) {
 				percentChange = (todayValue - yesterdayValue) / (yesterdayValue);
 			}
-			DecimalFormat decFormat = new DecimalFormat("#.##");
-			decFormat.format(percentChange);
+			//initially 0.47734
+			//we want 0.47
+			//0.47734*100 = 47.734 cast to int to get 47. Then divided by 100
+			percentChange = ((int)(percentChange*100))/(100.0);
 			
 			String percentChangeAsStr = percentChange + "%";
 			System.out.println("Answer for percent change is: " + percentChangeAsStr);
 			
 			PrintWriter out = response.getWriter();
 			out.print(percentChangeAsStr);
+			out.flush();
+			response.setStatus(HttpServletResponse.SC_OK);
+			return;
+		}
+		else if(type.equals("getPortfolioList")) {
+			//All we need is the user_id
+			ArrayList<ArrayList<String>> myPortfolio = Portfolio.retrieveCurrentPortfolio(user_id);
+			
+			//Collect just the stocks
+			String portfolioList = "";
+			for(int i = 1; i < myPortfolio.size(); i++)
+			{
+				portfolioList += myPortfolio.get(i).get(0);
+				if(i != myPortfolio.size() - 1)
+				{
+					portfolioList += ",";
+				}
+			}
+			
+			System.out.println("getPortfolioList for user_id " + user_id + " is " + portfolioList);
+			
+			PrintWriter out = response.getWriter();
+			out.print(portfolioList);
 			out.flush();
 			response.setStatus(HttpServletResponse.SC_OK);
 			return;
