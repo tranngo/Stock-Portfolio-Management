@@ -1,6 +1,7 @@
 google.charts.load("current", { packages: ["corechart"] });
   google.charts.setOnLoadCallback(drawMainChart);
   google.charts.setOnLoadCallback(refreshGraph);
+  window.setTimeout(timeout, 120000);
 
   var jsonArray = [
     ["Year", "Example Stock"],
@@ -334,6 +335,12 @@ google.charts.load("current", { packages: ["corechart"] });
 		
 	}
 	
+	function timeout() {
+		console.log("Session timeout limit reached");
+		
+		//REPLACE THIS LINE WITH A CLICK ON LOGOUT
+		window.location.href = "http://localhost:8080/";
+	}
 	
   
 
