@@ -335,13 +335,70 @@ google.charts.load("current", { packages: ["corechart"] });
 		
 	}
 	
+	//Security Feature X: Session timeout after 2 mins
 	function timeout() {
 		console.log("Session timeout limit reached");
 		
-		//REPLACE THIS LINE WITH A CLICK ON LOGOUT
-		window.location.href = "http://localhost:8080/";
+		//Referenced from: https://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm
+		var txt;
+		  if (confirm("If you want to continue your session press OK. If you want to end it press Cancel!")) {
+		    txt = "You pressed OK!";
+		  } else {
+		    txt = "You pressed Cancel!";
+		  }
+		  
+		if(txt === "You pressed OK!") {
+			console.log("Alright continuing session");
+			window.setTimeout(timeout, 120000)
+			return;
+		}
+		else {
+			//Call "LogoutServlet"
+			$.ajax({
+			    url: "/LogoutServlet",
+			    type: "POST",
+			
+			    success: function (data) {
+			      window.location.replace("../");
+			    },
+			  });
+		}
 	}
 	
+	
+	//Security Feature X: user must be logged in to see home.html
+	//Referenced from: http://jsfiddle.net/MwKpP/2/
+	function getCookie(name) {
+	    var value = document.cookie;
+	    start = value.indexOf(" " + name + "=");
+	        
+	    if (start == -1) {
+	    	start = value.indexOf(name + "=");
+	        value = null;
+	    } 
+	    else {
+	        start = value.indexOf("=", start) + 1;
+	        
+	        var end = value.indexOf(";", start);
+	        
+	        if (end == -1) 
+	        {
+	            end = value.length;
+	        }
+	        
+	        value = unescape(value.substring(start, end));
+	    }
+	    
+	    return value;
+	}
+	
+	$(document).ready(function() {
+	    var cookie = getCookie("user_id");
+	    if (!cookie) {
+	    	console.log("User was not logged in");
+	        window.location.replace("../");
+	    }
+	});
   
 
   function drawMainChart() {
