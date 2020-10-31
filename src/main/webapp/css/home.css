@@ -39,4 +39,6 @@ ul {
 .logout-btn,
 .logout-btn:hover {
   color: white;
+  background-color: #787878;
+  border: none;
 }
