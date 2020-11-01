@@ -33,6 +33,7 @@ google.charts.load("current", { packages: ["corechart"] });
   state_end = "-1";
   state_portfolioValue = "$0";
   state_percentChange = "0.0%";
+  state_portfolioListToDisplay = ["NTNX"];
   
   //Calling this function will take the "state" and pass it to GraphServlet as your request
   function refreshGraph() {
@@ -120,6 +121,7 @@ google.charts.load("current", { packages: ["corechart"] });
         
         drawMainChart();
         getMyCurrentPortfolioValue();
+        getPortfolioListAsAnArray();
       },
     });
     return false;
@@ -226,6 +228,29 @@ google.charts.load("current", { packages: ["corechart"] });
   
   
   //Left side panel (Portfolio related add/remove/upload)
+  
+  //Retrieve my portfolio list so we can display it
+  function getPortfolioListAsAnArray() {
+		//First, call PortfolioServlet with type="getPortfolioList"
+		$.ajax({
+		      url: "PortfolioServlet",
+		      type: "POST",
+		      data: {
+		      	type: "getPortfolioList"
+		      },
+		
+		      success: function (result) {
+		        console.log("Yay! My portfolio list is retrieved and I can display it");
+		        var portfolioListAsString = result;
+		        console.log("It is " + portfolioListAsString);
+
+				state_portfolioListToDisplay = portfolioListAsString.split(",");
+				console.log("Updating portfolio list to display " + state_portfolioListToDisplay);
+		      },
+		 });
+		
+	}
+  
   function addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling) {
   		
   		//First, call the PortfolioServlet
@@ -245,6 +270,13 @@ google.charts.load("current", { packages: ["corechart"] });
 		        
 		        //Next, add to portfolio contributors
 		 		addPortfolioContributor(stock);
+		 		
+		 		//Fetch the new list to display
+		 		getPortfolioListAsAnArray();
+		 		
+		 		//Update the portfolio value and percent
+		 		getMyCurrentPortfolioValue();
+		 		
 		      },
 		 });
 		 
@@ -266,6 +298,13 @@ google.charts.load("current", { packages: ["corechart"] });
 		        
 		        //Next, remove from portfolio contributors
 		 		removePortfolioContributor(stock);
+		 		
+		 		//Fetch the new list to display
+		 		getPortfolioListAsAnArray();
+		 		
+		 		//Update the portfolio value and percent
+		 		getMyCurrentPortfolioValue();
+		 		
 		      },
 		 });
   }
