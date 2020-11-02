@@ -166,6 +166,7 @@ google.charts.load("current", { packages: ["corechart"] });
   function addExternalStock(stock) {
   	state_externalStocks.push(stock);
   	refreshGraph();
+  	updatePortfolioStockList();
   }
   
   //#4: Remove an external stock
@@ -643,3 +644,57 @@ $("#deselect-all").on("click", function() {
 		}  
 	});
 })
+
+function updatePortfolioStockList() {
+	document.querySelector("#portfolio-value").innerHTML = "";
+	document.querySelector("#portfolio-value").className = "";
+	document.querySelector("#portfolio-percent").innerHTML = "";
+	document.querySelector("#portfolio-percent").className = "";
+	$("#portfolio-stock-list").empty();
+	
+	
+	for (i = 0; i < state_portfolioListToDisplay.length; i++) {
+		let divTag = document.createElement("div");
+		divTag.className = "stock-item d-flex flex-row justify-content-around align-items-center";
+		
+		let deleteIcon = document.createElement("i");
+		deleteIcon.className = "fas fa-times close-icon";
+		
+		let stockName = document.createElement("p");
+		stockName.className = "m-0 p-0 stock-name";
+		stockName.innerHTML = state_portfolioListToDisplay[i];
+		
+		let toggleButton = document.createElement("i");
+		toggleButton.className = "toggle-button fas fa-toggle-on fa-lg";
+		
+		divTag.append(deleteIcon);
+		divTag.append(stockName);
+		divTag.append(toggleButton);
+		document.querySelector("#portfolio-stock-list").appendChild(divTag);
+		
+	}
+	
+	$(".toggle-button").on("click", function() {
+		if ($(this).attr("class").includes("fa-toggle-on")) {
+			$(this).attr("class", $(this).attr("class").replace("fa-toggle-on", "fa-toggle-off"));
+			removePortfolioContributor($(this).innerHTML);
+		} else {
+			$(this).attr("class", $(this).attr("class").replace("fa-toggle-off", "fa-toggle-on"));
+			addPortfolioContributor($(this).innerHTML);
+		}
+	});
+	
+	document.querySelector("#portfolio-value").innerHTML = state_portfolioValue;
+	document.querySelector("#portfolio-percent").innerHTML = state_percentChange;
+	
+	if (parseInt(state_percentChange.split("%")) < 0) {
+		document.querySelector("#portfolio-percent").className = "red-text";
+	} else {
+		document.querySelector("#portfolio-percent").className = "green-text";
+	}
+	
+}
+
+$(document).ready(function() {
+	updatePortfolioStockList();
+});
