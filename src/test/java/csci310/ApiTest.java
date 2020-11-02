@@ -86,7 +86,7 @@ public class ApiTest {
 		f.set(Calendar.DATE, 14);
 		
 		
-		System.out.println("Note for testGetPriceOfStockOnSpecificDate: I messed up the test to prevent FileNotFoundException, dates are now 14th and 15th instead of both as the 14th");
+		// System.out.println("Note for testGetPriceOfStockOnSpecificDate: I messed up the test to prevent FileNotFoundException, dates are now 14th and 15th instead of both as the 14th");
 		
 		Calendar t = Calendar.getInstance();
 		t.set(Calendar.YEAR, 2020);
@@ -97,8 +97,8 @@ public class ApiTest {
 		
 		try {
 			String result = api.getPriceOfStockOnSpecificDate("TSLA", f, t, Interval.DAILY);
-			System.out.println("Left, actual api result: " + result);
-			System.out.println("Right, expected string: " + s);
+			// System.out.println("Left, actual api result: " + result);
+			// System.out.println("Right, expected string: " + s);
 			
 			//Issue: sometimes the API retrieves just for the 14th, sometimes 14th and 15th
 			assertTrue(result.length() > 5);
@@ -151,11 +151,11 @@ public class ApiTest {
 		ArrayList<ArrayList<String>> resultData = Api.getOneLineAllData("NTNX");
 		//ArrayList<ArrayList<String>> resultData2 = Api.getOneLineAllData("PORTFOLIO_1");
 		if(resultData == null) {
-			System.out.println("ApiTest.java, testGetOneLineAllData, null");
+			// System.out.println("ApiTest.java, testGetOneLineAllData, null");
 			return;
 		}
 
-		System.out.println("One line all data: " + resultData);
+		// System.out.println("One line all data: " + resultData);
 		
 		boolean result = (resultData.size() > 5);
 		assertTrue(result);
@@ -171,15 +171,15 @@ public class ApiTest {
 		stocks.add("INVALID");
 		//stocks.add("PORTFOLIO_1");
 		
-		System.out.println("testGetMultipleLinesAllData, Before");
+		// System.out.println("testGetMultipleLinesAllData, Before");
 		ArrayList<ArrayList<String>> resultData = Api.getMultipleLinesAllData(stocks);
-		System.out.println("testGetMultipleLinesAllData, After");
+		// System.out.println("testGetMultipleLinesAllData, After");
 		if(resultData == null) {
-			System.out.println("ApiTest.java, testGetMultipleLinesAllData, null");
+			// System.out.println("ApiTest.java, testGetMultipleLinesAllData, null");
 			return;
 		}
 		
-		System.out.println("Multiple lines all data: " + resultData);
+		// System.out.println("Multiple lines all data: " + resultData);
 		
 		boolean result = (resultData.size() > 5);
 		assertTrue(result);
@@ -189,22 +189,22 @@ public class ApiTest {
 	public void testGetOneLineWithDateRange() {
 		ArrayList<ArrayList<String>> resultData = Api.getOneLineWithDateRange("NTNX", "12-14-2019", "10-19-2020");
 		if(resultData == null) {
-			System.out.println("ApiTest.java, testGetOneLineWithDateRange, null");
+			// System.out.println("ApiTest.java, testGetOneLineWithDateRange, null");
 			return;
 		}
 		
-		System.out.println("Normal get one line with range: " + resultData);
+		// System.out.println("Normal get one line with range: " + resultData);
 		boolean result = (resultData.size() > 5);
 		assertTrue(result);
 		
 		
 		resultData = Api.getOneLineWithDateRange("NTNX", "10-01-2019", "10-19-2020");
 		if(resultData == null) {
-			System.out.println("ApiTest.java, testGetOneLineWithDateRange, null");
+			// System.out.println("ApiTest.java, testGetOneLineWithDateRange, null");
 			return;
 		}
 		
-		System.out.println("Padded get one line with range: " + resultData);
+		// System.out.println("Padded get one line with range: " + resultData);
 		result = (resultData.size() > 5);
 		assertTrue(result);
 		
@@ -222,7 +222,7 @@ public class ApiTest {
 		
 		ArrayList<ArrayList<String>> resultData = Api.getMultipleLinesWithDateRange(stocks, "01-01-2018", "01-01-2020");
 		if(resultData == null) {
-			System.out.println("ApiTest.java, testGetMultipleLinesWithDateRange, null");
+			// System.out.println("ApiTest.java, testGetMultipleLinesWithDateRange, null");
 			return;
 		}
 		

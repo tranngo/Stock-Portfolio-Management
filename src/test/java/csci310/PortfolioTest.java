@@ -79,12 +79,12 @@ public class PortfolioTest {
 		assertTrue(result.size() > 0);
 		
 		//Print statements
-		System.out.println("testRetrieveCurrentPortfolio's result for NTNX and JNJ: ");
+		// System.out.println("testRetrieveCurrentPortfolio's result for NTNX and JNJ: ");
 		for(int i = 0; i < result.size(); i++) {
 			for(int j = 0; j < result.get(i).size(); j++) {
 				System.out.print(result.get(i).get(j) + ", ");
 			}
-			System.out.println("");
+			// System.out.println("");
 		}
 		
 		//Check each entry
@@ -124,12 +124,12 @@ public class PortfolioTest {
 		//assertEquals(2, result.size());
 		
 		//Print statements
-		System.out.println("testRetrievePortfolioOnADate's result for NTNX and JNJ: ");
+		// System.out.println("testRetrievePortfolioOnADate's result for NTNX and JNJ: ");
 		for(int i = 0; i < result.size(); i++) {
 			for(int j = 0; j < result.get(i).size(); j++) {
 				System.out.print(result.get(i).get(j) + ", ");
 			}
-			System.out.println("");
+			// System.out.println("");
 		}
 		
 		assertEquals(3, result.size());
@@ -160,7 +160,7 @@ public class PortfolioTest {
 		Portfolio.addStock(99, jnj, 10, "09-05-2020", "12-15-2020"); // buy 10 jnj stocks
 		
 		String result = Portfolio.getCurrentPortfolioValue(99);
-		System.out.println("10 NTNX stock, 10 JNJ stock currently worth " + result);
+		// System.out.println("10 NTNX stock, 10 JNJ stock currently worth " + result);
 		double value = Double.parseDouble(result);
 		
 		boolean valid = (value > 500); 
@@ -183,17 +183,17 @@ public class PortfolioTest {
 		
 		ArrayList<ArrayList<String>> result = Portfolio.getFullLineForPortfolio(99);
 		if(result == null) {
-			System.out.println("PortfolioTest.java, testGetFullLineForPortfolio, null");
+			// System.out.println("PortfolioTest.java, testGetFullLineForPortfolio, null");
 			return;
 		}
 
 		//Print statements
-		System.out.println("testGetFullLineForPortfolio's result for NTNX and JNJ (9/5 to 9/15): ");
+		// System.out.println("testGetFullLineForPortfolio's result for NTNX and JNJ (9/5 to 9/15): ");
 		for(int i = 0; i < result.size(); i++) {
 			for(int j = 0; j < result.get(i).size(); j++) {
 				System.out.print(result.get(i).get(j) + ", ");
 			}
-			System.out.println("");
+			// System.out.println("");
 		}
 		
 		boolean temp = (result.size() > 6);
@@ -240,7 +240,7 @@ public class PortfolioTest {
 		
 		ArrayList<ArrayList<String>> result = Portfolio.getLineForPortfolioWithDateRange(99, "09-05-2020", "09-17-2020");
 		if(result == null) {
-			System.out.println("PortfolioTest.java, testGetLineForPortfolioWithDateRange, null");
+			// System.out.println("PortfolioTest.java, testGetLineForPortfolioWithDateRange, null");
 			return;
 		}
 	
@@ -248,13 +248,13 @@ public class PortfolioTest {
 		assertTrue(temp);
 		
 		//Print statements
-		System.out.println("NTNX is held from 9/5 to 9/15, JNJ held from 9/12 to 9/18. Range selected to view is 9/5 to 9/17.");
-		System.out.println("testGetLineForPortfolioWithDateRange's result: ");
+		// System.out.println("NTNX is held from 9/5 to 9/15, JNJ held from 9/12 to 9/18. Range selected to view is 9/5 to 9/17.");
+		// System.out.println("testGetLineForPortfolioWithDateRange's result: ");
 		for(int i = 0; i < result.size(); i++) {
 			for(int j = 0; j < result.get(i).size(); j++) {
 				System.out.print(result.get(i).get(j) + ", ");
 			}
-			System.out.println("");
+			// System.out.println("");
 		}
 		
 		//Check each entry
@@ -290,7 +290,7 @@ public class PortfolioTest {
 		
 		String result = Portfolio.getPortfolioValueOnADate(99, "09-10-2020");
 		if(result == "") {
-			System.out.println("PortfolioTest.java, testGetPortfolioValueOnADate, empty string");
+			// System.out.println("PortfolioTest.java, testGetPortfolioValueOnADate, empty string");
 			return;
 		}
 		

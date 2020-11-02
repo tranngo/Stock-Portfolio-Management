@@ -17,7 +17,7 @@ public class RegistrationServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		System.out.println("YES: RegistrationServlet's doPost was called");
+		// System.out.println("YES: RegistrationServlet's doPost was called");
 		
 		//Code referenced from the URL shortener demo
 		String requestBody;
@@ -31,7 +31,7 @@ public class RegistrationServlet extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return;
 		}
-		System.out.println("Debug: requestBody is: " + requestBody);
+		// System.out.println("Debug: requestBody is: " + requestBody);
 		
 		//NOTE: requestBody looks like "username=wilson103&password=racket&passwordConfirmation=racket"
 		
@@ -59,7 +59,7 @@ public class RegistrationServlet extends HttpServlet {
 		//Invalid user info
 		if(userInfoIsValid == false) {
 			//NOTE: Improve this! Return a response telling the user that they messed up
-			System.out.println("User info is not valid");
+			// System.out.println("User info is not valid");
 			//NOTE: If you change this line make sure to fix RegistrationServletTest too
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			// response.sendRedirect("registration.html");
@@ -74,7 +74,7 @@ public class RegistrationServlet extends HttpServlet {
 		
 		if(userAlreadyInDatabase == true) {
 			//NOTE: Improve this! Return a response saying the user already is registered
-			System.out.println("User already in database");
+			// System.out.println("User already in database");
 			//NOTE: If you change this line make sure to fix RegistrationServletTest too
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			// response.sendRedirect("registration.html");
@@ -91,7 +91,7 @@ public class RegistrationServlet extends HttpServlet {
 		
 		//Put the user in the database, everything is okay!
 		Register.insertUser(username, hashed_password);
-		System.out.println("YES: A new user was successfully added to the database!");
+		// System.out.println("YES: A new user was successfully added to the database!");
 		
 		//Redirect user to the login page
 		response.setStatus(HttpServletResponse.SC_OK);

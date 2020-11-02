@@ -34,7 +34,7 @@ public class RegisterTest {
 			myScanner.close();
 			return password;
 		} catch (FileNotFoundException e) {
-			System.out.println("Error in RegisterTest getting password");
+			// System.out.println("Error in RegisterTest getting password");
 			//e.printStackTrace();
 			return "";
 		}
@@ -45,10 +45,10 @@ public class RegisterTest {
 			FileWriter fw = new FileWriter(DB_CREDENTIALS);
 			fw.write(newPassword);
 			fw.close();
-			System.out.println("Debug: Successfully messed up db-credentials.txt");
+			// System.out.println("Debug: Successfully messed up db-credentials.txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Error in RegisterTest changing password");
+			// System.out.println("Error in RegisterTest changing password");
 			//e.printStackTrace();
 			return;
 		}

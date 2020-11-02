@@ -1,5 +1,5 @@
 $(".logout-btn").on("click", function () {
-  console.log("clicked!");
+  // console.log("clicked!");
   $.ajax({
     url: "/LogoutServlet",
     type: "POST",
