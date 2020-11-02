@@ -19,6 +19,7 @@
 }
 
 body {
+<<<<<<< HEAD
 	font-family: 'Roboto', sans-serif;
 	background-color: #171E24;
 }
@@ -26,23 +27,25 @@ body {
 .col-bg {
 	background-color: #1C2A35;
 	color: #FAFFFF;
+=======
+  font-family: "Roboto", sans-serif;
+>>>>>>> branch 'develop' of https://github.com/CSCI310/project-20203b-groupc-20203.git
 }
 
 ul {
-    list-style: none;
-    padding-left: 0;
-}​
-
-.display-block {
-	display: block !important;
+  list-style: none;
+  padding-left: 0;
+}
+​ .display-block {
+  display: block !important;
 }
 
 .display-none {
-	display: none !important;
+  display: none !important;
 }
 
 .column-border {
-	/* border: 1px solid #d5d8de; */
+  /* border: 1px solid #d5d8de; */
 }
 
 .close-icon {
@@ -60,4 +63,8 @@ ul {
 .btn-primary {
 	background-color: #17242C !important;
 	color: #93C8F0;
+}
+
+.toggle-button {
+	color: #0275d8;
 }

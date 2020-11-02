@@ -30,7 +30,7 @@ public class PortfolioServletTest extends Mockito {
 		when(request.getParameter("type")).thenReturn("add");
 		when(request.getParameter("stock")).thenReturn("NTNX");
 		when(request.getParameter("quantity")).thenReturn("50");
-		when(request.getParameter("buyDate")).thenReturn("09-09-2019");
+		when(request.getParameter("purchaseDate")).thenReturn("09-09-2019");
 		when(request.getParameter("sellDate")).thenReturn("09-18-2019");
 		
 		when(response.getWriter()).thenReturn(new PrintWriter("Yo"));
