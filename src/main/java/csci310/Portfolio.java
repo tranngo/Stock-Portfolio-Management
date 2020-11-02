@@ -65,7 +65,7 @@ public class Portfolio {
 			    con.close();
 			    return 1;
 			} catch (SQLException e) {
-				System.out.println("Error inserting user data to DB when adding to stocks_new.");
+				// System.out.println("Error inserting user data to DB when adding to stocks_new.");
 				e.printStackTrace();
 			} finally {
 	            try {
@@ -73,7 +73,7 @@ public class Portfolio {
 	                    con.close();
 	                }
 	            } catch (SQLException ex) {
-	                System.out.println(ex.getMessage());
+	                // System.out.println(ex.getMessage());
 	            }
 	        }
 		}
@@ -126,7 +126,7 @@ public class Portfolio {
 			    con.close();
 			    return 1;
 			} catch (SQLException e) {
-				System.out.println("Error inserting user data to DB when adding to stocks.");
+				// System.out.println("Error inserting user data to DB when adding to stocks.");
 				e.printStackTrace();
 			} finally {
 	            try {
@@ -134,7 +134,7 @@ public class Portfolio {
 	                    con.close();
 	                }
 	            } catch (SQLException ex) {
-	                System.out.println(ex.getMessage());
+	                // System.out.println(ex.getMessage());
 	            }
 	        }
 		}
@@ -191,7 +191,7 @@ public class Portfolio {
 					
 				} // end while
 	        } catch (SQLException e) {
-	        	System.out.println("Error querying stock data from DB when retrieving current portfolio.");
+	        	// System.out.println("Error querying stock data from DB when retrieving current portfolio.");
 	        	e.printStackTrace();
 	        } finally {
 	            try {
@@ -199,7 +199,7 @@ public class Portfolio {
 	                    con.close();
 	                }
 	            } catch (SQLException ex) {
-	                System.out.println(ex.getMessage());
+	                // System.out.println(ex.getMessage());
 	            }
 	        }
 		} // end if con != null
@@ -273,7 +273,7 @@ public class Portfolio {
 						selectedDate.setTime(format.parse(date));
 					} catch (ParseException e1) {
 						e1.printStackTrace();
-						System.out.println("Error parsing transBuy, transSell, or selectedDate in retrievePortfolioOnADate");
+						// System.out.println("Error parsing transBuy, transSell, or selectedDate in retrievePortfolioOnADate");
 						continue;
 					}
 					
@@ -302,7 +302,7 @@ public class Portfolio {
 					
 				} // end while
 	        } catch (SQLException e) {
-	        	System.out.println("Error querying stock data from DB when retrieving current portfolio.");
+	        	// System.out.println("Error querying stock data from DB when retrieving current portfolio.");
 	        	e.printStackTrace();
 	        } finally {
 	            try {
@@ -310,7 +310,7 @@ public class Portfolio {
 	                    con.close();
 	                }
 	            } catch (SQLException ex) {
-	                System.out.println(ex.getMessage());
+	                // System.out.println(ex.getMessage());
 	            }
 	        }
 		} // end if con != null
@@ -426,7 +426,7 @@ public class Portfolio {
 					// example rs returned: [id, user_id, "bought", "NTNX", 7, "02-01-2020"]
 					transDateOfPurchase = rs.getString(5);
 					transDateOfSelling = rs.getString(6);
-					System.out.println("transaction date purchase: " + transDateOfPurchase + ", selling: " + transDateOfSelling);
+					// System.out.println("transaction date purchase: " + transDateOfPurchase + ", selling: " + transDateOfSelling);
 					if(start == null && end == null) { // need to init start and end dates
 						start = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfPurchase);
 						end = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfSelling);
@@ -434,7 +434,7 @@ public class Portfolio {
 					} else {
 						Date transBuy = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfPurchase);
 						Date transSell = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfSelling);
-						System.out.println("transBuy: " + transBuy.toString() + ", transSell: " + transSell.toString());
+						// System.out.println("transBuy: " + transBuy.toString() + ", transSell: " + transSell.toString());
 						//earlier buy date
 						if(transBuy.before(start)) {
 							start = transBuy;
@@ -447,10 +447,10 @@ public class Portfolio {
 					}
 				}
 	        } catch (SQLException e) {
-	        	System.out.println("Error querying stock data from DB when retrieving current portfolio.");
+	        	// System.out.println("Error querying stock data from DB when retrieving current portfolio.");
 	        	e.printStackTrace();
 	        } catch (ParseException e) {
-	        	System.out.println("Error parsing date.");
+	        	// System.out.println("Error parsing date.");
 				e.printStackTrace();
 			} finally {
 	            try {
@@ -458,7 +458,7 @@ public class Portfolio {
 	                    con.close();
 	                }
 	            } catch (SQLException ex) {
-	                System.out.println(ex.getMessage());
+	                // System.out.println(ex.getMessage());
 	            }
 	        }
 		} // end if con != null
@@ -471,8 +471,8 @@ public class Portfolio {
 		// loop through dates to calculate portfolio values
 		LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		System.out.println("start: " + start.toString());
-		System.out.println("end: " + end.toString());
+		// System.out.println("start: " + start.toString());
+		// System.out.println("end: " + end.toString());
 		for(LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");  
 		    String dateStr = formatter.format(date);  
@@ -502,6 +502,7 @@ public class Portfolio {
 		ArrayList<ArrayList<String>> portfolioRanged = new ArrayList<ArrayList<String>>();
 		portfolioRanged.add(portfolioFull.get(0)); // add header: ["Date", "Value"]
 		
+
 		//Account for if your portfolio is empty
 		if(portfolioFull.size() <= 1) {
 			
@@ -534,6 +535,7 @@ public class Portfolio {
 		}
 		
 		System.out.println("full line with date range, start: " + start + " end: " + end);
+
 		try {
 			// parse date strings as Dates
 			Date startDate = new SimpleDateFormat("MM-dd-yyyy").parse(start);
@@ -551,7 +553,7 @@ public class Portfolio {
 				}
 			}
 		} catch (ParseException e) {
-			System.out.println("Error parsing dates");
+			// System.out.println("Error parsing dates");
 			e.printStackTrace();
 		} 
 		

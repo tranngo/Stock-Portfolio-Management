@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
 		@Override
 		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 			
-			System.out.println("YES: LoginServlet's doPost was called");
+			// System.out.println("YES: LoginServlet's doPost was called");
 			
 			//Code referenced from the URL shortener demo
 			String requestBody;
@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				return;
 			}
-			System.out.println("Debug: requestBody is: " + requestBody);
+			// System.out.println("Debug: requestBody is: " + requestBody);
 			
 			//NOTE: requestBody looks like "username=wilson103&password=racket&passwordConfirmation=racket"
 			
@@ -64,10 +64,10 @@ public class LoginServlet extends HttpServlet {
 			//Invalid user info
 			if(userInfoIsValid == false) {
 				//NOTE: Improve this! Return a response telling the user that they messed up
-				System.out.println("User info is not valid");
+				// System.out.println("User info is not valid");
 				//NOTE: If you change this line make sure to fix RegistrationServletTest too
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				response.sendRedirect("index.html");
+//				response.sendRedirect("index.html");
 				return;
 			}
 			
@@ -88,11 +88,11 @@ public class LoginServlet extends HttpServlet {
 		
 					while(rs.next()) {
 						user_id = rs.getInt(1);
-						System.out.println("Hey! This user has id of " + user_id);
+						// System.out.println("Hey! This user has id of " + user_id);
 					}
 					
 		        } catch (SQLException e) {
-		        	System.out.println("Error querying user data from DB during registration.");
+		        	// System.out.println("Error querying user data from DB during registration.");
 		        	e.printStackTrace();
 		        }
 				finally {
@@ -105,12 +105,12 @@ public class LoginServlet extends HttpServlet {
 			}
 			
 			//Redirect user to the login page
-			System.out.println("User info is valid, redirecting to home.html");
+			// System.out.println("User info is valid, redirecting to home.html");
 			Cookie c = new Cookie("user_id", Integer.toString(user_id) );
 			c.setMaxAge(3600);
 			response.addCookie(c);
 			response.setStatus(HttpServletResponse.SC_OK);
-			response.sendRedirect("home.html");
+//			response.sendRedirect("home.html");
 			return;
 		}
 }

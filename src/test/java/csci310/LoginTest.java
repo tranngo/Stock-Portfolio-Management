@@ -37,7 +37,7 @@ public class LoginTest {
 			myScanner.close();
 			return password;
 		} catch (FileNotFoundException e) {
-			System.out.println("Error in LoginTest getting password");
+			// System.out.println("Error in LoginTest getting password");
 			//e.printStackTrace();
 			return "";
 		}
@@ -48,10 +48,10 @@ public class LoginTest {
 			FileWriter fw = new FileWriter(DB_CREDENTIALS);
 			fw.write(newPassword);
 			fw.close();
-			System.out.println("Debug: Successfully messed up db-credentials.txt");
+			// System.out.println("Debug: Successfully messed up db-credentials.txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Error in LoginTest changing password");
+			// System.out.println("Error in LoginTest changing password");
 			//e.printStackTrace();
 			return;
 		}

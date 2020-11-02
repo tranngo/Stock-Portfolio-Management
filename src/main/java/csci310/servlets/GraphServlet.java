@@ -35,7 +35,7 @@ public class GraphServlet extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		System.out.println("GraphServlet doGet");
+		// System.out.println("GraphServlet doGet");
 		
 		//Read just the startDate and endDate parameters, eventually it will be more
 		String startDate = request.getParameter("startDate");
@@ -47,24 +47,24 @@ public class GraphServlet extends HttpServlet{
 		int user_id = -99;
 		if(cookies != null) {
 			for(int i = 0; i < cookies.length; i++) {
-				System.out.println("Reading cookie number " + i);
+				// System.out.println("Reading cookie number " + i);
 				if(cookies[i].getName().equals("user_id")) {
 					user_id = Integer.parseInt(cookies[i].getValue());
-					System.out.println("Found the user_id cookie! Value found is " + user_id);
+					// System.out.println("Found the user_id cookie! Value found is " + user_id);
 				}
 			}
 		}
 
-		System.out.println("User id stored in cookie was " + user_id);
-		System.out.println("GraphServlet, startDate passed was: " + startDate);
-		System.out.println("GraphServlet, endDate passed was: " + endDate);
+		// System.out.println("User id stored in cookie was " + user_id);
+		// System.out.println("GraphServlet, startDate passed was: " + startDate);
+		// System.out.println("GraphServlet, endDate passed was: " + endDate);
 		
 		if(startDate == null) {
-			System.out.println("Since start date was null, setting start to default date of 2020-01-01");
+			// System.out.println("Since start date was null, setting start to default date of 2020-01-01");
 			startDate = "2020-01-01";
 		}
 		if(endDate == null) {
-			System.out.println("Since start date was null, setting start to default end date of 2020-10-01");
+			// System.out.println("Since start date was null, setting start to default end date of 2020-10-01");
 			endDate = "2020-10-01";
 		}
 		
@@ -76,7 +76,7 @@ public class GraphServlet extends HttpServlet{
 		
 		//Commenting out sales and expenses graph
 		//CreateArray();
-		//System.out.println("jsonArray: " + jsonArray);
+		// System.out.println("jsonArray: " + jsonArray);
 		
 		
 		ArrayList<String> stocks = new ArrayList<String>();
@@ -86,10 +86,10 @@ public class GraphServlet extends HttpServlet{
 		
 		//Testing out the state machine code for externalStocks
 		if(externalStocks == null || externalStocks == "" || externalStocks.length() < 2) {
-			System.out.println("External stocks passed by request was null! Using default values of NTNX, JNJ, and FB");
+			// System.out.println("External stocks passed by request was null! Using default values of NTNX, JNJ, and FB");
 		}
 		else {
-			System.out.println("Received some external stocks " + externalStocks);
+			// System.out.println("Received some external stocks " + externalStocks);
 			externalStocks.substring(0, externalStocks.length()-1);
 			String[] strings = externalStocks.split(",");
 			stocks = new ArrayList<String>(Arrays.asList(strings));
@@ -99,17 +99,17 @@ public class GraphServlet extends HttpServlet{
 		stocks.add("PORTFOLIO_" + user_id);
 		
 		//Print out what we will request
-		System.out.println("GraphServlet, request package");
+		// System.out.println("GraphServlet, request package");
 		for(int i = 0; i < stocks.size(); i++) {
 			System.out.print(stocks.get(i) + " ");
 		}
-		System.out.println("");
-		System.out.println("Converted Start date: " + startDate);
-		System.out.println("Converted End date: " + endDate);
+		// System.out.println("");
+		// System.out.println("Converted Start date: " + startDate);
+		// System.out.println("Converted End date: " + endDate);
 		
 		ArrayList<ArrayList<String>> dataset = Api.getMultipleLinesWithDateRange(stocks, startDate, endDate);
 		jsonArray = Api.datasetToJSON(dataset);
-		System.out.println("Real stock data jsonArray: " + jsonArray);
+		// System.out.println("Real stock data jsonArray: " + jsonArray);
 		
 		PrintWriter out;
 		out = response.getWriter();

@@ -50,7 +50,7 @@ public class RegistrationServletTest extends Mockito {
 		try {
 			when(request.getReader()).thenReturn(new BufferedReader(new StringReader(requestBody)));
 		} catch (IOException e1) {
-			System.out.println("ERROR P1 with RegistrationServletTest doPost() test" );
+			// System.out.println("ERROR P1 with RegistrationServletTest doPost() test" );
 			e1.printStackTrace();
 			return;
 		}
@@ -60,7 +60,7 @@ public class RegistrationServletTest extends Mockito {
 		try {
 			rs.doPost(request, response);
 		} catch (IOException e) {
-			System.out.println("ERROR Q2 with RegistrationServletTest doPost() test" );
+			// System.out.println("ERROR Q2 with RegistrationServletTest doPost() test" );
 			e.printStackTrace();
 			return;
 		}
@@ -75,7 +75,7 @@ public class RegistrationServletTest extends Mockito {
 			rs.doPost(request, response);
 			assertEquals(response.getStatus(), 0);
 		} catch (IOException e) {
-			System.out.println("RegistrationServletTest IOException");
+			// System.out.println("RegistrationServletTest IOException");
 		}
 		
 		//For cobertura coverage: enter a invalid username
@@ -88,7 +88,7 @@ public class RegistrationServletTest extends Mockito {
 			rs.doPost(request, response);
 			assertEquals(response.getStatus(), 0);
 		} catch (IOException e1) {
-			System.out.println("RegistrationServletTest IOException");
+			// System.out.println("RegistrationServletTest IOException");
 		}
 		
 		//For cobertura coverage: catch error
@@ -96,7 +96,7 @@ public class RegistrationServletTest extends Mockito {
 			when(request.getReader()).thenThrow(IOException.class);
 			rs.doPost(request, response);
 		} catch (IOException e) {
-			System.out.println("RegistrationServletTest IOException");
+			// System.out.println("RegistrationServletTest IOException");
 		}
 	}
 
