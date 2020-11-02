@@ -4,13 +4,13 @@
 
 To add loading animation, include `loading.css` to the html file (or copy the snippet below)
 
-```
+```html
 <link rel="stylesheet" type="text/css" href="css/loading.css" />
 ```
 
 Once `loading.css` is included, paste the following snippet to where you want the animation to be during the ajax call
 
-```
+```html
 <div class="sk-chase">
   <!-- Loading animation -->
   <div class="sk-chase-dot"></div>
@@ -24,7 +24,7 @@ Once `loading.css` is included, paste the following snippet to where you want th
 
 In the associated `.js` that handles the ajax call, add the following snippet of code in the ajax call (if unclear, you can reference `index.js`)
 
-```
+```javascript
 beforeSend: function () {
   $(".sk-chase").css("display", "block");
 },
