@@ -34,7 +34,6 @@ function checkUserInput() {
 }
 
 function submitForm(e) {
-  // e.preventDefault();
   if (checkUserInput) {
     var data = $("form").serialize();
     $.ajax({
@@ -47,20 +46,18 @@ function submitForm(e) {
       },
 
       error: function (data) {
-        // console.log("failed");
-        // console.log(data.responseText);
         $("#login-error").text("This login combination is invalid!");
+      },
+
+      beforeSend: function () {
+        $(".sk-chase").css("display", "block");
+      },
+
+      complete: function () {
+        $(".sk-chase").css("display", "none");
       },
     });
   }
 
   return false;
 }
-
-$(document).ajaxStart(function () {
-  $(".sk-chase").css("display", "block");
-});
-
-$(document).ajaxComplete(function () {
-  $(".sk-chase").css("display", "none");
-});
