@@ -731,8 +731,7 @@ public class Api {
 									dataset.get(row).add( temp.get(tempIndex++).get(1) );
 //									break;
 								} else {
-									dataset.get(row).add("0.00");
-//									dataset.get(row).add(null);
+									dataset.get(row).add("NULL");
 								}
 //							}
 								
