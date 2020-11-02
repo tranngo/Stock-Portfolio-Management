@@ -100,6 +100,18 @@ public class Api {
 //			return strings.length == 2; // make sure name matches PORTFOLIO_userid
 		}
 		
+		//Commonly used stocks
+		String[] knownStocks = {"NTNX", "JNJ", "AAPL", "VMW", "GOOG", "TSLA", "FB", "MSFT"};
+		
+		for(int i = 0; i < knownStocks.length; i++)
+		{
+			if(name.equals(knownStocks[i])) {
+				//System.out.println("Known stock: " + name);
+				return true;
+			}
+		}
+		
+		//Look up the stock name
 		Stock stock = YahooFinance.get(name);
 		try {
 			return stock.isValid();
