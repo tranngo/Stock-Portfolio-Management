@@ -502,6 +502,37 @@ public class Portfolio {
 		ArrayList<ArrayList<String>> portfolioRanged = new ArrayList<ArrayList<String>>();
 		portfolioRanged.add(portfolioFull.get(0)); // add header: ["Date", "Value"]
 		
+		//Account for if your portfolio is empty
+		if(portfolioFull.size() <= 1) {
+			
+			//Date objects
+			Date startD = null;
+			Date endD = null;
+			try {
+				startD = new SimpleDateFormat("MM-dd-yyyy").parse(start);
+				endD = new SimpleDateFormat("MM-dd-yyyy").parse(end);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			LocalDate startDate = startD.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate endDate = endD.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			System.out.println("start: " + startD.toString());
+			System.out.println("end: " + endD.toString());
+			for(LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+				ArrayList<String> oneRow = new ArrayList<String>();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");  
+			    String dateStr = formatter.format(date); 
+				
+				oneRow.add(dateStr);
+				oneRow.add("NULL");
+				portfolioRanged.add(oneRow);
+			}
+			
+			return portfolioRanged;
+		}
+		
 		System.out.println("full line with date range, start: " + start + " end: " + end);
 		try {
 			// parse date strings as Dates

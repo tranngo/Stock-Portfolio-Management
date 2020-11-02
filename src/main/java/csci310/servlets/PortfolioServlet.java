@@ -133,7 +133,23 @@ public class PortfolioServlet extends HttpServlet{
 			//Referenced from: https://stackoverflow.com/questions/38955993/how-to-get-yesterday-date
 			//All we need is the user_id
 			//MISSING ERROR CHECKING
+			
 			String currentPortfolioValue = Portfolio.getCurrentPortfolioValue(user_id);
+			System.out.println("type=percentChange, currentPortfolioValue for " + user_id + " is " + currentPortfolioValue);
+			
+			//An additional safety check
+			if(currentPortfolioValue.equals("0.0") || currentPortfolioValue.equals("0.00"))
+			{
+				String percentChangeAsStr = "0.0%";
+				System.out.println("Answer for percent change is: " + percentChangeAsStr);
+				
+				PrintWriter out = response.getWriter();
+				out.print(percentChangeAsStr);
+				out.flush();
+				response.setStatus(HttpServletResponse.SC_OK);
+				return;
+			}
+			
 			SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
 			Calendar calendar = Calendar.getInstance();
 			
@@ -141,6 +157,20 @@ public class PortfolioServlet extends HttpServlet{
 			
 			String yesterdayDate = format.format(calendar.getTime());
 			String yesterdayPortfolioValue = Portfolio.getPortfolioValueOnADate(user_id, yesterdayDate);
+			System.out.println("yesterdayPortfolioValue: " + yesterdayPortfolioValue);
+			
+			//An additional safety check
+			if(yesterdayPortfolioValue.equals("NULL"))
+			{
+				String percentChangeAsStr = "0.0%";
+				System.out.println("Answer for percent change is: " + percentChangeAsStr);
+				
+				PrintWriter out = response.getWriter();
+				out.print(percentChangeAsStr);
+				out.flush();
+				response.setStatus(HttpServletResponse.SC_OK);
+				return;
+			}
 			
 			double todayValue = Double.parseDouble(currentPortfolioValue);
 			double yesterdayValue = Double.parseDouble(yesterdayPortfolioValue);
