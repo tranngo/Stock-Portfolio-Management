@@ -417,8 +417,10 @@ $("#modal-confirm-button").on("click", function() {
 $(".toggle-button").on("click", function() {
 	if ($(this).attr("class").includes("fa-toggle-on")) {
 		$(this).attr("class", $(this).attr("class").replace("fa-toggle-on", "fa-toggle-off"));
+		removePortfolioContributor($(this).innerHTML);
 	} else {
 		$(this).attr("class", $(this).attr("class").replace("fa-toggle-off", "fa-toggle-on"));
+		addPortfolioContributor($(this).innerHTML);
 	}
 });
 
@@ -430,4 +432,22 @@ $("#sp-button").on("click", function() {
 		$(this).attr("class", $(this).attr("class").replace("btn-secondary", "btn-primary"));
 		turnSpOff();
 	}
+})
+
+$("#select-all").on("click", function() {
+	$(".stock-name").each(function() {
+		if($(this).next()[0].className.includes("fa-toggle-off")) {
+			$(this).next().attr("class", "toggle-button fas fa-toggle-on fa-lg");
+			addPortfolioContributor($(this).innerHTML);
+		}  
+	});
+})
+
+$("#deselect-all").on("click", function() {
+	$(".stock-name").each(function() {
+		if($(this).next()[0].className.includes("fa-toggle-on")) {
+			$(this).next().attr("class", "toggle-button fas fa-toggle-off fa-lg");
+			removePortfolioContributor($(this).innerHTML);
+		}  
+	});
 })

@@ -146,7 +146,7 @@
               class="btn btn-primary"
               data-dismiss="modal"
             >
-              Confirm
+              Add stock
             </button>
             <button
               id="modal-remove-button"
@@ -169,10 +169,13 @@
         <!-- Left column -->
         <div id="left-col" class="col-sm-12 col-md-2">
           <div
-            class="d-flex flex-column justify-content-center mt-5 column-border text-center"
+            class="d-flex flex-column justify-content-center mt-5 column-border text-center col-bg col-shadow py-3"
           >
             <h5 class="font-weight-bold">Portfolio</h5>
-
+			<div class="d-flex flex-row justify-content-around align-items-center">
+				<p id="select-all" class="font-weight-bold click-hover">Select All</p>
+				<p id="deselect-all" class="font-weight-bold click-hover">Deselect All</p>
+			</div>
             <div
               class="stock-item d-flex flex-row justify-content-around align-items-center"
             >
@@ -208,10 +211,10 @@
         </div>
 
         <!-- Chart column -->
-        <div class="col-sm-12-12 col-md-8">
+        <div class="col-sm-12-12 col-md-8 column-border col-bg p-5 mt-3 col-shadow">
           <div class="chart" id="main-chart"></div>
           <div id="date-picker" class="text-center">
-            <form onsubmit="return submitForm(event)">
+            <form class="mt-2" onsubmit="return submitForm(event)">
               <input type="date" id="fromDate" name="fromDate" /> to
               <input type="date" id="toDate" name="toDate" />
               <button id="date-submit">Show me</button>
@@ -222,7 +225,7 @@
         <!-- Right column -->
         <div id="right-col" class="col-sm-12 col-md-2">
           <div
-            class="d-flex flex-column justify-content-center mt-5 column-border text-center"
+            class="d-flex flex-column justify-content-center mt-5 column-border text-center col-bg col-shadow py-3"
           >
             <h5 class="font-weight-bold">External Stocks</h5>
 
@@ -252,7 +255,7 @@
           <button
             type="button"
             id="sp-button"
-            class="btn btn-primary mx-2 mt-5"
+            class="btn btn-secondary mx-2 mt-5"
           >
             S&P
           </button>
