@@ -37,7 +37,7 @@ public class GreetingServletTest extends Mockito {
 		try {
 			when(response.getWriter()).thenReturn(new PrintWriter("Yo"));
 		} catch (IOException e1) {
-			System.out.println("ERROR P1 with RegistrationServletTest doPost() test" );
+			// System.out.println("ERROR P1 with RegistrationServletTest doPost() test" );
 			e1.printStackTrace();
 			return;
 		}
@@ -47,7 +47,7 @@ public class GreetingServletTest extends Mockito {
 		try {
 			gs.doGet(request, response);
 		} catch (IOException e) {
-			System.out.println("ERROR Q2 with RegistrationServletTest doPost() test" );
+			// System.out.println("ERROR Q2 with RegistrationServletTest doPost() test" );
 			e.printStackTrace();
 			return;
 		}

@@ -27,7 +27,7 @@ public class GraphServletTest extends Mockito {
 		when(request.getCookies()).thenReturn(cookies);
 		gs.doGet(request, response);
 		String result = gs.GetArray();
-		System.out.println(result);
+		// System.out.println(result);
 		assertTrue(!result.isEmpty());
 		
 		when(request.getParameter("startDate")).thenReturn(null);

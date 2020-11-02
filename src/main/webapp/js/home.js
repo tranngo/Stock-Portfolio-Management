@@ -33,9 +33,9 @@ state_portfolioListToDisplay = ["NTNX"];
 
 //Calling this function will take the "state" and pass it to GraphServlet as your request
 function refreshGraph() {
-  console.log("Graph refresh requested");
+  // console.log("Graph refresh requested");
   if (state_start === "-1") {
-    console.log("We have to set default dates");
+    // console.log("We have to set default dates");
     //Referenced from: https://stackoverflow.com/questions/12409299/how-to-get-current-formatted-date-dd-mm-yyyy-in-javascript-and-append-it-to-an-i
     const monthNames = [
       "January",
@@ -66,7 +66,7 @@ function refreshGraph() {
     }
     let output = year + "-" + opt + month + "-" + day;
     state_start = output;
-    console.log("Setting default start date to: " + state_start);
+    // console.log("Setting default start date to: " + state_start);
 
     month = dateObj.getMonth() + 1;
     day = String(dateObj.getDate()).padStart(2, "0");
@@ -77,11 +77,11 @@ function refreshGraph() {
     }
     output = year + "-" + opt + month + "-" + day;
     state_end = output;
-    console.log("Setting default end date to: " + state_end);
+    // console.log("Setting default end date to: " + state_end);
   }
 
-  console.log("State variable -> Start date: " + state_start);
-  console.log("State variable -> End date: " + state_end);
+  // console.log("State variable -> Start date: " + state_start);
+  // console.log("State variable -> End date: " + state_end);
 
   state_portfolioContributors_asAString = "";
   state_externalStocks_asAString = "";
@@ -99,14 +99,14 @@ function refreshGraph() {
     state_externalStocks_asAString += state_externalStocks[j] + ",";
   }
 
-  console.log(
-    "State variable (but as a string) -> Portfolio contributors: " +
-      state_portfolioContributors_asAString
-  );
-  console.log(
-    "State variable (but as a string) -> External stocks: " +
-      state_externalStocks_asAString
-  );
+  // console.log(
+  //   "State variable (but as a string) -> Portfolio contributors: " +
+  //     state_portfolioContributors_asAString
+  // );
+  // console.log(
+  //   "State variable (but as a string) -> External stocks: " +
+  //     state_externalStocks_asAString
+  // );
 
   //Send the state as part of the request to GraphServlet
   $.ajax({
@@ -121,7 +121,7 @@ function refreshGraph() {
 
     success: function (result) {
       jsonArray = eval(result);
-      console.log(jsonArray);
+      // console.log(jsonArray);
 
       for (let i = 1; i < jsonArray.length; ++i) {
         for (let j = 1; j < jsonArray[i].length; ++j) {
@@ -151,10 +151,10 @@ function addPortfolioContributor(stock) {
 
 //#2: Remove from portfolio contributors
 function removePortfolioContributor(stock) {
-  console.log("Remove portfolio contributor called on " + stock);
-  console.log(
-    "state_portfolioContributors was previously " + state_portfolioContributors
-  );
+  // console.log("Remove portfolio contributor called on " + stock);
+  // console.log(
+  //   "state_portfolioContributors was previously " + state_portfolioContributors
+  // );
 
   //Find that portfolio contributor
   var pos = 0;
@@ -165,20 +165,20 @@ function removePortfolioContributor(stock) {
     }
   }
 
-  console.log("toRemoveIndex was determined to be " + toRemoveIndex);
+  // console.log("toRemoveIndex was determined to be " + toRemoveIndex);
 
   //Remove that portfolio contributor
   if (toRemoveIndex != -1) {
     state_portfolioContributors.splice(toRemoveIndex, 1);
   }
 
-  console.log(
-    "After removing " +
-      stock +
-      " state_portfolioContributors is now " +
-      state_portfolioContributors
-  );
-  console.log("Refreshing graph now");
+  // console.log(
+  //   "After removing " +
+  //     stock +
+  //     " state_portfolioContributors is now " +
+  //     state_portfolioContributors
+  // );
+  // console.log("Refreshing graph now");
   refreshGraph();
 }
 
@@ -190,8 +190,8 @@ function addExternalStock(stock) {
 
 //#4: Remove an external stock
 function removeExternalStock(stock) {
-  console.log("Remove external stock called on " + stock);
-  console.log("state_externalStocks was previously " + state_externalStocks);
+  // console.log("Remove external stock called on " + stock);
+  // console.log("state_externalStocks was previously " + state_externalStocks);
 
   //Find that external stock in our list
   var pos = 0;
@@ -202,50 +202,50 @@ function removeExternalStock(stock) {
     }
   }
 
-  console.log("toRemoveIndex was determined to be " + toRemoveIndex);
+  // console.log("toRemoveIndex was determined to be " + toRemoveIndex);
 
   //Remove that external stock
   if (toRemoveIndex != -1) {
     state_externalStocks.splice(toRemoveIndex, 1);
   }
 
-  console.log(
-    "After removing " +
-      stock +
-      " state_externalStocks is now " +
-      state_externalStocks
-  );
-  console.log("Refreshing graph now");
+  // console.log(
+  //   "After removing " +
+  //     stock +
+  //     " state_externalStocks is now " +
+  //     state_externalStocks
+  // );
+  // console.log("Refreshing graph now");
   refreshGraph();
 }
 
 //#5: Change the start date
 function changeStartDate(newDate) {
-  console.log("Called changeStartDate, previously it was: " + state_start);
+  // console.log("Called changeStartDate, previously it was: " + state_start);
   state_start = newDate;
-  console.log("Now it is: " + state_start);
+  // console.log("Now it is: " + state_start);
   // console.log("Refreshing graph");       Taking out for now
   // refreshGraph();
 }
 
 //#6: Change the end date
 function changeEndDate(newDate) {
-  console.log("Called changeEndDate, previously it was: " + state_end);
+  // console.log("Called changeEndDate, previously it was: " + state_end);
   state_end = newDate;
-  console.log("Now it is: " + state_end);
+  // console.log("Now it is: " + state_end);
   // console.log("Refreshing graph");		Taking out for now
   // refreshGraph();
 }
 
 //#7: Add S&P 500 to external stocks
 function turnSpOn() {
-  console.log("Turn SP on was called");
+  // console.log("Turn SP on was called");
   addExternalStock("^GSPC");
 }
 
 //#8: Remove S&P 500 from external stocks
 function turnSpOff() {
-  console.log("Turn SP off was called");
+  // console.log("Turn SP off was called");
   removeExternalStock("^GSPC");
 }
 
@@ -262,14 +262,14 @@ function getPortfolioListAsAnArray() {
     },
 
     success: function (result) {
-      console.log("Yay! My portfolio list is retrieved and I can display it");
+      // console.log("Yay! My portfolio list is retrieved and I can display it");
       var portfolioListAsString = result;
-      console.log("It is " + portfolioListAsString);
+      // console.log("It is " + portfolioListAsString);
 
       state_portfolioListToDisplay = portfolioListAsString.split(",");
-      console.log(
-        "Updating portfolio list to display " + state_portfolioListToDisplay
-      );
+      // console.log(
+      //   "Updating portfolio list to display " + state_portfolioListToDisplay
+      // );
     },
   });
 }
@@ -288,7 +288,7 @@ function addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling) {
     },
 
     success: function (result) {
-      console.log("Yay! Stock transaction successfully added to portfolio");
+      // console.log("Yay! Stock transaction successfully added to portfolio");
 
       //Next, add to portfolio contributors
       addPortfolioContributor(stock);
@@ -314,7 +314,7 @@ function removeFromPortfolio(stock) {
     },
 
     success: function (result) {
-      console.log("Yay! Stock successfully removed from portfolio");
+      // console.log("Yay! Stock successfully removed from portfolio");
 
       //Next, remove from portfolio contributors
       removePortfolioContributor(stock);
@@ -349,7 +349,7 @@ function readFile(file) {
         oneRow.push(data[j]);
       }
       lines.push(oneRow);
-      console.log("Line " + i + " is " + oneRow);
+      // console.log("Line " + i + " is " + oneRow);
     }
   }
 }
@@ -365,9 +365,9 @@ function getMyCurrentPortfolioValue() {
     },
 
     success: function (result) {
-      console.log("Yay! My portfolio value is retrieved");
+      // console.log("Yay! My portfolio value is retrieved");
       var value = result;
-      console.log("It is " + value);
+      // console.log("It is " + value);
       state_portfolioValue = value;
 
       $.ajax({
@@ -378,9 +378,9 @@ function getMyCurrentPortfolioValue() {
         },
 
         success: function (result) {
-          console.log("Yay! My percent change is retrieved");
+          // console.log("Yay! My percent change is retrieved");
           var per = result;
-          console.log("It is " + per);
+          // console.log("It is " + per);
           state_percentChange = per;
         },
       });
@@ -390,7 +390,7 @@ function getMyCurrentPortfolioValue() {
 
 //Security Feature X: Session timeout after 2 mins
 function timeout() {
-  console.log("Session timeout limit reached");
+  // console.log("Session timeout limit reached");
 
   //Referenced from: https://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm
   var txt;
@@ -405,7 +405,7 @@ function timeout() {
   }
 
   if (txt === "You pressed OK!") {
-    console.log("Alright continuing session");
+    // console.log("Alright continuing session");
     window.setTimeout(timeout, 120000);
     return;
   } else {
@@ -448,7 +448,7 @@ function getCookie(name) {
 $(document).ready(function () {
   var cookie = getCookie("user_id");
   if (!cookie) {
-    console.log("User was not logged in");
+    // console.log("User was not logged in");
     window.location.replace("../");
   }
 });
@@ -507,9 +507,9 @@ function submitForm(e) {
   var startDate = document.getElementById("fromDate").value;
   var endDate = document.getElementById("toDate").value;
 
-  console.log("Yoooo");
-  console.log("Start date requested: " + startDate);
-  console.log("End date requested: " + endDate);
+  // console.log("Yoooo");
+  // console.log("Start date requested: " + startDate);
+  // console.log("End date requested: " + endDate);
 
   //Update state and refresh graph
   changeStartDate(startDate);
@@ -600,7 +600,7 @@ $("#modal-confirm-button").on("click", function () {
     addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling);
   } else if ($(this).data("type") === "uploadFile") {
     //Change
-    console.log("Upload file was hit");
+    // console.log("Upload file was hit");
     var file = $("#fileUpload").val();
     readFile(file);
   } else if ($(this).data("type") === "addExternal") {

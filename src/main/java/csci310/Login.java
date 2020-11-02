@@ -39,7 +39,7 @@ public class Login {
 	
 				return rs.next();
 	        } catch (SQLException e) {
-	        	System.out.println("Error querying user data from DB during registration.");
+	        	// System.out.println("Error querying user data from DB during registration.");
 	        	e.printStackTrace();
 	        }
 			finally {

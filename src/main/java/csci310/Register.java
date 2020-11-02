@@ -71,7 +71,7 @@ public class Register {
 	
 				return rs.next();
 	        } catch (SQLException e) {
-	        	System.out.println("Error querying user data from DB during registration.");
+	        	// System.out.println("Error querying user data from DB during registration.");
 	        	e.printStackTrace();
 	        } finally {
 			    if (con != null) {
@@ -103,7 +103,7 @@ public class Register {
 	
 				return true; // successful insertion
 			} catch (SQLException e) {
-				System.out.println("Error inserting user data to DB during registration.");
+				// System.out.println("Error inserting user data to DB during registration.");
 				e.printStackTrace();
 			}
 			finally {

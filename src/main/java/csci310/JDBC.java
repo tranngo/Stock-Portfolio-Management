@@ -17,7 +17,7 @@ public class JDBC {
 	        } catch (ClassNotFoundException e) {
 				e.printStackTrace();
 	        } catch (SQLException e) {
-	        	System.out.println("Error connecting to MySQL Workbench; Please check account credentials.");
+	        	// System.out.println("Error connecting to MySQL Workbench; Please check account credentials.");
 	        	e.printStackTrace();
 	        }
 	        return null;
