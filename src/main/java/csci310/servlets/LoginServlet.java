@@ -67,7 +67,7 @@ public class LoginServlet extends HttpServlet {
 				System.out.println("User info is not valid");
 				//NOTE: If you change this line make sure to fix RegistrationServletTest too
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				response.sendRedirect("index.html");
+//				response.sendRedirect("index.html");
 				return;
 			}
 			
@@ -110,7 +110,7 @@ public class LoginServlet extends HttpServlet {
 			c.setMaxAge(3600);
 			response.addCookie(c);
 			response.setStatus(HttpServletResponse.SC_OK);
-			response.sendRedirect("home.html");
+//			response.sendRedirect("home.html");
 			return;
 		}
 }
