@@ -76,7 +76,7 @@ public class PortfolioTest {
 		Portfolio.addStock(99, ntnx, 10, "09-05-2020", "10-05-2020"); // buy 10 ntnx stocks
 		Portfolio.addStock(99, jnj, 10, "09-05-2020", "10-05-2020"); // buy 10 jnj stocks
 		ArrayList<ArrayList<String>> result = Portfolio.retrieveCurrentPortfolio(99);
-		assertTrue(result.size() > 0);
+		assertEquals(3, result.size());
 		
 		//Print statements
 		System.out.println("testRetrieveCurrentPortfolio's result for NTNX and JNJ: ");

@@ -78,6 +78,8 @@ function checkUserInput() {
 }
 
 function submitForm(e) {
+  // e.preventDefault();
+  console.log("form submit");
   if (checkUserInput) {
     var data = $("form").serialize();
     $.ajax({
@@ -86,19 +88,13 @@ function submitForm(e) {
       data: data,
 
       success: function (data) {
-        window.location.replace("../");
+        window.location.replace("../index.html");
       },
 
       error: function (data) {
+        console.log("failed");
+        console.log(data.responseText);
         $("#username-error").text(data.responseText);
-      },
-
-      beforeSend: function () {
-        $(".sk-chase").css("display", "block");
-      },
-
-      complete: function () {
-        $(".sk-chase").css("display", "none");
       },
     });
   }
