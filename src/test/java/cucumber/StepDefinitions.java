@@ -7,10 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
@@ -22,7 +24,7 @@ import io.cucumber.java.en.When;
  */
 public class StepDefinitions {
 	private static final String ROOT_URL = "http://localhost:8080/";
-	private static final String LOGIN_URL = "http://localhost:8080/index.html";
+	private static final String LOGIN_URL = "http://localhost:8080/";
 	private static final String REGISTER_URL = "http://localhost:8080/registration.html";
 	private static final String HOME_URL = "http://localhost:8080/home.html";
 
@@ -94,7 +96,8 @@ public class StepDefinitions {
 			e.printStackTrace();
 		}
 		String result = driver.getCurrentUrl();
-	    assertTrue(result.equalsIgnoreCase(LOGIN_URL));
+		boolean answer = ( result.equalsIgnoreCase(LOGIN_URL) || result.equalsIgnoreCase("http://localhost:8080/index.html") || result.equalsIgnoreCase("https://localhost:8080/index.html") );
+	    assertTrue(answer);
 	}
 
 	@Then("I should be on the registration page")
@@ -111,7 +114,7 @@ public class StepDefinitions {
 	// requirement3.feature
 	@Then("I should see a line chart that displays the value of the user's portfolio over time")
 	public void i_should_see_a_line_chart_that_displays_the_value_of_the_user_s_portfolio_over_time() {
-	    assertTrue(driver.findElements(By.id("main-chart")).size() != 0);
+		assertTrue(driver.findElements(By.id("main-chart")).size() != 0);
 	}
 	
 	@Then("I should see buttons to select the from date and to date")
@@ -523,6 +526,48 @@ public class StepDefinitions {
 //	    
 //	    assertTrue(true);
 		assertTrue(false);
+	}
+
+	@When("I click on the log out button")
+	public void i_click_on_the_log_out_button() {
+		WebElement button = driver.findElement(By.xpath("/html/body/nav/button"));
+	    button.click();
+	}
+
+	@When("I directly navigate to the home page")
+	public void i_directly_navigate_to_the_home_page() {
+		driver.get(HOME_URL);
+	}
+
+	@When("I wait {int} seconds")
+	public void i_wait_seconds(Integer int1) {
+		try {
+			Thread.sleep(int1 * 1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Then("I should see a timeout warning popup")
+	public void i_should_see_a_timeout_warning_popup() {	
+		Alert alert = driver.switchTo().alert();
+		String alertText = alert.getText();
+		int length = alertText.length();
+		assertTrue(length > 0);
+	}
+
+	@Then("my password in the register box should be hidden")
+	public void my_password_in_the_register_box_should_be_hidden() {
+		WebElement pass = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[4]/input"));
+	    String value = pass.getAttribute("type");
+	    assertEquals("password", value);
+	}
+
+	@Then("my password in the login box should be hidden")
+	public void my_password_in_the_login_box_should_be_hidden() {
+		WebElement pass = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[3]/input"));
+	    String value = pass.getAttribute("type");
+	    assertEquals("password", value);
 	}
 
 	@After()

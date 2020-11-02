@@ -1,10 +1,12 @@
 Feature: View and compare the historical performance of a stock
   Scenario: I see a line chart that displays the value of the user's portfolio over time
-    Given I am on the home page
+    Given I am on the login page
+	When I log in
     Then I should see a line chart that displays the value of the user's portfolio over time
     
   Scenario: I see buttons to select the from date and to date
-  	Given I am on the home page
+  	Given I am on the login page
+	When I log in
   	Then I should see buttons to select the from date and to date
   	
   Scenario: I see a button to add an external stock on the home page
