@@ -330,13 +330,13 @@ public class Api {
 		}
 		
 		//Just to check that invalid stocks are removed
-		// System.out.println("Hopefully invalid stocks are removed");
-		// System.out.println("Stocks left in list are");
+		System.out.println("Hopefully invalid stocks are removed");
+		System.out.println("Stocks left in list are");
 		for(String stock : stocks)
 		{
 			System.out.print(stock + " ");
 		}
-		// System.out.println("");
+		System.out.println("");
 		
 		//Second, we have to go through each of the stocks and determine which one has the
 		//earliest start date and which has the latest end date
@@ -686,13 +686,13 @@ public class Api {
 		}
 		
 		//Just to check that invalid stocks are removed
-		// System.out.println("Hopefully invalid stocks are removed");
-		// System.out.println("Stocks left in list are");
+		System.out.println("Hopefully invalid stocks are removed");
+		System.out.println("Stocks left in list are");
 		for(String stock : stocks)
 		{
 			System.out.print(stock + " ");
 		}
-		// System.out.println("");
+		System.out.println("");
 		
 		
 		// System.out.println("Starting to gather stock lines");
@@ -707,17 +707,17 @@ public class Api {
 			{
 				String[] strings = stock.split("_"); // {"PORTFOLIO_", userid}
 				int userId = Integer.parseInt(strings[1]);
-				// System.out.println("userid: " + userId);
+				System.out.println("userid: " + userId);
 				temp = Portfolio.getLineForPortfolioWithDateRange(userId, start, end);
 				// System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
 //				continue;
-				// System.out.println("portfolio line");
+				/*System.out.println("portfolio line");
 				for(int a = 0; a < temp.size(); a++) {
 					for(int b = 0; b < temp.get(a).size(); b++) {
 						System.out.print(temp.get(a).get(b) + " ");
 					}
-					// System.out.println("");
-				}
+					System.out.println("");
+				}*/
 			} else {
 				temp = getOneLineWithDateRange(stock, start, end);
 			}
@@ -749,6 +749,13 @@ public class Api {
 								
 						} else { // can index temp to populate dataset
 							dataset.get(row).add( temp.get(tempIndex++).get(1) );
+							
+							//We've used up temp, don't access it anymore
+							if(tempIndex >= temp.size()) {
+								System.out.println("temp is short");
+								canIndexTemp = false;
+								tempIndex--; // bring it back down to prevent going OOB again
+							}
 						}
 					} else {
 					// System.out.println("dataset size: " + dataset.size() + ", temp size: " + temp.size());
@@ -760,13 +767,13 @@ public class Api {
 					}
 				}
 			}
-			// System.out.println("DATASET: ");
+			/*System.out.println("FINAL DATASET: ");
 			for(int a = 0; a < dataset.size(); a++) {
 				for(int b = 0; b < dataset.get(a).size(); b++) {
 					System.out.print(dataset.get(a).get(b) + " ");
 				}
-				// System.out.println("");
-			}
+				System.out.println("");
+			}*/
 		}
 		
 		
