@@ -598,6 +598,12 @@ $("#modal-confirm-button").on("click", function () {
     var dateOfPurchase = $("#stock-purchase-date-input").val();
     var dateOfSelling = $("#stock-sell-date-input").val();
     addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling);
+    $("#confirmation-alert-stock-name").text(stock);
+    $("confirmation-alert-add-remove").text("added");
+    $("#confirmation-alert-source").text("portfolio");
+    $("#confirmation-alert").removeClass("d-none");
+    $("#confirmation-alert").addClass("show");
+    
   } else if ($(this).data("type") === "uploadFile") {
     //Change
     // console.log("Upload file was hit");
@@ -605,9 +611,21 @@ $("#modal-confirm-button").on("click", function () {
     readFile(file);
   } else if ($(this).data("type") === "addExternal") {
     addExternalStock($("#add-external-stock-name-input").val());
+    $("#confirmation-alert-stock-name").text($("#add-external-stock-name-input").val());
+    $("confirmation-alert-add-remove").text("added");
+    $("#confirmation-alert-source").text("external stocks");
+    $("#confirmation-alert").removeClass("d-none");
+    $("#confirmation-alert").addClass("show");
   } else if ($(this).data("type") === "removeExternal") {
     removeExternalStock($("#remove-external-stock-name-input").val());
+    $("#confirmation-alert-stock-name").text($("#remove-external-stock-name-input").val());
+    $("confirmation-alert-add-remove").text("removed");
+    $("#confirmation-alert-source").text("external stocks");
+    $("#confirmation-alert").removeClass("d-none");
+    $("#confirmation-alert").addClass("show");
   }
+  
+  updatePortfolioStockList();
 
   $("#mainModal").modal({
     backdrop: true,
@@ -704,6 +722,11 @@ function updatePortfolioStockList() {
 	}
 	
 }
+
+$("#close-confirmation-alert").on("click", function() {
+	$("#confirmation-alert").removeClass("show");
+    $("#confirmation-alert").addClass("d-none");
+});
 
 $(document).ready(function() {
 	updatePortfolioStockList();
