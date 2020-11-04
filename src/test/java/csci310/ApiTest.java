@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -66,7 +65,7 @@ public class ApiTest {
 
 	@Test
 	public void testGetCurrentPriceOf() throws IOException {
-		assertTrue("incorrect current price", isNumeric(api.getCurrentPriceOf("TSLA")));
+		assertTrue("incorrect current price", isNumeric(Api.getCurrentPriceOf("TSLA")));
 	}
 	
 	@Test
@@ -74,7 +73,7 @@ public class ApiTest {
 		String s = "TSLA@2020-01-01: 84.342003-130.600006, 84.900002->130.113998 (130.113998), "
 				+ "TSLA@2020-02-01: 122.304001-193.798004, 134.738007->133.598007 (133.598007), "
 				+ "TSLA@2020-03-01: 70.101997-161.395996, 142.251999->104.800003 (104.800003), ";
-		assertTrue("incorrect historical price", api.getHistoricalPricesOf("TSLA").contains(s));
+		assertTrue("incorrect historical price", Api.getHistoricalPricesOf("TSLA").contains(s));
 	}
 	
 	@Test
@@ -208,7 +207,7 @@ public class ApiTest {
 		result = (resultData.size() > 5);
 		assertTrue(result);
 		
-		ArrayList<ArrayList<String>> resultData2 = Api.getOneLineWithDateRange("INVALID", "12-14-2019", "10-19-2020");
+		resultData = Api.getOneLineWithDateRange("INVALID", "12-14-2019", "10-19-2020");
 		//ArrayList<ArrayList<String>> resultData3 = Api.getOneLineWithDateRange("PORTFOLIO_1", "12-14-2019", "10-19-2020");
 	}
 	
@@ -218,9 +217,9 @@ public class ApiTest {
 		stocks.add("NTNX");
 		stocks.add("JNJ");
 		stocks.add("INVALID");
-		stocks.add("PORTFOLIO_7");
+		stocks.add("PORTFOLIO_12345");
 		
-		ArrayList<ArrayList<String>> resultData = Api.getMultipleLinesWithDateRange(stocks, "01-01-2018", "01-01-2020");
+		ArrayList<ArrayList<String>> resultData = Api.getMultipleLinesWithDateRange(stocks, "12-01-2019", "01-01-2020");
 		if(resultData == null) {
 			System.out.println("ApiTest.java, testGetMultipleLinesWithDateRange, null");
 			return;

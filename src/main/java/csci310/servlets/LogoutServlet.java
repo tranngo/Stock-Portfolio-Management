@@ -23,13 +23,13 @@ public class LogoutServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		System.out.println("YES: LogoutServlet's doPost was called");
+		// System.out.println("YES: LogoutServlet's doPost was called");
 		
 		Cookie[] cookies = request.getCookies();
-		System.out.println("# of cookies in storage: " + cookies.length);
+		// System.out.println("# of cookies in storage: " + cookies.length);
 		for (int i = 0; i < cookies.length; ++i) {
 			cookies[i].setMaxAge(0);
-			System.out.println("Deleted cookie: " + cookies[i].getName() + " Age: " + cookies[i].getMaxAge());
+			// System.out.println("Deleted cookie: " + cookies[i].getName() + " Age: " + cookies[i].getMaxAge());
 			response.addCookie(cookies[i]);
 		}
 		response.setStatus(HttpServletResponse.SC_OK);

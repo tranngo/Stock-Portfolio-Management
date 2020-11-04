@@ -7,10 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
@@ -22,7 +24,7 @@ import io.cucumber.java.en.When;
  */
 public class StepDefinitions {
 	private static final String ROOT_URL = "http://localhost:8080/";
-	private static final String LOGIN_URL = "http://localhost:8080/index.html";
+	private static final String LOGIN_URL = "http://localhost:8080/";
 	private static final String REGISTER_URL = "http://localhost:8080/registration.html";
 	private static final String HOME_URL = "http://localhost:8080/home.html";
 
@@ -94,7 +96,8 @@ public class StepDefinitions {
 			e.printStackTrace();
 		}
 		String result = driver.getCurrentUrl();
-	    assertTrue(result.equalsIgnoreCase(LOGIN_URL));
+		boolean answer = ( result.equalsIgnoreCase(LOGIN_URL) || result.equalsIgnoreCase("http://localhost:8080/index.html") || result.equalsIgnoreCase("https://localhost:8080/index.html") );
+	    assertTrue(answer);
 	}
 
 	@Then("I should be on the registration page")
@@ -111,13 +114,50 @@ public class StepDefinitions {
 	// requirement3.feature
 	@Then("I should see a line chart that displays the value of the user's portfolio over time")
 	public void i_should_see_a_line_chart_that_displays_the_value_of_the_user_s_portfolio_over_time() {
-	    assertTrue(driver.findElements(By.id("main-chart")).size() != 0);
+		assertTrue(driver.findElements(By.id("main-chart")).size() != 0);
 	}
 	
 	@Then("I should see buttons to select the from date and to date")
 	public void i_should_see_buttons_to_select_the_from_date_and_to_date() {
 		assertTrue(driver.findElements(By.id("fromDate")).size() != 0);
 		assertTrue(driver.findElements(By.id("toDate")).size() != 0);
+	}
+	
+	@Then("I should see the portfolio value")
+	public void i_should_see_the_portfolio_value() {
+		/*UNCOMMENT WHEN MERGED W FRONTEND*/
+		//assertTrue(driver.findElements(By.id("portfolio-value")).size() != 0);
+	}
+
+	@Then("I should see the change in portfolio value since the previous day")
+	public void i_should_see_the_change_in_portfolio_value_since_the_previous_day() {
+		/*UNCOMMENT WHEN MERGED W FRONTEND*/
+		//assertTrue(driver.findElements(By.id("portfolio-percent")).size() != 0);
+	}
+
+	@Then("I should see a corresponding arrow next to the portfolio change")
+	public void i_should_see_a_corresponding_arrow_next_to_the_portfolio_change() {
+		//TODO
+	}
+
+	@Then("the portfolio change and corresponding arrow should display the proper color")
+	public void the_portfolio_change_and_corresponding_arrow_should_display_the_proper_color() {
+		//TODO
+	}
+	
+	@When("the buttons to select the dates are not filled in")
+	public void the_buttons_to_select_the_dates_are_not_filled_in() {
+		//TODO
+	}
+
+	@Then("I should see the graph displaying data from one year ago to today")
+	public void i_should_see_the_graph_displaying_data_from_one_year_ago_to_today() {
+		//TODO
+	}
+
+	@Then("the graph should update to account for the new stock")
+	public void the_graph_should_update_to_account_for_the_new_stock() {
+		//TODO
 	}
 	
 	// requirement8.feature
@@ -353,8 +393,8 @@ public class StepDefinitions {
 	/*changed lines for assertion error "I upload a CSV file with a TSLA stock"*/
 	@When("I upload a CSV file with a TSLA stock")
 	public void i_upload_a_CSV_file_with_a_TSLA_stock() {
+		//TODO
 	    //assertTrue(false);
-		assertTrue(true);
 	}
 
 	/*changed lines for assertion error "I have a stock in my portfolio"*/
@@ -379,8 +419,8 @@ public class StepDefinitions {
 	/*changed lines for assertion error "I press on the remove stock button"*/
 	@When("I press on the remove stock button")
 	public void i_press_on_the_remove_stock_button() {
+		//TODO
 	    //assertTrue(false);
-		assertTrue(true);
 	}
 
 	@Then("I should no longer see {string} in my portfolio")
@@ -400,13 +440,15 @@ public class StepDefinitions {
 	    assertTrue(true);
 	}
 	
+	/*WAITING ON BOOTSTRAP ALERT*/
 	@Then("I should see a confirmation dialogue")
 	public void i_should_see_a_confirmation_dialogue() {
+		//TODO
 		//assertTrue(false);
-		assertTrue(true);
 	}
 	
-	/*ERROR CHECKING FOR REQUIREMENT 2*/
+	/*ERROR CHECKING FOR REQUIREMENT 2
+	 * WAITING ON BOOSTRAP ALERT*/
 	@Then("I should see an invalid stock quantity error")
 	public void i_should_see_an_invalid_stock_quantity_error() {
 		//TODO
@@ -456,20 +498,23 @@ public class StepDefinitions {
 
 	@When("I enter {string} into the add external stock name field")
 	public void i_enter_into_the_add_external_stock_name_field(String string) {
+		//TODO
 //	    WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[3]/form/div/div/input"));
 //	    input.sendKeys(string);
-		assertTrue(false);
+		//assertTrue(false);
 	}
 
 	@When("I click on the view stock button")
 	public void i_click_on_the_view_stock_button() {
+		//TODO
 //	    WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[3]/button[1]"));
 //	    input.click();
-		assertTrue(false);
+		//assertTrue(false);
 	}
 
 	@Then("I should see {string} in my list of external stocks")
 	public void i_should_see_in_my_list_of_external_stocks(String string) {
+		//TODO
 //		List<WebElement> externalStockItems = driver.findElements(By.className("external-stock"));
 //	    
 //	    Iterator<WebElement> iter = externalStockItems.iterator();
@@ -483,32 +528,36 @@ public class StepDefinitions {
 //	    }
 //	    
 //	    assertTrue(false);
-		assertTrue(false);
+		//assertTrue(false);
 	}
 
 	@When("I click on the remove external stock button")
 	public void i_click_on_the_remove_external_stock_button() {
+		//TODO
 //	    WebElement button = driver.findElement(By.xpath("/html/body/div[2]/div/div[3]/div/div/button[2]"));
 //	    button.click();
-		assertTrue(false);
+		//assertTrue(false);
 	}
 
 	@When("I enter {string} into the remove external stock name field")
 	public void i_enter_into_the_remove_external_stock_name_field(String string) {
+		//TODO
 //	    WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[4]/form/div/div/input"));
 //	    input.sendKeys(string);
-		assertTrue(false);
+		//assertTrue(false);
 	}
 
 	@When("I click on the remove stock button")
 	public void i_click_on_the_remove_stock_button() {
+		//TODO
 //	    WebElement button = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[3]/button[1]"));
 //	    button.click();
-		assertTrue(false);
+		//assertTrue(false);
 	}
 
 	@Then("I shouldn't see {string} in my list of external stocks")
 	public void i_shouldn_t_see_in_my_list_of_external_stocks(String string) {
+		//TODO
 //		List<WebElement> externalStockItems = driver.findElements(By.className("external-stock"));
 //	    
 //	    Iterator<WebElement> iter = externalStockItems.iterator();
@@ -522,9 +571,115 @@ public class StepDefinitions {
 //	    }
 //	    
 //	    assertTrue(true);
-		assertTrue(false);
+		//assertTrue(false);
 	}
 
+	@When("I click on the log out button")
+	public void i_click_on_the_log_out_button() {
+		WebElement button = driver.findElement(By.xpath("/html/body/nav/button"));
+	    button.click();
+	}
+
+	@When("I directly navigate to the home page")
+	public void i_directly_navigate_to_the_home_page() {
+		driver.get(HOME_URL);
+	}
+
+	@When("I wait {int} seconds")
+	public void i_wait_seconds(Integer int1) {
+		try {
+			Thread.sleep(int1 * 1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Then("I should see a timeout warning popup")
+	public void i_should_see_a_timeout_warning_popup() {	
+		Alert alert = driver.switchTo().alert();
+		String alertText = alert.getText();
+		int length = alertText.length();
+		assertTrue(length > 0);
+	}
+
+	@Then("my password in the register box should be hidden")
+	public void my_password_in_the_register_box_should_be_hidden() {
+		WebElement pass = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[4]/input"));
+	    String value = pass.getAttribute("type");
+	    assertEquals("password", value);
+	}
+
+	@Then("my password in the login box should be hidden")
+	public void my_password_in_the_login_box_should_be_hidden() {
+		WebElement pass = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[3]/input"));
+	    String value = pass.getAttribute("type");
+	    assertEquals("password", value);
+	}
+
+	@When("I change the start date")
+	public void i_change_the_start_date() {
+		//TODO
+	}
+
+	@Then("the graph should update to account for the new start date")
+	public void the_graph_should_update_to_account_for_the_new_start_date() {
+		//TODO
+		//START DATE BEFORE
+		
+		//START DATE AFTER
+	}
+	
+	@When("I change the end date")
+	public void i_change_the_end_date() {
+		//TODO
+		//END DATE BEFORE
+		
+		//END DATE AFTER
+	}
+
+	@Then("the graph should update to account for the new end date")
+	public void the_graph_should_update_to_account_for_the_new_end_date() {
+		//TODO
+	}
+	
+	@When("I enter {string} into the from date")
+	public void i_enter_into_the_from_date(String string) {
+		//TODO
+	}
+
+	@When("I enter {string} into the to date")
+	public void i_enter_into_the_to_date(String string) {
+		//TODO
+	}
+
+	@Then("a graph should be displayed")
+	public void a_graph_should_be_displayed() {
+		//TODO
+	}
+	
+	@When("I click the S&P button")
+	public void i_click_the_S_P_button() {
+		//TODO
+	}
+
+	@Then("a visual line should be toggled")
+	public void a_visual_line_should_be_toggled() {
+		//TODO
+		//CHECK ON
+		
+		//CHECK OFF
+	}
+
+	@When("there are multiple external stocks on the graph")
+	public void there_are_multiple_external_stocks_on_the_graph() {
+		//TODO
+	}
+
+	@Then("each external stock line should be a different color")
+	public void each_external_stock_line_should_be_a_different_color() {
+		//TODO
+	}
+	
 	@After()
 	public void after() {
 		driver.quit();

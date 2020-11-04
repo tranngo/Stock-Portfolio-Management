@@ -42,12 +42,22 @@
       <div class="row justify-content-md-center">
         <div class="col col-lg-5">
           <form onsubmit="return submitForm(event)">
+          <div class="sk-chase">
+            <!-- Loading animation -->
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+          </div>
+
+          <form id="login-form" onsubmit="return submitForm(event)">
             <div class="row">
-              <!-- Failed login attemps error msg -->
               <div class="col-lg-12 mb-4 missing-entries">
                 <div id="login-error" class="text-danger"></div>
               </div>
-              <!-- Email Address -->
+              <!-- Username -->
               <div class="input-group col-lg-12 mb-4">
                 <div class="input-group-prepend">
                   <span

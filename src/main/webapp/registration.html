@@ -12,6 +12,7 @@
     />
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="css/register.css" />
+    <link rel="stylesheet" type="text/css" href="css/loading.css" />
   </head>
   <body>
     <!-- Navbar-->
@@ -37,7 +38,17 @@
       <div class="row justify-content-md-center">
         <!-- Registration Form -->
         <div class="col col-lg-5">
-          <form onsubmit="return submitForm(event)">
+          <div class="sk-chase">
+            <!-- Loading animation -->
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+          </div>
+
+          <form id="registration-form" onsubmit="return submitForm(event)">
             <div class="row">
               <div class="col-lg-12 mb-4 missing-entries">
                 <div id="username-error" class="text-danger"></div>
@@ -112,16 +123,19 @@
               </div>
 
               <!-- Submit Button and Cancel Button -->
-              <div
-                class="form-group row col-lg-12 mx-auto mb-0 justify-content-between"
-              >
-                <button type="submit" class="btn btn-sm py-2 button col-5">
+              <div class="form-group col-lg-12 mx-auto mb-0">
+                <button
+                  type="submit"
+                  class="btn btn-sm py-2 button"
+                  style="width: 49%"
+                >
                   <span class="font-weight-bold">Create account</span>
                 </button>
                 <button
                   type="submit"
-                  class="btn btn-sm py-2 button col-5"
-                  onclick="location.href='index.html';"
+                  class="btn btn-sm py-2 button"
+                  onclick="location.href='/';"
+                  style="width: 50%"
                 >
                   <span class="font-weight-bold">Cancel</span>
                 </button>
@@ -131,7 +145,7 @@
               <div class="text-center w-100">
                 <p class="text-muted font-weight-bold">
                   Already Registered?
-                  <a href="index.html" class="text">Login</a>
+                  <a href="/" class="text">Login</a>
                 </p>
               </div>
             </div>
