@@ -43,7 +43,6 @@ select.form-control {
 .button:active {
   background-color: #960e29;
   color: white;
-  height: 115%;
   border-color: #960e29;
 }
 
