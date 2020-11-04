@@ -476,6 +476,7 @@ public class Portfolio {
 		for(LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");  
 		    String dateStr = formatter.format(date);  
+		    System.out.println("Calculated point for this dateStr: " + dateStr);
 		    String portfolioVal = getPortfolioValueOnADate(userId, dateStr);
 		    
 		    // add current date/value to portfolio
