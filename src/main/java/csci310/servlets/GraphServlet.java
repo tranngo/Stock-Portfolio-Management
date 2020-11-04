@@ -60,11 +60,11 @@ public class GraphServlet extends HttpServlet{
 		System.out.println("GraphServlet, endDate passed was: " + endDate);
 		
 		if(startDate == null) {
-			System.out.println("Since start date was null, setting start to default date of 2020-01-01");
+			// System.out.println("Since start date was null, setting start to default date of 2020-01-01");
 			startDate = "2020-01-01";
 		}
 		if(endDate == null) {
-			System.out.println("Since start date was null, setting start to default end date of 2020-10-01");
+			// System.out.println("Since start date was null, setting start to default end date of 2020-10-01");
 			endDate = "2020-10-01";
 		}
 		
@@ -76,7 +76,7 @@ public class GraphServlet extends HttpServlet{
 		
 		//Commenting out sales and expenses graph
 		//CreateArray();
-		//System.out.println("jsonArray: " + jsonArray);
+		// System.out.println("jsonArray: " + jsonArray);
 		
 		
 		ArrayList<String> stocks = new ArrayList<String>();
@@ -103,11 +103,12 @@ public class GraphServlet extends HttpServlet{
 		for(int i = 0; i < stocks.size(); i++) {
 			System.out.print(stocks.get(i) + " ");
 		}
-		System.out.println("");
-		System.out.println("Converted Start date: " + startDate);
-		System.out.println("Converted End date: " + endDate);
+		 System.out.println("");
+		 System.out.println("Converted Start date: " + startDate);
+		 System.out.println("Converted End date: " + endDate);
 		
 		ArrayList<ArrayList<String>> dataset = Api.getMultipleLinesWithDateRange(stocks, startDate, endDate);
+		System.out.println("Past the dataset line");
 		jsonArray = Api.datasetToJSON(dataset);
 		System.out.println("Real stock data jsonArray: " + jsonArray);
 		
