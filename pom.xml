@@ -177,13 +177,14 @@
 				</plugin>
 				
 				<plugin>
-					<groupId>org.eclipse.jetty</groupId>
-					<artifactId>jetty-maven-plugin</artifactId>
-					<version>9.4.31.v20200723</version>
-					<configuration>
-						<scanIntervalSeconds>5</scanIntervalSeconds>
-						<jettyXml>src/main/resources/jetty.xml</jettyXml>
-					</configuration>
+				  <groupId>org.eclipse.jetty</groupId>
+				  <artifactId>jetty-maven-plugin</artifactId>
+				  <version>9.4.31.v20200723</version>
+				  <configuration>
+				    <jettyXml>
+				      ${project.basedir}/src/test/resources/jetty.xml,${project.basedir}/src/test/resources/jetty-http.xml,${project.basedir}/src/test/resources/jetty-ssl.xml,${project.basedir}/src/test/resources/jetty-https.xml
+				    </jettyXml>
+				  </configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
