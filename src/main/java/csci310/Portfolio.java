@@ -657,9 +657,24 @@ public class Portfolio {
 	}
 	
 	/*
+	 * Function #9: This is a replacement for Function 7. getLineForPortfolioDateRange.
+	 * This should run much faster.
+	 * 
+	 * parameters:
+	 * returns:
+	 */
+	public static ArrayList<ArrayList<String>> getLineForPortfolioWithDateRangeFaster(int userId, String start, String end)
+	{
+		return null;
+	}
+	
+	
+	
+	/*
 	 * Function #:
 	 * 
 	 * parameters:
 	 * returns:
 	 */
+	
 }
