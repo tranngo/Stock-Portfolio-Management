@@ -803,7 +803,20 @@ public class Portfolio {
 						System.out.println("There's an issue with the turbo boost portfolio line. Start row and end row should have been there based on error checking.");
 					}
 					
-					//c) From startRow to endRow, insert this stock (NTNX). We held the stock between those dates.
+					//c) Case where you hold stock for some dates in the range, but part of it falls
+					// out of bounds (before range or after range). In that case you can use row 0
+					// or end at the last row
+					if(startRow == -1 && endRow != -1) {
+						//Falls out of bounds at the beginning
+						startRow = 0;
+					}
+					
+					if(endRow == -1 && startRow != -1) {
+						//Falls out of bounds at the end
+						endRow = portfolioHistory.size()-1;
+					}
+					
+					//d) From startRow to endRow, insert this stock (NTNX). We held the stock between those dates.
 					// ["08-01-2020", JNJ, NTNX]
 					// ["08-02-2020", NTNX]
 					//    <skipped some>

@@ -77,7 +77,7 @@ public class StepDefinitions {
 	}
 	
 	@When("I click on the create account button")
-	public void i_click_on_the_create_account_button() {
+	public void i_click_on_the_create_account_button() { 
 		WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[8]/button[1]"));
 	    button.click();
 	}
@@ -206,7 +206,7 @@ public class StepDefinitions {
 
 	@When("I click on the login button")
 	public void i_click_on_the_login_button() {
-	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[5]/button"));
+	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[6]/button"));
 	    button.click();
 	}
 
@@ -243,7 +243,7 @@ public class StepDefinitions {
 	    login.sendKeys("wilson133");
 		WebElement password = driver.findElement(By.xpath("//*[@id=\"password\"]"));
 	    password.sendKeys("racket");
-	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[5]/button"));
+	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[6]/button"));
 	    button.click();
 	}
 

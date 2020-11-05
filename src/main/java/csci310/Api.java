@@ -708,7 +708,7 @@ public class Api {
 				String[] strings = stock.split("_"); // {"PORTFOLIO_", userid}
 				int userId = Integer.parseInt(strings[1]);
 				System.out.println("userid: " + userId);
-				temp = Portfolio.getLineForPortfolioWithDateRange(userId, start, end);
+				temp = Portfolio.getLineForPortfolioWithDateRangeFaster(userId, start, end);
 				// System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
 //				continue;
 				/*System.out.println("portfolio line");
