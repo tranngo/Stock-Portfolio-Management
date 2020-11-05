@@ -13,12 +13,16 @@ public class PortfolioTest {
 	Portfolio portfolio;
 	String ntnx;
 	String jnj;
+	String startDate;
+	String endDate;
 
 	@Before
 	public void setUp() throws Exception {
 		portfolio = new Portfolio();
 		ntnx = "NTNX";
 		jnj = "JNJ";
+		startDate = "09-05-2020";
+		endDate = "10-05-2020";
 	}
 
 	//Add 10 NTNX transaction, add a bad -1 transaction, remove all NTNX stock from DB
@@ -27,10 +31,10 @@ public class PortfolioTest {
 		// reset db
 		 Portfolio.sellStock(99, ntnx);
 
-		 int result = Portfolio.addStock(99, ntnx, 10, "09-05-2020", "10-05-2020");
+		 int result = Portfolio.addStock(99, ntnx, 10, startDate, endDate);
 		 assertEquals(1, result);
 		
-		 result = Portfolio.addStock(99, ntnx, -1, "09-05-2020", "10-05-2020");
+		 result = Portfolio.addStock(99, ntnx, -1, startDate, endDate);
 		 assertEquals(0, result);
 		
 		// reset db
@@ -55,7 +59,7 @@ public class PortfolioTest {
 		// reset db
 		 Portfolio.sellStock(99, ntnx);
 
-		 Portfolio.addStock(99, ntnx, 10, "09-05-2020", "10-05-2020"); // buy 10 ntnx stocks
+		 Portfolio.addStock(99, ntnx, 10, startDate, endDate); // buy 10 ntnx stocks
 		 int result = Portfolio.sellStock(99, ntnx); //delete all ntnx transactions
 		 assertEquals(1, result);
 		
@@ -71,8 +75,8 @@ public class PortfolioTest {
 		 Portfolio.sellStock(99, jnj);		
 	
 
-		 Portfolio.addStock(99, ntnx, 10, "09-05-2020", "10-05-2020"); // buy 10 ntnx stocks
-		 Portfolio.addStock(99, jnj, 10, "09-05-2020", "10-05-2020"); // buy 10 jnj stocks
+		 Portfolio.addStock(99, ntnx, 10, startDate, endDate); // buy 10 ntnx stocks
+		 Portfolio.addStock(99, jnj, 10, startDate, endDate); // buy 10 jnj stocks
 		 ArrayList<ArrayList<String>> result = Portfolio.retrieveCurrentPortfolio(99);
 		 assertTrue(result.size() > 0);
 		
@@ -114,10 +118,10 @@ public class PortfolioTest {
 		 Portfolio.sellStock(99, ntnx);
 		 Portfolio.sellStock(99, jnj);
 		
-		 Portfolio.addStock(99, ntnx, 10, "09-05-2020", "10-05-2020"); // buy 10 ntnx stocks
-		 Portfolio.addStock(99, ntnx, 10, "09-06-2020", "10-05-2020"); // buy 10 ntnx stocks
-		 Portfolio.addStock(99, jnj, 10, "09-30-2020", "10-05-2020"); // buy 10 jnj stocks
-		 Portfolio.addStock(99, jnj, 10, "10-04-2020", "10-05-2020"); // buy 10 jnj stocks
+		 Portfolio.addStock(99, ntnx, 10, startDate, endDate); // buy 10 ntnx stocks
+		 Portfolio.addStock(99, ntnx, 10, "09-06-2020", endDate); // buy 10 ntnx stocks
+		 Portfolio.addStock(99, jnj, 10, "09-30-2020", endDate); // buy 10 jnj stocks
+		 Portfolio.addStock(99, jnj, 10, "10-04-2020", endDate); // buy 10 jnj stocks
 		 ArrayList<ArrayList<String>> result = Portfolio.retrievePortfolioOnADate(99, "09-30-2020");
 		assertTrue(result.size() > 0);
 		
@@ -152,8 +156,9 @@ public class PortfolioTest {
 		 Portfolio.sellStock(99, ntnx);
 		 Portfolio.sellStock(99, jnj);
 		
-		 Portfolio.addStock(99, ntnx, 10, "09-05-2020", "12-15-2020"); // buy 10 ntnx stocks
-		 Portfolio.addStock(99, jnj, 10, "09-05-2020", "12-15-2020"); // buy 10 jnj stocks
+		 String endD = "12-15-2020";
+		 Portfolio.addStock(99, ntnx, 10, startDate, endD); // buy 10 ntnx stocks
+		 Portfolio.addStock(99, jnj, 10, startDate, endD); // buy 10 jnj stocks
 		
 		 String result = Portfolio.getCurrentPortfolioValue(99);
 		 System.out.println("10 NTNX stock, 10 JNJ stock currently worth " + result);
@@ -185,9 +190,10 @@ public class PortfolioTest {
 		 Portfolio.sellStock(99, ntnx);
 		 Portfolio.sellStock(99, jnj);
 		
-		 Portfolio.addStock(99, ntnx, 10, "09-05-2020", "09-15-2020"); // buy 10 ntnx stocks
-		 Portfolio.addStock(99, jnj, 10, "09-07-2020", "09-15-2020"); // buy 10 jnj stocks 9/7
-		 Portfolio.addStock(99, jnj, 10, "09-08-2020", "09-15-2020"); // buy 10 jnj stocks 9/8
+		 String endD = "09-15-2020";
+		 Portfolio.addStock(99, ntnx, 10, startDate, endD); // buy 10 ntnx stocks
+		 Portfolio.addStock(99, jnj, 10, "09-07-2020", endD); // buy 10 jnj stocks 9/7
+		 Portfolio.addStock(99, jnj, 10, "09-08-2020", endD); // buy 10 jnj stocks 9/8
 		
 		 ArrayList<ArrayList<String>> result = Portfolio.getFullLineForPortfolio(99);
 		 if(result == null) {
@@ -217,7 +223,7 @@ public class PortfolioTest {
 		 	valid = false;
 		 if(!result.get(0).get(1).equals("Value"))
 		 	valid = false;
-//		 if(!result.get(1).get(0).equals("09-05-2020"))
+//		 if(!result.get(1).get(0).equals(startDate))
 //		 	valid = false;	
 //		 if(!Api.isNumeric(result.get(1).get(1)))
 //		 	valid = false;
@@ -247,10 +253,10 @@ public class PortfolioTest {
 		 Portfolio.sellStock(99, ntnx);
 		 Portfolio.sellStock(99, jnj);
 		
-		 Portfolio.addStock(99, ntnx, 10, "09-05-2020", "09-15-2020"); // buy 10 ntnx stocks
+		 Portfolio.addStock(99, ntnx, 10, startDate, "09-15-2020"); // buy 10 ntnx stocks
 		 Portfolio.addStock(99, jnj, 10, "09-12-2020", "09-18-2020"); // buy 10 jnj stocks
 		
-		 ArrayList<ArrayList<String>> result = Portfolio.getLineForPortfolioWithDateRange(99, "09-05-2020", "09-17-2020");
+		 ArrayList<ArrayList<String>> result = Portfolio.getLineForPortfolioWithDateRange(99, startDate, "09-17-2020");
 		 if(result == null) {
 			 System.out.println("PortfolioTest.java, testGetLineForPortfolioWithDateRange, null");
 			// reset db
@@ -301,7 +307,7 @@ public class PortfolioTest {
 		 Portfolio.sellStock(99, ntnx);
 		 Portfolio.sellStock(99, jnj);
 		
-		 Portfolio.addStock(99, ntnx, 10, "09-05-2020", "09-15-2020"); // buy 10 ntnx stocks
+		 Portfolio.addStock(99, ntnx, 10, startDate, "09-15-2020"); // buy 10 ntnx stocks
 		 Portfolio.addStock(99, jnj, 10, "09-12-2020", "09-18-2020"); // buy 10 jnj stocks
 		
 		 String result = Portfolio.getPortfolioValueOnADate(99, "09-10-2020");
@@ -343,11 +349,11 @@ public class PortfolioTest {
 		 Portfolio.sellStock(99, ntnx);
 		 Portfolio.sellStock(99, jnj);
 		
-		 Portfolio.addStock(99, ntnx, 10, "09-05-2020", "09-15-2020"); // buy 10 ntnx stocks
+		 Portfolio.addStock(99, ntnx, 10, startDate, "09-15-2020"); // buy 10 ntnx stocks
 		 Portfolio.addStock(99, jnj, 10, "09-12-2020", "09-18-2020"); // buy 10 jnj stocks
 		
 		 ArrayList<String> portfolioContr = new ArrayList<String>(Arrays.asList(ntnx, jnj));
-		 ArrayList<ArrayList<String>> result = Portfolio.getLineForPortfolioWithDateRangeFaster(99, "09-05-2020", "09-17-2020", portfolioContr);
+		 ArrayList<ArrayList<String>> result = Portfolio.getLineForPortfolioWithDateRangeFaster(99, startDate, "09-17-2020", portfolioContr);
 		 if(result == null) {
 			 System.out.println("PortfolioTest.java, testGetLineForPortfolioWithDateRangeFaster, null");
 		 	return;
