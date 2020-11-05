@@ -731,3 +731,4 @@ $("#close-confirmation-alert").on("click", function() {
 $(document).ready(function() {
 	updatePortfolioStockList();
 });
+

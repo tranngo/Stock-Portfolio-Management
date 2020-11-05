@@ -56,10 +56,6 @@ ul {
 	cursor: pointer;
 }
 
-.col-shadow {
-	/* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
-}
-
 .btn-primary {
 	background-color: #17242C !important;
 	color: #93C8F0;
