@@ -42,3 +42,10 @@ ul {
   background-color: #787878;
   border: none;
 }
+
+.loading1,
+.loading2,
+.loading3 {
+  margin-top: 15px;
+  display: block;
+}

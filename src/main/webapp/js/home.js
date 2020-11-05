@@ -137,6 +137,14 @@ function refreshGraph() {
       getMyCurrentPortfolioValue();
       getPortfolioListAsAnArray();
     },
+
+    beforeSend: function () {
+      $(".loading1").css("display", "block");
+    },
+
+    complete: function () {
+      $(".loading1").css("display", "none");
+    },
   });
   return false;
 }
@@ -271,6 +279,14 @@ function getPortfolioListAsAnArray() {
       //   "Updating portfolio list to display " + state_portfolioListToDisplay
       // );
     },
+
+    beforeSend: function () {
+      $(".loading1").css("display", "block");
+    },
+
+    complete: function () {
+      $(".loading1").css("display", "none");
+    },
   });
 }
 
@@ -299,6 +315,14 @@ function addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling) {
       //Update the portfolio value and percent
       getMyCurrentPortfolioValue();
     },
+
+    beforeSend: function () {
+      $(".loading2").css("display", "block");
+    },
+
+    complete: function () {
+      $(".loading2").css("display", "none");
+    },
   });
 }
 
@@ -324,6 +348,14 @@ function removeFromPortfolio(stock) {
 
       //Update the portfolio value and percent
       getMyCurrentPortfolioValue();
+    },
+
+    beforeSend: function () {
+      $(".loading2").css("display", "block");
+    },
+
+    complete: function () {
+      $(".loading2").css("display", "none");
     },
   });
 }
@@ -383,7 +415,23 @@ function getMyCurrentPortfolioValue() {
           // console.log("It is " + per);
           state_percentChange = per;
         },
+
+        beforeSend: function () {
+          $(".loading2").css("display", "block");
+        },
+
+        complete: function () {
+          $(".loading2").css("display", "none");
+        },
       });
+    },
+
+    beforeSend: function () {
+      $(".loading2").css("display", "block");
+    },
+
+    complete: function () {
+      $(".loading2").css("display", "none");
     },
   });
 }
