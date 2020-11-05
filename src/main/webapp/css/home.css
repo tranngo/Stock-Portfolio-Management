@@ -20,7 +20,8 @@ ul {
   list-style: none;
   padding-left: 0;
 }
-​ .display-block {
+
+.display-block {
   display: block !important;
 }
 
@@ -33,12 +34,26 @@ ul {
 }
 
 .close-icon {
-  color: #d65a5c;
+	color: #d65a5c;
 }
 
-.logout-btn,
-.logout-btn:hover {
-  color: white;
-  background-color: #787878;
-  border: none;
+.click-hover:hover {
+	cursor: pointer;
+}
+
+.btn-primary {
+	background-color: #17242C !important;
+	color: #93C8F0;
+}
+
+.toggle-button {
+	color: #0275d8;
+}
+
+.green-text {
+	color: #5cb85c;
+}
+
+.red-text {
+	color: #d9534f;
 }
