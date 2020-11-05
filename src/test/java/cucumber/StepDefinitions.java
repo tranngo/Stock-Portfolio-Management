@@ -3,8 +3,10 @@ package cucumber;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
@@ -12,9 +14,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -27,6 +30,18 @@ public class StepDefinitions {
 	private static final String LOGIN_URL = "http://localhost:8081/";
 	private static final String REGISTER_URL = "http://localhost:8081/registration.html";
 	private static final String HOME_URL = "http://localhost:8081/home.html";
+
+	WebDriver mobile = null;
+
+	@Before
+	public void setUp() {
+		Map<String, String> mobileEmulation = new HashMap<>();
+		mobileEmulation.put("deviceName", "iPhone X");
+		ChromeOptions chromeOptions = new ChromeOptions();
+		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+		mobile = new ChromeDriver(chromeOptions);
+	}
+
 
 	private final WebDriver driver = new ChromeDriver();
 
@@ -678,6 +693,26 @@ public class StepDefinitions {
 	@Then("each external stock line should be a different color")
 	public void each_external_stock_line_should_be_a_different_color() {
 		//TODO
+	}
+	
+	@Given("I am on login page on mobile")
+	public void i_am_on_login_page_on_mobile() {
+		try {
+			mobile.get(ROOT_URL);
+			Thread.sleep(70000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@When("I click on sign up button")
+	public void i_click_on_sign_up_button() {
+		
+	}
+	
+	@Then("I should see mobile register page")
+	public void i_should_see_mobile_register_page() {
+		
 	}
 	
 	@After()
