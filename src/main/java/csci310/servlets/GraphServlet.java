@@ -2,24 +2,14 @@ package csci310.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
 
 import csci310.Api;
 
@@ -97,7 +87,7 @@ public class GraphServlet extends HttpServlet{
 		
 		// check portfolio contributors stocks next
 		ArrayList<String> portfolioStocks = new ArrayList<String>();
-		if(portfolioContributors != null && portfolioContributors != "" && externalStocks.length() >= 2) {
+		if(portfolioContributors != null && portfolioContributors != "" && portfolioContributors.length() >= 2) {
 			portfolioContributors = portfolioContributors.substring(0, portfolioContributors.length()-1);
 			String[] strings = portfolioContributors.split(",");
 			portfolioStocks = new ArrayList<String>(Arrays.asList(strings));
@@ -115,7 +105,6 @@ public class GraphServlet extends HttpServlet{
 		 System.out.println("Converted Start date: " + startDate);
 		 System.out.println("Converted End date: " + endDate);
 		
-		boolean filter = false;
 		ArrayList<ArrayList<String>> dataset = Api.getMultipleLinesWithDateRange(stocks, startDate, endDate, portfolioStocks);
 		System.out.println("Past the dataset line");
 		jsonArray = Api.datasetToJSON(dataset);
