@@ -658,7 +658,7 @@ public class Api {
 	 * parameters: ArrayList<String> for stocks, String for start date, String for end date
 	 * returns: ArrayList<ArrayList<String> > basically a n x m array
 	 */
-	public static ArrayList<ArrayList<String>> getMultipleLinesWithDateRange(ArrayList<String> stocks, String start, String end) throws IOException
+	public static ArrayList<ArrayList<String>> getMultipleLinesWithDateRange(ArrayList<String> stocks, String start, String end, ArrayList<String> portfolioContributors) throws IOException
 	{
 		
 		//stocks = ["NTNX", "SLFS", "PORTFOLIO_37"]
@@ -708,7 +708,7 @@ public class Api {
 				String[] strings = stock.split("_"); // {"PORTFOLIO_", userid}
 				int userId = Integer.parseInt(strings[1]);
 				System.out.println("userid: " + userId);
-				temp = Portfolio.getLineForPortfolioWithDateRange(userId, start, end);
+				temp = Portfolio.getLineForPortfolioWithDateRangeFaster(userId, start, end, portfolioContributors);
 				// System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
 //				continue;
 				/*System.out.println("portfolio line");
@@ -716,7 +716,7 @@ public class Api {
 					for(int b = 0; b < temp.get(a).size(); b++) {
 						System.out.print(temp.get(a).get(b) + " ");
 					}
-					System.out.println("");
+					System.out.println("");s
 				}*/
 			} else {
 				temp = getOneLineWithDateRange(stock, start, end);

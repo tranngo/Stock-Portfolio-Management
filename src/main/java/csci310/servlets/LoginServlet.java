@@ -27,6 +27,7 @@ public class LoginServlet extends HttpServlet {
 		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 			
 			// System.out.println("YES: LoginServlet's doPost was called");
+			System.out.println("A");
 			
 			//Code referenced from the URL shortener demo
 			String requestBody;
@@ -42,7 +43,7 @@ public class LoginServlet extends HttpServlet {
 			}
 			// System.out.println("Debug: requestBody is: " + requestBody);
 			
-			//NOTE: requestBody looks like "username=wilson103&password=racket&passwordConfirmation=racket"
+			//NOTE: requestBody looks like "username=wilson103&password=racket"
 			
 			//At this point we have properly read the request body into a String object
 			//Now we will read the form data the user has sent to us
@@ -61,10 +62,12 @@ public class LoginServlet extends HttpServlet {
 			
 			boolean userInfoIsValid = Login.checkForLoginCredentials(username, password, "com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 			
+			System.out.println("B");
+			
 			//Invalid user info
 			if(userInfoIsValid == false) {
 				//NOTE: Improve this! Return a response telling the user that they messed up
-				// System.out.println("User info is not valid");
+				System.out.println("User info is not valid");
 				//NOTE: If you change this line make sure to fix RegistrationServletTest too
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 //				response.sendRedirect("index.html");
@@ -78,6 +81,8 @@ public class LoginServlet extends HttpServlet {
 			JDBC db = new JDBC();
 			Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 			
+			System.out.println("C");
+			
 			if(con != null) {
 				try {
 					
@@ -88,8 +93,10 @@ public class LoginServlet extends HttpServlet {
 		
 					while(rs.next()) {
 						user_id = rs.getInt(1);
-						// System.out.println("Hey! This user has id of " + user_id);
+						System.out.println("Hey! This user has id of " + user_id);
 					}
+					
+					System.out.println("D");
 					
 		        } catch (SQLException e) {
 		        	// System.out.println("Error querying user data from DB during registration.");
@@ -105,11 +112,13 @@ public class LoginServlet extends HttpServlet {
 			}
 			
 			//Redirect user to the login page
-			// System.out.println("User info is valid, redirecting to home.html");
+			System.out.println("User info is valid");
 			Cookie c = new Cookie("user_id", Integer.toString(user_id) );
 			c.setMaxAge(3600);
 			response.addCookie(c);
 			response.setStatus(HttpServletResponse.SC_OK);
+			
+			System.out.println("E");
 //			response.sendRedirect("home.html");
 			return;
 		}

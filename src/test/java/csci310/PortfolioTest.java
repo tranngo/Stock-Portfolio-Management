@@ -2,10 +2,8 @@ package csci310;
 
 import static org.junit.Assert.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -336,6 +334,58 @@ public class PortfolioTest {
 		// reset db
 		 Portfolio.sellStock(99, ntnx);
 		 Portfolio.sellStock(99, jnj);
+	}
+	
+	@Test
+	public void testGetLineForPortfolioWithDateRangeFaster() {
+		
+		// reset db
+		 Portfolio.sellStock(99, ntnx);
+		 Portfolio.sellStock(99, jnj);
+		
+		 Portfolio.addStock(99, ntnx, 10, "09-05-2020", "09-15-2020"); // buy 10 ntnx stocks
+		 Portfolio.addStock(99, jnj, 10, "09-12-2020", "09-18-2020"); // buy 10 jnj stocks
+		
+		 ArrayList<String> portfolioContr = new ArrayList<String>(Arrays.asList(ntnx, jnj));
+		 ArrayList<ArrayList<String>> result = Portfolio.getLineForPortfolioWithDateRangeFaster(99, "09-05-2020", "09-17-2020", portfolioContr);
+		 if(result == null) {
+			 System.out.println("PortfolioTest.java, testGetLineForPortfolioWithDateRangeFaster, null");
+		 	return;
+		 }
+	
+		 boolean temp = (result.size() > 6);
+		 assertTrue(temp);
+		
+		//Print statements
+		// System.out.println("NTNX is held from 9/5 to 9/15, JNJ held from 9/12 to 9/18. Range selected to view is 9/5 to 9/17.");
+		// System.out.println("testGetLineForPortfolioWithDateRange's result: ");
+		// for(int i = 0; i < result.size(); i++) {
+		// 	for(int j = 0; j < result.get(i).size(); j++) {
+		// 		System.out.print(result.get(i).get(j) + ", ");
+		// 	}
+			// System.out.println("");
+		// }
+		
+		//Check each entry
+//		 Boolean valid = true;
+//		 if(result.get(0).get(0) != "Date")
+//		 	valid = false;
+//		 if(result.get(0).get(1) != "Value")
+//		 	valid = false;
+//		 if(!result.get(1).get(0).equals("09-05-2020"))
+//		 	valid = false;	
+//		 if(!Api.isNumeric(result.get(1).get(1)))
+//		 	valid = false;
+//		 if(!result.get(2).get(0).equals("09-06-2020"))
+//		 	valid = false;	
+//		 if(!Api.isNumeric(result.get(2).get(1)))
+//		 	valid = false;
+		
+		// assertTrue(valid);
+		
+		// reset db
+		Portfolio.sellStock(99, ntnx);
+		Portfolio.sellStock(99, jnj);
 	}
 
 }

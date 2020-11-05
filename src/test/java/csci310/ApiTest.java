@@ -284,15 +284,18 @@ public class ApiTest {
 		stocks.add("INVALID");
 		stocks.add("PORTFOLIO_12345");
 		
+
 		ArrayList<ArrayList<String>> resultData = null;
 		try {
-			resultData = Api.getMultipleLinesWithDateRange(stocks, "12-01-2019", "01-01-2020");
+			ArrayList<String> portfolioContr = new ArrayList<String>();
+	 		resultData = Api.getMultipleLinesWithDateRange(stocks, "12-01-2019", "01-01-2020", portfolioContr);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("ApiTest.java: Trouble connecting to Yahoo Finance API");
 			return;
 		}
+
 		if(resultData == null) {
 			System.out.println("ApiTest.java, testGetMultipleLinesWithDateRange, null");
 			return;

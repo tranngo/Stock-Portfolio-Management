@@ -2,24 +2,14 @@ package csci310.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
 
 import csci310.Api;
 
@@ -90,9 +80,17 @@ public class GraphServlet extends HttpServlet{
 		}
 		else {
 			System.out.println("Received some external stocks " + externalStocks);
-			externalStocks.substring(0, externalStocks.length()-1);
+			externalStocks = externalStocks.substring(0, externalStocks.length()-1);
 			String[] strings = externalStocks.split(",");
 			stocks = new ArrayList<String>(Arrays.asList(strings));
+		}
+		
+		// check portfolio contributors stocks next
+		ArrayList<String> portfolioStocks = new ArrayList<String>();
+		if(portfolioContributors != null && portfolioContributors != "" && portfolioContributors.length() >= 2) {
+			portfolioContributors = portfolioContributors.substring(0, portfolioContributors.length()-1);
+			String[] strings = portfolioContributors.split(",");
+			portfolioStocks = new ArrayList<String>(Arrays.asList(strings));
 		}
 		
 		// add user's current porfolio to stocks arraylist
@@ -107,7 +105,7 @@ public class GraphServlet extends HttpServlet{
 		 System.out.println("Converted Start date: " + startDate);
 		 System.out.println("Converted End date: " + endDate);
 		
-		ArrayList<ArrayList<String>> dataset = Api.getMultipleLinesWithDateRange(stocks, startDate, endDate);
+		ArrayList<ArrayList<String>> dataset = Api.getMultipleLinesWithDateRange(stocks, startDate, endDate, portfolioStocks);
 		System.out.println("Past the dataset line");
 		jsonArray = Api.datasetToJSON(dataset);
 		System.out.println("Real stock data jsonArray: " + jsonArray);
