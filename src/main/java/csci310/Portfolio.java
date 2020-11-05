@@ -668,7 +668,7 @@ public class Portfolio {
 	 * parameters:
 	 * returns:
 	 */
-	public static ArrayList<ArrayList<String>> getLineForPortfolioWithDateRangeFaster(int userId, String start, String end)
+	public static ArrayList<ArrayList<String>> getLineForPortfolioWithDateRangeFaster(int userId, String start, String end, ArrayList<String> portfolioContributors)
 	{
 		System.out.println("Turbo portfolio line called");
 		
@@ -754,7 +754,10 @@ public class Portfolio {
 					
 					//Need to do: add portfolio contributor filtering here
 					//If stockFromTheTransaction is not in the portfolioContributor list, continue
-					
+					boolean filter = false; // TODO: filter on later
+					if(filter && !portfolioContributors.contains(stockFromTheTransaction)) {
+						continue; // don't look at this stock if it's not a currently active port contributor
+					}
 					
 					//Find if transDateOfPurchase even falls within the range
 					Date transDateOfPurchaseObj = null;

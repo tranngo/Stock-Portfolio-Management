@@ -219,7 +219,8 @@ public class ApiTest {
 		stocks.add("INVALID");
 		stocks.add("PORTFOLIO_12345");
 		
-		ArrayList<ArrayList<String>> resultData = Api.getMultipleLinesWithDateRange(stocks, "12-01-2019", "01-01-2020");
+		ArrayList<String> portfolioContr = new ArrayList<String>();
+		ArrayList<ArrayList<String>> resultData = Api.getMultipleLinesWithDateRange(stocks, "12-01-2019", "01-01-2020", portfolioContr);
 		if(resultData == null) {
 			System.out.println("ApiTest.java, testGetMultipleLinesWithDateRange, null");
 			return;

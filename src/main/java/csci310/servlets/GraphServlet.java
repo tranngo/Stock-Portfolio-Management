@@ -90,9 +90,18 @@ public class GraphServlet extends HttpServlet{
 		}
 		else {
 			System.out.println("Received some external stocks " + externalStocks);
-			externalStocks.substring(0, externalStocks.length()-1);
+			externalStocks = externalStocks.substring(0, externalStocks.length()-1);
+			System.out.println("external stocks: " + externalStocks);
 			String[] strings = externalStocks.split(",");
 			stocks = new ArrayList<String>(Arrays.asList(strings));
+		}
+		
+		// check portfolio contributors stocks next
+		ArrayList<String> portfolioStocks = new ArrayList<String>();
+		if(portfolioContributors != null && portfolioContributors != "" && externalStocks.length() >= 2) {
+			portfolioContributors = portfolioContributors.substring(0, portfolioContributors.length()-1);
+			String[] strings = portfolioContributors.split(",");
+			portfolioStocks = new ArrayList<String>(Arrays.asList(strings));
 		}
 		
 		// add user's current porfolio to stocks arraylist
@@ -107,7 +116,8 @@ public class GraphServlet extends HttpServlet{
 		 System.out.println("Converted Start date: " + startDate);
 		 System.out.println("Converted End date: " + endDate);
 		
-		ArrayList<ArrayList<String>> dataset = Api.getMultipleLinesWithDateRange(stocks, startDate, endDate);
+		boolean filter = false;
+		ArrayList<ArrayList<String>> dataset = Api.getMultipleLinesWithDateRange(stocks, startDate, endDate, portfolioStocks);
 		System.out.println("Past the dataset line");
 		jsonArray = Api.datasetToJSON(dataset);
 		System.out.println("Real stock data jsonArray: " + jsonArray);

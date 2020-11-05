@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -314,7 +315,8 @@ public class PortfolioTest {
 		 Portfolio.addStock(99, ntnx, 10, "09-05-2020", "09-15-2020"); // buy 10 ntnx stocks
 		 Portfolio.addStock(99, jnj, 10, "09-12-2020", "09-18-2020"); // buy 10 jnj stocks
 		
-		 ArrayList<ArrayList<String>> result = Portfolio.getLineForPortfolioWithDateRangeFaster(99, "09-05-2020", "09-17-2020");
+		 ArrayList<String> portfolioContr = new ArrayList<String>(Arrays.asList(ntnx, jnj));
+		 ArrayList<ArrayList<String>> result = Portfolio.getLineForPortfolioWithDateRangeFaster(99, "09-05-2020", "09-17-2020", portfolioContr);
 		 if(result == null) {
 			 System.out.println("PortfolioTest.java, testGetLineForPortfolioWithDateRangeFaster, null");
 		 	return;
