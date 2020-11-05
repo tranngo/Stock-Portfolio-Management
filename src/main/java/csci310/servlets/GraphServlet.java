@@ -91,7 +91,6 @@ public class GraphServlet extends HttpServlet{
 		else {
 			System.out.println("Received some external stocks " + externalStocks);
 			externalStocks = externalStocks.substring(0, externalStocks.length()-1);
-			System.out.println("external stocks: " + externalStocks);
 			String[] strings = externalStocks.split(",");
 			stocks = new ArrayList<String>(Arrays.asList(strings));
 		}
