@@ -23,10 +23,10 @@ import io.cucumber.java.en.When;
  * Step definitions for Cucumber tests.
  */
 public class StepDefinitions {
-	private static final String ROOT_URL = "http://localhost:8080/";
-	private static final String LOGIN_URL = "http://localhost:8080/";
-	private static final String REGISTER_URL = "http://localhost:8080/registration.html";
-	private static final String HOME_URL = "http://localhost:8080/home.html";
+	private static final String ROOT_URL = "http://localhost:8081/";
+	private static final String LOGIN_URL = "http://localhost:8081/";
+	private static final String REGISTER_URL = "http://localhost:8081/registration.html";
+	private static final String HOME_URL = "http://localhost:8081/home.html";
 
 	private final WebDriver driver = new ChromeDriver();
 
@@ -77,7 +77,7 @@ public class StepDefinitions {
 	}
 	
 	@When("I click on the create account button")
-	public void i_click_on_the_create_account_button() {
+	public void i_click_on_the_create_account_button() { 
 		WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[8]/button[1]"));
 	    button.click();
 	}
@@ -188,7 +188,7 @@ public class StepDefinitions {
 
 	@When("I click on the sign up button")
 	public void i_click_on_the_sign_up_button() {
-	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[6]/p/a"));
+	    WebElement button = driver.findElement(By.xpath("//*[@id=\"login-form\"]/div/div[7]/p/a"));
 	    button.click();
 	}
 
@@ -200,19 +200,19 @@ public class StepDefinitions {
 	
 	@When("I type {string} into the login password text box")
 	public void i_type_into_the_login_password_text_box(String string) {
-	    WebElement textbox = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[3]/input"));
+	    WebElement textbox = driver.findElement(By.xpath("//*[@id=\"password\"]"));
 	    textbox.sendKeys(string);
 	}
 
 	@When("I click on the login button")
 	public void i_click_on_the_login_button() {
-	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[5]/button"));
+	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[6]/button"));
 	    button.click();
 	}
 
 	@When("I type {string} into the login username text box")
 	public void i_type_into_the_login_username_text_box(String string) {
-		WebElement textbox = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[1]/input"));
+		WebElement textbox = driver.findElement(By.xpath("//*[@id=\"username\"]"));
 	    textbox.sendKeys(string);
 	}
 	
@@ -243,7 +243,7 @@ public class StepDefinitions {
 	    login.sendKeys("wilson133");
 		WebElement password = driver.findElement(By.xpath("//*[@id=\"password\"]"));
 	    password.sendKeys("racket");
-	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[5]/button"));
+	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[6]/button"));
 	    button.click();
 	}
 
@@ -611,7 +611,7 @@ public class StepDefinitions {
 
 	@Then("my password in the login box should be hidden")
 	public void my_password_in_the_login_box_should_be_hidden() {
-		WebElement pass = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[3]/input"));
+		WebElement pass = driver.findElement(By.xpath("//*[@id=\"password\"]"));
 	    String value = pass.getAttribute("type");
 	    assertEquals("password", value);
 	}

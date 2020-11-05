@@ -32,6 +32,9 @@ public class Portfolio {
 	 * parameters: user_id, stock, quantity, and date of purchase
 	 * returns: 1 if successfully inserted, 0 if not, later we will add error codes
 	 */
+	
+	//Need to do: Global variable > cache for Api.java getOneLineAllData
+	
 	//Edit: params increased
 	public static int addStock(int userId, String stock, int quantity, String dateOfPurchase, String dateOfSelling)
 	{
@@ -476,6 +479,7 @@ public class Portfolio {
 		for(LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");  
 		    String dateStr = formatter.format(date);  
+		    System.out.println("Calculated point for this dateStr: " + dateStr);
 		    String portfolioVal = getPortfolioValueOnADate(userId, dateStr);
 		    
 		    // add current date/value to portfolio
@@ -615,6 +619,8 @@ public class Portfolio {
 	public static String getPortfolioValueOnADate(int userId, String date)
 	{
 		ArrayList<ArrayList<String>> portfolio = retrievePortfolioOnADate(userId, date);
+		
+		
 		double portfolioVal = 0;
 		
 		//There is no data on the stock price for this date
@@ -656,9 +662,305 @@ public class Portfolio {
 	}
 	
 	/*
+	 * Function #9: This is a replacement for Function 7. getLineForPortfolioDateRange.
+	 * This should run much faster.
+	 * 
+	 * parameters:
+	 * returns:
+	 */
+	public static ArrayList<ArrayList<String>> getLineForPortfolioWithDateRangeFaster(int userId, String start, String end, ArrayList<String> portfolioContributors)
+	{
+		System.out.println("Turbo portfolio line called");
+		
+		//Example:   user_id is 7      start is August 1st   and  end is November 3rd
+		
+		//Same as function 7, our goal is to return the right portfolioRanged
+		ArrayList<ArrayList<String>> portfolioRanged = new ArrayList<ArrayList<String>>();
+		HashMap<String, ArrayList<ArrayList<String>>> cache = new HashMap<String, ArrayList<ArrayList<String>>>();
+		
+		ArrayList<String> headers = new ArrayList<String>();
+		headers.add("Date");
+		headers.add("Value");
+		portfolioRanged.add(headers);
+		
+		//Step 1: Create a 2d array from start to end, Aug. 1st to Nov.3rd
+		// ["08-01-2020", ...]
+		// ["08-02-2020", ...]
+		//    <skipped some>
+		// ["11-02-2020", ...]
+		// ["11-03-2020", ...]
+		
+		//That 2d array
+		ArrayList<ArrayList<String>> portfolioHistory = new ArrayList<ArrayList<String>>();
+		ArrayList<ArrayList<String>> quantities = new ArrayList<ArrayList<String>>();
+		
+		//Date objects
+		Date startD = null;
+		Date endD = null;
+		try {
+			startD = new SimpleDateFormat("MM-dd-yyyy").parse(start);
+			endD = new SimpleDateFormat("MM-dd-yyyy").parse(end);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		LocalDate startDate = startD.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate endDate = endD.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		System.out.println("start: " + startD.toString());
+		System.out.println("end: " + endD.toString());
+		for(LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+			ArrayList<String> oneRow = new ArrayList<String>();
+			ArrayList<String> copyRow = new ArrayList<String>();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");  
+		    String dateStr = formatter.format(date); 
+			
+			oneRow.add(dateStr);
+			copyRow.add(dateStr);
+			
+			portfolioHistory.add(oneRow);
+			quantities.add(copyRow); //flag
+		}
+		
+		
+		//Step 2: Retrieve all transactions from DB
+		// connect to mysql
+		JDBC db = new JDBC();
+		Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
+		if(con != null) {
+			try {
+				// query stocks table for user id
+				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks_new WHERE user_id = ?");
+				ps.setInt(1, userId);
+				ResultSet rs = ps.executeQuery();
+				
+				String transDateOfPurchase = "";
+				String transDateOfSelling = "";
+				String stockFromTheTransaction = "";
+				int quantityFromTheTransaction = -1;
+				// example rs returned: [id, user_id, "NTNX", 7, "02-01-2020", "03-05-2020"]
+
+	
+				// while there are stocks in the portfolio, find start and end dates
+				while(rs.next()) {
+					// example rs returned: [id, user_id, "NTNX", 7, "02-01-2020", "03-05-2020"]
+					stockFromTheTransaction = rs.getString(3);
+					quantityFromTheTransaction = rs.getInt(4);
+					transDateOfPurchase = rs.getString(5);
+					transDateOfSelling = rs.getString(6);
+					System.out.println("Transaction for user between: " + transDateOfPurchase + " and " + transDateOfSelling);
+					System.out.println("For the stock: " + stockFromTheTransaction);
+					System.out.println("With a quantity of: " + quantityFromTheTransaction);
+					
+					//Need to do: add portfolio contributor filtering here
+					//If stockFromTheTransaction is not in the portfolioContributor list, continue
+					boolean filter = false; // TODO: filter on later
+					if(filter && !portfolioContributors.contains(stockFromTheTransaction)) {
+						continue; // don't look at this stock if it's not a currently active port contributor
+					}
+					
+					//Find if transDateOfPurchase even falls within the range
+					Date transDateOfPurchaseObj = null;
+					Date transDateOfSellingObj = null;
+					try {
+						transDateOfPurchaseObj = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfPurchase);
+						transDateOfSellingObj = new SimpleDateFormat("MM-dd-yyyy").parse(transDateOfSelling);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					//Stock transaction falls out of bounds
+					if(transDateOfSellingObj.before(startD)) {
+						System.out.println("This transaction won't be counted since the stock was sold before the date range");
+						continue;
+					}
+					
+					//Stock transaction falls out of bounds
+					if(transDateOfPurchaseObj.after(endD)) {
+						System.out.println("This transaction won't be counted since the stock was bought after the date range");
+						continue;
+					}
+					
+					//Stock transaction is in the date range
+					//a) Find the row with transDateOfPurchase, let's say it is row=17
+					int startRow = -1;
+					for(int i = 0; i < portfolioHistory.size(); i++) {
+						if(portfolioHistory.get(i).get(0).equals(transDateOfPurchase)) {
+							startRow = i;
+							System.out.println("Start row determined to be " + startRow);
+							break;
+						}
+					}
+					//b) Find the row with transDateOfSelling, let's say it is row=21
+					int endRow = -1;
+					for(int j = 0; j < portfolioHistory.size(); j++) {
+						if(portfolioHistory.get(j).get(0).equals(transDateOfSelling)) {
+							endRow = j;
+							System.out.println("End row determined to be " + endRow);
+							break;
+						}
+					}
+					
+					if(startRow == -1 || endRow == -1) {
+						System.out.println("There's an issue with the turbo boost portfolio line. Start row and end row should have been there based on error checking.");
+					}
+					
+					//c) Case where you hold stock for some dates in the range, but part of it falls
+					// out of bounds (before range or after range). In that case you can use row 0
+					// or end at the last row
+					if(startRow == -1 && endRow != -1) {
+						//Falls out of bounds at the beginning
+						startRow = 0;
+					}
+					
+					if(endRow == -1 && startRow != -1) {
+						//Falls out of bounds at the end
+						endRow = portfolioHistory.size()-1;
+					}
+					
+					//d) From startRow to endRow, insert this stock (NTNX). We held the stock between those dates.
+					// ["08-01-2020", JNJ, NTNX]
+					// ["08-02-2020", NTNX]
+					//    <skipped some>
+					// ["11-02-2020", ...]
+					// ["11-03-2020", ...]
+					for(int k = startRow; k <= endRow; k++) {
+						portfolioHistory.get(k).add(stockFromTheTransaction);
+						quantities.get(k).add(quantityFromTheTransaction+"");
+					}
+					
+				}
+				
+				//Step 3: Go through our 2d array and build the line we want to return
+				//From the start date to end date
+				//System.out.println("");
+				for(int m = 0; m < portfolioHistory.size(); m++)
+				{
+					String dateInTheRow = portfolioHistory.get(m).get(0);
+					ArrayList<String> actualRow = portfolioHistory.get(m);
+					//System.out.println("Alright, let's look at date: " + dateInTheRow);
+					
+					//There's no stocks we held on that date
+					if(actualRow.size() <= 1) {
+						//Need to do: make sure gaps are filled with nulls (done)
+						//System.out.println("We held no stocks on that date, adding a null entry");
+						//System.out.println("");
+						
+						ArrayList<String> nullEntry = new ArrayList<String>();
+						nullEntry.add(dateInTheRow);
+						nullEntry.add("NULL");
+						portfolioRanged.add(nullEntry);
+						
+						continue;
+					}
+					
+					//Step 4: Push back the portfolio value for that date (if not null)
+					
+					//We had 1 or more stocks on that date
+					ArrayList<String> stocksOnThatDate = actualRow;
+					double portfolioValueOnThatDate = 0.0;
+					boolean atLeastOneValidStockOnThatDate = false;
+					
+					//Start with p=1 so we skip the date in the row
+					for(int p = 1; p < stocksOnThatDate.size(); p++) {
+						String stock = stocksOnThatDate.get(p);
+						double priceForStockOnThatDate = 0.0;
+						int quantityForStockOnThatDate = Integer.parseInt(quantities.get(m).get(p));
+						
+						//System.out.println("Quantity of " + stock + " on " + dateInTheRow + " is " + quantityForStockOnThatDate);
+						
+						//Fetch price history for stock, use cache if possible
+						ArrayList<ArrayList<String>> stockHistoryLine = null;
+						if(cache.get(stock) == null) {
+							//System.out.println(stock + " is not in cache, need to fetch");
+							ArrayList<ArrayList<String>> fetchResult = Api.getOneLineWithDateRange(stock, start, end);
+							cache.put(stock, fetchResult);
+							stockHistoryLine = fetchResult;
+						}
+						else {
+							//System.out.println(stock + " is in cache, yay!");
+							stockHistoryLine = cache.get(stock);
+						}
+						
+						//Find the price of the stock on that date, search through stockHistoryLine
+						for(int a = 0; a < stockHistoryLine.size(); a++)
+						{
+							String dateTemp = stockHistoryLine.get(a).get(0);
+							if(dateTemp.equals(dateInTheRow)) {
+								//Nice, we found the right stock price
+								try {
+									priceForStockOnThatDate = Double.parseDouble(stockHistoryLine.get(a).get(1));
+								} catch (Exception e) {
+									//This will happen when the API has missing price data, that's okay
+									//Like on September 5th-8th for NTNX
+									
+									//System.out.println("Turbo line error");
+									//e.printStackTrace();
+								}
+							}
+						}
+						
+						//This will happen when the API has missing price data, that's okay
+						if(priceForStockOnThatDate == 0.0) {
+							//System.out.println("Possible turbo line error");
+						}
+						else {
+							atLeastOneValidStockOnThatDate = true;
+						}
+						
+						//Now, calculate how much value this adds to the portfolio
+						portfolioValueOnThatDate += (priceForStockOnThatDate * quantityForStockOnThatDate);
+					}
+					
+					//Unfortunately, there was some missing API data, put "NULL" instead of 0.0
+					if(atLeastOneValidStockOnThatDate == false)
+					{
+						ArrayList<String> nullEntry = new ArrayList<String>();
+						nullEntry.add(dateInTheRow);
+						nullEntry.add("NULL");
+						portfolioRanged.add(nullEntry);
+						
+						continue;
+					}
+					
+					ArrayList<String> entry = new ArrayList<String>();
+					entry.add(dateInTheRow);
+					entry.add(String.valueOf(portfolioValueOnThatDate));
+					
+					portfolioRanged.add(entry);
+				}
+				
+	        } catch (SQLException e) {
+	        	// System.out.println("Error querying stock data from DB when retrieving current portfolio.");
+	        	e.printStackTrace();
+	        } finally {
+	            try {
+	                if(con != null) {
+	                    con.close();
+	                }
+	            } catch (SQLException ex) {
+	                // System.out.println(ex.getMessage());
+	            }
+	        }
+			
+		}
+		
+		//Need to do: if portfolioRanged is just the header row "Date | Value", so size=1
+		//Return a line of nulls instead. This might happen if 0 transactions in DB. (kinda done)
+		
+		//Need to do: make sure pre-padding and post-padding nulls is taken care of (kinda done)
+		
+		return portfolioRanged;
+	}
+	
+	
+	
+	/*
 	 * Function #:
 	 * 
 	 * parameters:
 	 * returns:
 	 */
+	
 }
