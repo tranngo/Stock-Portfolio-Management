@@ -12,28 +12,22 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class GraphServletTest extends Mockito {
+public class LogoutServletTest extends Mockito{
 
 	@Test
-	public void testDoGetHttpServletRequestHttpServletResponse() throws IOException {
+	public void testDoPostHttpServletRequestHttpServletResponse() throws IOException {
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
-		GraphServlet gs = new GraphServlet();
+		LogoutServlet ls = new LogoutServlet();
 
-		when(response.getWriter()).thenReturn(new PrintWriter("Yo"));
 		Cookie[] cookies = new Cookie[1];
 		cookies[0] = new Cookie("user_id", "15");
 		
 		when(request.getCookies()).thenReturn(cookies);
-		gs.doGet(request, response);
-		String result = gs.GetArray();
-		// System.out.println(result);
-		assertTrue(!result.isEmpty());
+		ls.doPost(request, response);
+		Cookie[] c = request.getCookies();
+		assertTrue(c[0].getMaxAge() == 0);
 		
-		when(request.getParameter("startDate")).thenReturn(null);
-		when(request.getParameter("endDate")).thenReturn(null);
-		when(request.getParameter("externalStocks")).thenReturn(null);
-		gs.doGet(request, response);
 	}
 
 }

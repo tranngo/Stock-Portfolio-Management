@@ -12,6 +12,7 @@
     />
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="css/register.css" />
+    <link rel="stylesheet" type="text/css" href="css/loading.css" />
   </head>
   <body>
     <!-- Navbar-->
@@ -41,9 +42,22 @@
       <!-- Login Form -->
       <div class="row justify-content-md-center">
         <div class="col col-lg-5">
-          <form action="LoginServlet" method="POST">
+          <div class="sk-chase">
+            <!-- Loading animation -->
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+          </div>
+
+          <form id="login-form" onsubmit="return submitForm(event)">
             <div class="row">
-              <!-- Email Address -->
+              <div class="col-lg-12 mb-4 missing-entries">
+                <div id="login-error" class="text-danger"></div>
+              </div>
+              <!-- Username -->
               <div class="input-group col-lg-12 mb-4">
                 <div class="input-group-prepend">
                   <span
@@ -130,6 +144,6 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="js/login.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>
