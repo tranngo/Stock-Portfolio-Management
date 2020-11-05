@@ -771,14 +771,8 @@ public class Portfolio {
 					}
 					
 					//Stock transaction falls out of bounds
-					if(transDateOfSellingObj.before(startD)) {
+					if(transDateOfSellingObj.before(startD) || transDateOfPurchaseObj.after(endD)) {
 						System.out.println("This transaction won't be counted since the stock was sold before the date range");
-						continue;
-					}
-					
-					//Stock transaction falls out of bounds
-					if(transDateOfPurchaseObj.after(endD)) {
-						System.out.println("This transaction won't be counted since the stock was bought after the date range");
 						continue;
 					}
 					
