@@ -287,7 +287,8 @@ public class ApiTest {
 
 		ArrayList<ArrayList<String>> resultData = null;
 		try {
-			resultData = Api.getMultipleLinesWithDateRange(stocks, "12-01-2019", "01-01-2020");
+			ArrayList<String> portfolioContr = new ArrayList<String>();
+	 		resultData = Api.getMultipleLinesWithDateRange(stocks, "12-01-2019", "01-01-2020", portfolioContr);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
