@@ -33,7 +33,7 @@ state_portfolioListToDisplay = ["NTNX"];
 
 //Calling this function will take the "state" and pass it to GraphServlet as your request
 function refreshGraph() {
-  console.log("Graph refresh requested");
+  // console.log("Graph refresh requested");
   if (state_start === "-1") {
     // console.log("We have to set default dates");
     //Referenced from: https://stackoverflow.com/questions/12409299/how-to-get-current-formatted-date-dd-mm-yyyy-in-javascript-and-append-it-to-an-i
@@ -80,8 +80,8 @@ function refreshGraph() {
     // console.log("Setting default end date to: " + state_end);
   }
 
-  console.log("State variable -> Start date: " + state_start);
-  console.log("State variable -> End date: " + state_end);
+  // console.log("State variable -> Start date: " + state_start);
+  // console.log("State variable -> End date: " + state_end);
 
   state_portfolioContributors_asAString = "";
   state_externalStocks_asAString = "";
@@ -99,14 +99,14 @@ function refreshGraph() {
     state_externalStocks_asAString += state_externalStocks[j] + ",";
   }
 
-  console.log(
-     "State variable (but as a string) -> Portfolio contributors: " +
-       state_portfolioContributors_asAString
-   );
-   console.log(
-     "State variable (but as a string) -> External stocks: " +
-       state_externalStocks_asAString
-   );
+  // console.log(
+  //   "State variable (but as a string) -> Portfolio contributors: " +
+  //     state_portfolioContributors_asAString
+  // );
+  // console.log(
+  //   "State variable (but as a string) -> External stocks: " +
+  //     state_externalStocks_asAString
+  // );
 
   //Send the state as part of the request to GraphServlet
   $.ajax({
@@ -262,9 +262,9 @@ function getPortfolioListAsAnArray() {
     },
 
     success: function (result) {
-      console.log("Yay! My portfolio list is retrieved and I can display it");
+      // console.log("Yay! My portfolio list is retrieved and I can display it");
       var portfolioListAsString = result;
-      console.log("It is " + portfolioListAsString);
+      // console.log("It is " + portfolioListAsString);
 
       state_portfolioListToDisplay = portfolioListAsString.split(",");
       // console.log(
@@ -288,7 +288,7 @@ function addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling) {
     },
 
     success: function (result) {
-      console.log("Yay! Stock transaction successfully added to portfolio");
+      // console.log("Yay! Stock transaction successfully added to portfolio");
 
       //Next, add to portfolio contributors
       addPortfolioContributor(stock);
@@ -314,7 +314,7 @@ function removeFromPortfolio(stock) {
     },
 
     success: function (result) {
-      console.log("Yay! Stock successfully removed from portfolio");
+      // console.log("Yay! Stock successfully removed from portfolio");
 
       //Next, remove from portfolio contributors
       removePortfolioContributor(stock);
@@ -365,7 +365,7 @@ function getMyCurrentPortfolioValue() {
     },
 
     success: function (result) {
-      console.log("Yay! My portfolio value is retrieved");
+      // console.log("Yay! My portfolio value is retrieved");
       var value = result;
       // console.log("It is " + value);
       state_portfolioValue = value;
@@ -378,9 +378,9 @@ function getMyCurrentPortfolioValue() {
         },
 
         success: function (result) {
-          console.log("Yay! My percent change is retrieved");
+          // console.log("Yay! My percent change is retrieved");
           var per = result;
-          console.log("It is " + per);
+          // console.log("It is " + per);
           state_percentChange = per;
         },
       });
@@ -390,7 +390,7 @@ function getMyCurrentPortfolioValue() {
 
 //Security Feature X: Session timeout after 2 mins
 function timeout() {
-  console.log("Session timeout limit reached");
+  // console.log("Session timeout limit reached");
 
   //Referenced from: https://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm
   var txt;
@@ -507,9 +507,9 @@ function submitForm(e) {
   var startDate = document.getElementById("fromDate").value;
   var endDate = document.getElementById("toDate").value;
 
-  console.log("Yoooo");
-  console.log("Start date requested: " + startDate);
-  console.log("End date requested: " + endDate);
+  // console.log("Yoooo");
+  // console.log("Start date requested: " + startDate);
+  // console.log("End date requested: " + endDate);
 
   //Update state and refresh graph
   changeStartDate(startDate);
@@ -598,6 +598,12 @@ $("#modal-confirm-button").on("click", function () {
     var dateOfPurchase = $("#stock-purchase-date-input").val();
     var dateOfSelling = $("#stock-sell-date-input").val();
     addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling);
+    $("#confirmation-alert-stock-name").text(stock);
+    $("confirmation-alert-add-remove").text("added");
+    $("#confirmation-alert-source").text("portfolio");
+    $("#confirmation-alert").removeClass("d-none");
+    $("#confirmation-alert").addClass("show");
+    
   } else if ($(this).data("type") === "uploadFile") {
     //Change
     // console.log("Upload file was hit");
@@ -605,9 +611,21 @@ $("#modal-confirm-button").on("click", function () {
     readFile(file);
   } else if ($(this).data("type") === "addExternal") {
     addExternalStock($("#add-external-stock-name-input").val());
+    $("#confirmation-alert-stock-name").text($("#add-external-stock-name-input").val());
+    $("confirmation-alert-add-remove").text("added");
+    $("#confirmation-alert-source").text("external stocks");
+    $("#confirmation-alert").removeClass("d-none");
+    $("#confirmation-alert").addClass("show");
   } else if ($(this).data("type") === "removeExternal") {
     removeExternalStock($("#remove-external-stock-name-input").val());
+    $("#confirmation-alert-stock-name").text($("#remove-external-stock-name-input").val());
+    $("confirmation-alert-add-remove").text("removed");
+    $("#confirmation-alert-source").text("external stocks");
+    $("#confirmation-alert").removeClass("d-none");
+    $("#confirmation-alert").addClass("show");
   }
+  
+  updatePortfolioStockList();
 
   $("#mainModal").modal({
     backdrop: true,
@@ -617,33 +635,100 @@ $("#modal-confirm-button").on("click", function () {
   });
 });
 
-$(".toggle-button").on("click", function () {
-  if ($(this).attr("class").includes("fa-toggle-on")) {
-    $(this).attr(
-      "class",
-      $(this).attr("class").replace("fa-toggle-on", "fa-toggle-off")
-    );
-  } else {
-    $(this).attr(
-      "class",
-      $(this).attr("class").replace("fa-toggle-off", "fa-toggle-on")
-    );
-  }
+$(".toggle-button").on("click", function() {
+	if ($(this).attr("class").includes("fa-toggle-on")) {
+		$(this).attr("class", $(this).attr("class").replace("fa-toggle-on", "fa-toggle-off"));
+		removePortfolioContributor($(this).innerHTML);
+	} else {
+		$(this).attr("class", $(this).attr("class").replace("fa-toggle-off", "fa-toggle-on"));
+		addPortfolioContributor($(this).innerHTML);
+	}
 });
 
-$("#sp-button").on("click", function () {
-  if ($(this).attr("class").includes("btn-primary")) {
-    $(this).attr(
-      "class",
-      $(this).attr("class").replace("btn-primary", "btn-secondary")
-    );
-    turnSpOn();
-  } else {
-    $(this).attr(
-      "class",
-      $(this).attr("class").replace("btn-secondary", "btn-primary")
-    );
-    turnSpOff();
-  }
+$("#sp-button").on("click", function() {
+	if ($(this).attr("class").includes("btn-primary")) {
+		$(this).attr("class", $(this).attr("class").replace("btn-primary", "btn-secondary"));
+		turnSpOn();
+	} else {
+		$(this).attr("class", $(this).attr("class").replace("btn-secondary", "btn-primary"));
+		turnSpOff();
+	}
+})
+
+$("#select-all").on("click", function() {
+	$(".stock-name").each(function() {
+		if($(this).next()[0].className.includes("fa-toggle-off")) {
+			$(this).next().attr("class", "toggle-button fas fa-toggle-on fa-lg");
+			addPortfolioContributor($(this).innerHTML);
+		}  
+	});
+})
+
+$("#deselect-all").on("click", function() {
+	$(".stock-name").each(function() {
+		if($(this).next()[0].className.includes("fa-toggle-on")) {
+			$(this).next().attr("class", "toggle-button fas fa-toggle-off fa-lg");
+			removePortfolioContributor($(this).innerHTML);
+		}  
+	});
+})
+
+function updatePortfolioStockList() {
+	document.querySelector("#portfolio-value").innerHTML = "";
+	document.querySelector("#portfolio-value").className = "";
+	document.querySelector("#portfolio-percent").innerHTML = "";
+	document.querySelector("#portfolio-percent").className = "";
+	$("#portfolio-stock-list").empty();
+	
+	
+	for (i = 0; i < state_portfolioListToDisplay.length; i++) {
+		let divTag = document.createElement("div");
+		divTag.className = "stock-item d-flex flex-row justify-content-around align-items-center";
+		
+		let deleteIcon = document.createElement("i");
+		deleteIcon.className = "fas fa-times close-icon";
+		
+		let stockName = document.createElement("p");
+		stockName.className = "m-0 p-0 stock-name";
+		stockName.innerHTML = state_portfolioListToDisplay[i];
+		
+		let toggleButton = document.createElement("i");
+		toggleButton.className = "toggle-button fas fa-toggle-on fa-lg";
+		
+		divTag.append(deleteIcon);
+		divTag.append(stockName);
+		divTag.append(toggleButton);
+		document.querySelector("#portfolio-stock-list").appendChild(divTag);
+		
+	}
+	
+	$(".toggle-button").on("click", function() {
+		if ($(this).attr("class").includes("fa-toggle-on")) {
+			$(this).attr("class", $(this).attr("class").replace("fa-toggle-on", "fa-toggle-off"));
+			removePortfolioContributor($(this).innerHTML);
+		} else {
+			$(this).attr("class", $(this).attr("class").replace("fa-toggle-off", "fa-toggle-on"));
+			addPortfolioContributor($(this).innerHTML);
+		}
+	});
+	
+	document.querySelector("#portfolio-value").innerHTML = state_portfolioValue;
+	document.querySelector("#portfolio-percent").innerHTML = state_percentChange;
+	
+	if (parseInt(state_percentChange.split("%")) < 0) {
+		document.querySelector("#portfolio-percent").className = "red-text";
+	} else {
+		document.querySelector("#portfolio-percent").className = "green-text";
+	}
+	
+}
+
+$("#close-confirmation-alert").on("click", function() {
+	$("#confirmation-alert").removeClass("show");
+    $("#confirmation-alert").addClass("d-none");
+});
+
+$(document).ready(function() {
+	updatePortfolioStockList();
 });
 
