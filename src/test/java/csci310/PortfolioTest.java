@@ -295,10 +295,32 @@ public class PortfolioTest {
 		// 	valid = false;
 		
 		assertTrue(valid);
-		
-		// reset db
+	
+		 
+
+		 
+		 // bad date
+		 result = Portfolio.getLineForPortfolioWithDateRange(99, "09-05-2019", "09-17-2019");
+		 if(result == null) {
+			 System.out.println("PortfolioTest.java, testGetLineForPortfolioWithDateRange, null");
+			// reset db
+			 Portfolio.sellStock(99, ntnx);
+			 Portfolio.sellStock(99, jnj);
+			 
+			 return;
+		 }
+	
+		 temp = (result.size() > 0);
+		 assertTrue(temp);
+		 
+		 // reset db
 		 Portfolio.sellStock(99, ntnx);
 		 Portfolio.sellStock(99, jnj);
+		 
+		 // empty portfolio
+		 result = Portfolio.getLineForPortfolioWithDateRange(99, "09-05-2020", "09-17-2020");
+		 temp = (result != null && result.get(1).get(1).equals("NULL"));
+		 assertTrue(temp);
 	}
 
 	@Test
@@ -388,6 +410,20 @@ public class PortfolioTest {
 //		 	valid = false;
 		
 		// assertTrue(valid);
+		
+		// reset db
+		Portfolio.sellStock(99, ntnx);
+		Portfolio.sellStock(99, jnj);
+		
+		// test bad dates
+		Portfolio.addStock(99, ntnx, 10, "09-05-2020", "09-15-2019"); // buy 10 ntnx stocks
+		result = Portfolio.getLineForPortfolioWithDateRangeFaster(99, "09-05-2020", "09-17-2020", portfolioContr);
+		if(result == null) {
+			System.out.println("PortfolioTest.java, testGetLineForPortfolioWithDateRangeFaster, null");
+		 	return;
+		}
+		temp = (result.size() > 0);
+		assertTrue(temp);
 		
 		// reset db
 		Portfolio.sellStock(99, ntnx);
