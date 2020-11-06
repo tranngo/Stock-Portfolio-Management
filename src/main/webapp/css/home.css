@@ -1,10 +1,16 @@
 #navbar-bg {
-  background-color: #787878;
+  background-image: linear-gradient(15deg, #787878 0%, #1C2A35 50%);
 }
 
 .title {
   color: white;
   font-size: 20px;
+  font-weight: bold;
+}
+
+.title:hover {
+	color: white;
+	text-decoration: none;
 }
 
 .chart {
@@ -13,15 +19,20 @@
 }
 
 body {
-  font-family: "Roboto", sans-serif;
+	font-family: 'Roboto', sans-serif;
+	background-color: #171E24;
+}
+
+.col-bg {
+	background-color: #1C2A35;
+	color: #FAFFFF;
 }
 
 ul {
   list-style: none;
   padding-left: 0;
 }
-
-.display-block {
+​ .display-block {
   display: block !important;
 }
 
@@ -30,7 +41,7 @@ ul {
 }
 
 .column-border {
-  border: 1px solid #d5d8de;
+  /* border: 1px solid #d5d8de; */
 }
 
 .close-icon {
