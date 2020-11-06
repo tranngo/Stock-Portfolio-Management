@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -697,26 +698,165 @@ public class StepDefinitions {
 	
 	@Given("I am on login page on mobile")
 	public void i_am_on_login_page_on_mobile() {
-		try {
-			mobile.get(ROOT_URL);
-			Thread.sleep(70000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		mobile.get(ROOT_URL);
 	}
 	
 	@When("I click on sign up button")
 	public void i_click_on_sign_up_button() {
-		
+		JavascriptExecutor js = (JavascriptExecutor) mobile;
+		js.executeScript("document.querySelector('.signup-btn').click();");
 	}
 	
 	@Then("I should see mobile register page")
-	public void i_should_see_mobile_register_page() {
+	public void i_should_see_mobile_register_page() throws InterruptedException {
+		String URL = mobile.getCurrentUrl();
+		JavascriptExecutor js = (JavascriptExecutor) mobile;
 		
+		String script1 = "return document.querySelector('.create-acc-btn').getBoundingClientRect().";
+		String script2 = "return document.querySelector('.cancel-btn').getBoundingClientRect().";
+		
+		
+		Div d1 = new Div(), d2 = new Div();
+		String[] sides = {"top", "bottom", "left", "right"};
+		for (int i = 0; i < sides.length; ++i) {
+			if (i == 0) {
+				d1.top = Float.parseFloat(js.executeScript(script1 + sides[i] + ";").toString());
+				d2.top = Float.parseFloat(js.executeScript(script2 + sides[i] + ";").toString());
+			}
+			else if (i == 1) {
+				d1.bottom = Float.parseFloat(js.executeScript(script1 + sides[i] + ";").toString());
+				d2.bottom = Float.parseFloat(js.executeScript(script2 + sides[i] + ";").toString());				
+			}
+			else if (i == 2) {
+				d1.left = Float.parseFloat(js.executeScript(script1 + sides[i] + ";").toString());
+				d2.left = Float.parseFloat(js.executeScript(script2 + sides[i] + ";").toString());
+			}
+			else {
+				d1.right = Float.parseFloat(js.executeScript(script1 + sides[i] + ";").toString());
+				d2.right = Float.parseFloat(js.executeScript(script2 + sides[i] + ";").toString());
+			}
+		}
+		
+		assertTrue(URL.equalsIgnoreCase(REGISTER_URL) && Div.overlap(d1, d2));
+	}
+	
+	@Given("I am on registration page on mobile")
+	public void i_am_on_registration_page_on_mobile() {
+		mobile.get(REGISTER_URL);
+	}
+	
+	@When("I click on cancel")
+	public void i_click_on_cancel() {
+		JavascriptExecutor js = (JavascriptExecutor) mobile;
+		js.executeScript("document.querySelector('.cancel-btn').click();");
+	}
+	
+	@Then("I should see mobile login page")
+	public void i_should_see_mobile_login_page() throws InterruptedException {
+		String URL = mobile.getCurrentUrl();
+		JavascriptExecutor js = (JavascriptExecutor) mobile;
+		
+		String script1 = "return document.querySelector('.login-btn').getBoundingClientRect().";
+		String script2 = "return document.querySelector('.registration-div').getBoundingClientRect().";
+		
+		
+		Div d1 = new Div(), d2 = new Div();
+		String[] sides = {"top", "bottom", "left", "right"};
+		for (int i = 0; i < sides.length; ++i) {
+			if (i == 0) {
+				d1.top = Float.parseFloat(js.executeScript(script1 + sides[i] + ";").toString());
+				d2.top = Float.parseFloat(js.executeScript(script2 + sides[i] + ";").toString());
+			}
+			else if (i == 1) {
+				d1.bottom = Float.parseFloat(js.executeScript(script1 + sides[i] + ";").toString());
+				d2.bottom = Float.parseFloat(js.executeScript(script2 + sides[i] + ";").toString());				
+			}
+			else if (i == 2) {
+				d1.left = Float.parseFloat(js.executeScript(script1 + sides[i] + ";").toString());
+				d2.left = Float.parseFloat(js.executeScript(script2 + sides[i] + ";").toString());
+			}
+			else {
+				d1.right = Float.parseFloat(js.executeScript(script1 + sides[i] + ";").toString());
+				d2.right = Float.parseFloat(js.executeScript(script2 + sides[i] + ";").toString());
+			}
+		}
+		
+		assertTrue(URL.equalsIgnoreCase(ROOT_URL) && Div.overlap(d1, d2));
+	}
+
+	@Given("I am on the login page on mobile")
+	public void i_am_on_the_login_page_on_mobile() {
+		mobile.get(ROOT_URL);
+	}
+	
+	@When("I login")
+	public void i_login() {
+		mobile.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		WebElement login = mobile.findElement(By.xpath("//*[@id=\"username\"]"));
+	    login.sendKeys("wilson133");
+		WebElement password = mobile.findElement(By.xpath("//*[@id=\"password\"]"));
+	    password.sendKeys("racket");
+	    WebElement button = mobile.findElement(By.xpath("/html/body/div/div/div/form/div/div[6]/button"));
+	    button.click();
+	}
+	
+	@Then("I should see mobile home page")
+	public void i_should_see_mobile_home_page() throws InterruptedException {
+		Thread.sleep(5000);
+		String URL = mobile.getCurrentUrl();
+		System.out.println(URL);
+		mobile.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		JavascriptExecutor js = (JavascriptExecutor) mobile;
+		
+		String script1 = "return document.getElementById('left-col').getBoundingClientRect().";
+		String script2 = "return document.getElementById('chart-col').getBoundingClientRect().";
+		String script3 = "return document.getElementById('right-col').getBoundingClientRect().";
+		
+		
+		Div d1 = new Div(), d2 = new Div(), d3 = new Div();
+		String[] sides = {"top", "bottom", "left", "right"};
+		for (int i = 0; i < sides.length; ++i) {
+			if (i == 0) {
+				d1.top = Float.parseFloat(js.executeScript(script1 + sides[i] + ";").toString());
+				d2.top = Float.parseFloat(js.executeScript(script2 + sides[i] + ";").toString());
+				d3.top = Float.parseFloat(js.executeScript(script3 + sides[i] + ";").toString());
+			}
+			else if (i == 1) {
+				d1.bottom = Float.parseFloat(js.executeScript(script1 + sides[i] + ";").toString());
+				d2.bottom = Float.parseFloat(js.executeScript(script2 + sides[i] + ";").toString());				
+				d3.bottom = Float.parseFloat(js.executeScript(script3 + sides[i] + ";").toString());
+			}
+			else if (i == 2) {
+				d1.left = Float.parseFloat(js.executeScript(script1 + sides[i] + ";").toString());
+				d2.left = Float.parseFloat(js.executeScript(script2 + sides[i] + ";").toString());
+				d3.left = Float.parseFloat(js.executeScript(script3 + sides[i] + ";").toString());
+			}
+			else {
+				d1.right = Float.parseFloat(js.executeScript(script1 + sides[i] + ";").toString());
+				d2.right = Float.parseFloat(js.executeScript(script2 + sides[i] + ";").toString());
+				d3.right = Float.parseFloat(js.executeScript(script3 + sides[i] + ";").toString());
+			}
+		}
+
+		assertTrue(Div.overlap(d1, d2) && Div.overlap(d1, d3) && !Div.overlap(d2, d3));
 	}
 	
 	@After()
 	public void after() {
 		driver.quit();
+		if (mobile != null)
+			mobile.quit();
+	}
+}
+
+class Div {
+	public float top;
+	public float bottom;
+	public float left;
+	public float right;
+	
+	static boolean overlap(Div a, Div b) {
+		return (a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+		
 	}
 }
