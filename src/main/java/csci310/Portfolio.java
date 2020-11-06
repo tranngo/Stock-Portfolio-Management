@@ -479,7 +479,6 @@ public class Portfolio {
 		for(LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");  
 		    String dateStr = formatter.format(date);  
-		    System.out.println("Calculated point for this dateStr: " + dateStr);
 		    String portfolioVal = getPortfolioValueOnADate(userId, dateStr);
 		    
 		    // add current date/value to portfolio
@@ -505,12 +504,9 @@ public class Portfolio {
 		ArrayList<ArrayList<String>> portfolioFull = getFullLineForPortfolio(userId);
 		ArrayList<ArrayList<String>> portfolioRanged = new ArrayList<ArrayList<String>>();
 		portfolioRanged.add(portfolioFull.get(0)); // add header: ["Date", "Value"]
-		
-		System.out.println("Portfolio.getLineForPortfolioWithDateRange portfolioFull's size: " + portfolioFull.size());
-		
+				
 		//Account for if your portfolio is empty
 		if(portfolioFull.size() <= 1) {
-			System.out.println("Portfolio is empty, we will return a line of nulls");
 			
 			//Date objects
 			Date startD = null;
@@ -540,8 +536,6 @@ public class Portfolio {
 			return portfolioRanged;
 		}
 		
-		System.out.println("full line with date range, start: " + start + " end: " + end);
-
 		try {
 			// parse date strings as Dates
 			Date startDate = new SimpleDateFormat("MM-dd-yyyy").parse(start);
@@ -567,7 +561,6 @@ public class Portfolio {
 		//all null's manually
 		//Account for if your portfolio is empty
 		if(portfolioRanged.size() <= 1) {
-			System.out.println("Portfolio ranged is empty at the end, add nulls");
 			
 			//Date objects
 			Date startD = null;
@@ -582,8 +575,6 @@ public class Portfolio {
 			
 			LocalDate startDate = startD.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate endDate = endD.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			System.out.println("start: " + startD.toString());
-			System.out.println("end: " + endD.toString());
 			for(LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
 				ArrayList<String> oneRow = new ArrayList<String>();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");  
@@ -707,8 +698,6 @@ public class Portfolio {
 		
 		LocalDate startDate = startD.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate endDate = endD.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		System.out.println("start: " + startD.toString());
-		System.out.println("end: " + endD.toString());
 		for(LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
 			ArrayList<String> oneRow = new ArrayList<String>();
 			ArrayList<String> copyRow = new ArrayList<String>();
@@ -748,9 +737,6 @@ public class Portfolio {
 					quantityFromTheTransaction = rs.getInt(4);
 					transDateOfPurchase = rs.getString(5);
 					transDateOfSelling = rs.getString(6);
-					System.out.println("Transaction for user between: " + transDateOfPurchase + " and " + transDateOfSelling);
-					System.out.println("For the stock: " + stockFromTheTransaction);
-					System.out.println("With a quantity of: " + quantityFromTheTransaction);
 					
 					//Need to do: add portfolio contributor filtering here
 					//If stockFromTheTransaction is not in the portfolioContributor list, continue
@@ -772,7 +758,6 @@ public class Portfolio {
 					
 					//Stock transaction falls out of bounds
 					if(transDateOfSellingObj.before(startD) || transDateOfPurchaseObj.after(endD)) {
-						System.out.println("This transaction won't be counted since the stock was sold before the date range");
 						continue;
 					}
 					
@@ -782,7 +767,6 @@ public class Portfolio {
 					for(int i = 0; i < portfolioHistory.size(); i++) {
 						if(portfolioHistory.get(i).get(0).equals(transDateOfPurchase)) {
 							startRow = i;
-							System.out.println("Start row determined to be " + startRow);
 							break;
 						}
 					}
@@ -791,7 +775,6 @@ public class Portfolio {
 					for(int j = 0; j < portfolioHistory.size(); j++) {
 						if(portfolioHistory.get(j).get(0).equals(transDateOfSelling)) {
 							endRow = j;
-							System.out.println("End row determined to be " + endRow);
 							break;
 						}
 					}

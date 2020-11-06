@@ -24,9 +24,7 @@ public class GraphServlet extends HttpServlet{
 	private String jsonArray;
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		System.out.println("GraphServlet doGet");
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {		
 		//Read just the startDate and endDate parameters, eventually it will be more
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
@@ -40,21 +38,14 @@ public class GraphServlet extends HttpServlet{
 				System.out.println("Reading cookie number " + i);
 				if(cookies[i].getName().equals("user_id")) {
 					user_id = Integer.parseInt(cookies[i].getValue());
-					System.out.println("Found the user_id cookie! Value found is " + user_id);
 				}
 			}
 		}
 
-		System.out.println("User id stored in cookie was " + user_id);
-		System.out.println("GraphServlet, startDate passed was: " + startDate);
-		System.out.println("GraphServlet, endDate passed was: " + endDate);
-		
 		if(startDate == null) {
-			// System.out.println("Since start date was null, setting start to default date of 2020-01-01");
 			startDate = "2020-01-01";
 		}
 		if(endDate == null) {
-			// System.out.println("Since start date was null, setting start to default end date of 2020-10-01");
 			endDate = "2020-10-01";
 		}
 		
@@ -66,7 +57,6 @@ public class GraphServlet extends HttpServlet{
 		
 		//Commenting out sales and expenses graph
 		//CreateArray();
-		// System.out.println("jsonArray: " + jsonArray);
 		
 		
 		ArrayList<String> stocks = new ArrayList<String>();
@@ -96,19 +86,8 @@ public class GraphServlet extends HttpServlet{
 		// add user's current porfolio to stocks arraylist
 		stocks.add("PORTFOLIO_" + user_id);
 		
-		//Print out what we will request
-		System.out.println("GraphServlet, request package");
-		for(int i = 0; i < stocks.size(); i++) {
-			System.out.print(stocks.get(i) + " ");
-		}
-		 System.out.println("");
-		 System.out.println("Converted Start date: " + startDate);
-		 System.out.println("Converted End date: " + endDate);
-		
 		ArrayList<ArrayList<String>> dataset = Api.getMultipleLinesWithDateRange(stocks, startDate, endDate, portfolioStocks);
-		System.out.println("Past the dataset line");
 		jsonArray = Api.datasetToJSON(dataset);
-		System.out.println("Real stock data jsonArray: " + jsonArray);
 		
 		PrintWriter out;
 		out = response.getWriter();
