@@ -518,13 +518,24 @@ function submitForm(e) {
   return false;
 }
 
-$("#add-stock-button").on("click", function () {
-  $(".modal-title").html("Add Stock Transaction");
-  $("#modal-confirm-button").html("Confirm");
+function confirmationDialogue(text){
+  $("#confirmation-alert-add-remove").text(text);
+  $("#confirmation-alert-source").text("portfolio");
+  $("#confirmation-alert").removeClass("d-none");
+  $("#confirmation-alert").addClass("show");
+}
+
+function modal(text){
+  $("#modal-confirm-button").html(text);
   $("#add-modal-content").attr("class", "display-block");
   $("#upload-file-modal-content").attr("class", "display-none");
   $("#add-external-stock-modal-content").attr("class", "display-none");
   $("#remove-external-stock-modal-content").attr("class", "display-none");
+}
+
+$("#add-stock-button").on("click", function () {
+  $(".modal-title").html("Add Stock Transaction");
+  modal("Confirm")
 
   $("#modal-confirm-button").data("type", "addStock");
 
@@ -538,11 +549,7 @@ $("#add-stock-button").on("click", function () {
 
 $("#upload-file-button").on("click", function () {
   $(".modal-title").html("Upload File");
-  $("#modal-confirm-button").html("Upload");
-  $("#add-modal-content").attr("class", "display-none");
-  $("#upload-file-modal-content").attr("class", "display-block");
-  $("#add-external-stock-modal-content").attr("class", "display-none");
-  $("#remove-external-stock-modal-content").attr("class", "display-none");
+  modal("Upload")
 
   $("#modal-confirm-button").data("type", "uploadFile");
 
@@ -556,11 +563,7 @@ $("#upload-file-button").on("click", function () {
 
 $("#add-external-stock-button").on("click", function () {
   $(".modal-title").html("Add External Stock");
-  $("#modal-confirm-button").html("View Stock");
-  $("#add-modal-content").attr("class", "display-none");
-  $("#upload-file-modal-content").attr("class", "display-none");
-  $("#add-external-stock-modal-content").attr("class", "display-block");
-  $("#remove-external-stock-modal-content").attr("class", "display-none");
+  modal("View Stock")
 
   $("#modal-confirm-button").data("type", "addExternal");
 
@@ -574,11 +577,7 @@ $("#add-external-stock-button").on("click", function () {
 
 $("#remove-external-stock-button").on("click", function () {
   $(".modal-title").html("Remove External Stock");
-  $("#modal-confirm-button").html("Remove Stock");
-  $("#add-modal-content").attr("class", "display-none");
-  $("#upload-file-modal-content").attr("class", "display-none");
-  $("#add-external-stock-modal-content").attr("class", "display-none");
-  $("#remove-external-stock-modal-content").attr("class", "display-block");
+  modal("Remove Stock")
 
   $("#modal-confirm-button").data("type", "removeExternal");
 
@@ -599,30 +598,20 @@ $("#modal-confirm-button").on("click", function () {
     var dateOfSelling = $("#stock-sell-date-input").val();
     addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling);
     $("#confirmation-alert-stock-name").text(stock);
-    $("confirmation-alert-add-remove").text("added");
-    $("#confirmation-alert-source").text("portfolio");
-    $("#confirmation-alert").removeClass("d-none");
-    $("#confirmation-alert").addClass("show");
+    confirmationDialogue("added");
     
   } else if ($(this).data("type") === "uploadFile") {
     //Change
-    // console.log("Upload file was hit");
     var file = $("#fileUpload").val();
     readFile(file);
   } else if ($(this).data("type") === "addExternal") {
     addExternalStock($("#add-external-stock-name-input").val());
     $("#confirmation-alert-stock-name").text($("#add-external-stock-name-input").val());
-    $("confirmation-alert-add-remove").text("added");
-    $("#confirmation-alert-source").text("external stocks");
-    $("#confirmation-alert").removeClass("d-none");
-    $("#confirmation-alert").addClass("show");
+    confirmationDialogue("added")
   } else if ($(this).data("type") === "removeExternal") {
     removeExternalStock($("#remove-external-stock-name-input").val());
     $("#confirmation-alert-stock-name").text($("#remove-external-stock-name-input").val());
-    $("confirmation-alert-add-remove").text("removed");
-    $("#confirmation-alert-source").text("external stocks");
-    $("#confirmation-alert").removeClass("d-none");
-    $("#confirmation-alert").addClass("show");
+    confirmationDialogue("removed")
   }
   
   updatePortfolioStockList();
