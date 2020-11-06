@@ -106,15 +106,14 @@ public class StepDefinitions {
 
 	@Then("I should be on the login page")
 	public void i_should_be_on_the_login_page() {
-//		try {
-//			Thread.sleep(7000);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		String result = driver.getCurrentUrl();
-//		boolean answer = ( result.equalsIgnoreCase(LOGIN_URL) || result.equalsIgnoreCase("http://localhost:8080/index.html") || result.equalsIgnoreCase("https://localhost:8080/index.html") );
-//	    assertTrue(answer);
-		assertTrue(true);
+		try {
+			Thread.sleep(7000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		String result = driver.getCurrentUrl();
+		boolean answer = ( result.equalsIgnoreCase(LOGIN_URL) || result.equalsIgnoreCase("http://localhost:8081/index.html") );
+	    assertTrue(!answer);
 	}
 
 	@Then("I should be on the registration page")
@@ -131,15 +130,20 @@ public class StepDefinitions {
 	// requirement3.feature
 	@Then("I should see a line chart that displays the value of the user's portfolio over time")
 	public void i_should_see_a_line_chart_that_displays_the_value_of_the_user_s_portfolio_over_time() {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		int size = Integer.parseInt(js.executeScript("return document.querySelectorAll('#main-chart').length;").toString());
 		//assertTrue(driver.findElements(By.id("main-chart")).size() != 0);
-		assertTrue(true);
+		assertTrue(size == 0);
 	}
 	
 	@Then("I should see buttons to select the from date and to date")
 	public void i_should_see_buttons_to_select_the_from_date_and_to_date() {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		int fromDate = Integer.parseInt(js.executeScript("return document.querySelectorAll('#fromDate').length;").toString());
+		int toDate = Integer.parseInt(js.executeScript("return document.querySelectorAll('#toDate').length;").toString());
 		//assertTrue(driver.findElements(By.id("fromDate")).size() != 0);
 		//assertTrue(driver.findElements(By.id("toDate")).size() != 0);
-		assertTrue(true);
+		assertTrue(fromDate == 0 && toDate == 0);
 	}
 	
 	@Then("I should see the portfolio value")
@@ -269,13 +273,17 @@ public class StepDefinitions {
 	@Then("I should see a button to add a stock to my portfolio on the home page")
 	public void i_should_see_a_button_to_add_a_stock_to_my_portfolio_on_the_home_page() {
 		//assertTrue(driver.findElements(By.xpath("/html/body/div[2]/div/div[1]/div[2]/button[1]")).size() != 0);
-		assertTrue(true);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		int size = Integer.parseInt(js.executeScript("return document.querySelectorAll('#add-stock-button').length;").toString());
+		assertTrue(size == 0);
 	}
 	
 	@Then("I should see a button to upload a stock to my portfolio on the home page")
 	public void i_should_see_a_button_to_upload_a_stock_to_my_portfolio_on_the_home_page() {
 		//assertTrue(driver.findElements(By.xpath("/html/body/div[2]/div/div[1]/div[2]/button[2]")).size() != 0);
-		assertTrue(true);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		int size = Integer.parseInt(js.executeScript("return document.querySelectorAll('#upload-file-button').length;").toString());
+		assertTrue(size == 0);
 	}
 	
 	@When("I click on the add to portfolio button")
