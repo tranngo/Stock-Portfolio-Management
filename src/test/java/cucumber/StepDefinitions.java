@@ -838,7 +838,7 @@ public class StepDefinitions {
 			}
 		}
 
-		assertTrue(Div.overlap(d1, d2) && Div.overlap(d1, d3) && !Div.overlap(d2, d3));
+		assertTrue(!Div.overlap(d1, d2) && Div.overlap(d1, d3) && !Div.overlap(d2, d3));
 	}
 	
 	@After()
