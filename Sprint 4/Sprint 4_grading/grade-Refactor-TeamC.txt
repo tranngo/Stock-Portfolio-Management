@@ -1,0 +1,14 @@
+Best Practice Refactor Report
+Owner: TeamC
+Grade: 10.0/10
+Comments: 
+Issue 72
+	leetheod satisfied 7 of 7 requirements for this issue.
+Issue 70
+	tranngo satisfied 7 of 7 requirements for this issue.
+Issue 62
+	maggiemshi satisfied 7 of 7 requirements for this issue.
+Issue 53
+	pkyaw satisfied 7 of 7 requirements for this issue.
+Issue 48
+	allusai satisfied 7 of 7 requirements for this issue.
