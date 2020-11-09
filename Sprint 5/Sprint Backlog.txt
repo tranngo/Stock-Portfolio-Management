@@ -1,0 +1,18 @@
+Sprint Backlog:
+  1. Roadmap meeting for delegation of tasks for Sprint 5
+  2. Update the current build to the latest version of frontend / functionality
+  3. Continue editing and adding to the .feature files for cucumber tests
+  4. Implement all missing features based on CP feedback
+    -Requirement 2: Error checking when adding a stock to your portfolio; Dynamic list, stocks pulled and displayed from portfolio; Remove stocks; CSV upload
+    -Requirement 3: Default start is the earliest stock purchase; Graph end date after start date should give error message; Units like “1 day / 1 week / 1 month”
+    -Requirement 4: Add external stock popup should have 4 fields with error checking; Externals stocks should have toggles
+    -Requirement 6: 3 consecutive login attempts should kick out for 1 minute
+
+The first point in this backlog is a continuation of what our group came up with as a means of helping us plan better for the sprint. We agreed that it was useful for the past sprint and allows us to have a better idea of what we needed to address as a team for the sprint, especially in terms of delegation of work. The second point was addressing something that came up in our sprint review. Some of the features / frontend were not fully there although it was previously implemented. This is a priority for us to handle so that we can continue with the rest of the sprint development. The third point is also a continuation of our last sprint. We need to make sure that the acceptance tests for each feature are there in order to get the required credit. For the fourth point, we aim to continue developing the portfolio as this is the main bulk of the project. All of the subtasks here are through the sprint review we had with the CP's. There's a lot set up for this but we need to finalize many of the smaller tasks within the porfolio to clean it up. It's important that we finish this up because it is the final sprint and we want to get as many points as possible.
+  
+Meeting Participants (5):
+Sai Allu
+Maggie Shi
+Mark Kyaw
+Tran Ngo
+Teddy Lee
