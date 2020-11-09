@@ -1,0 +1,23 @@
+Meeting Participants (5):
+Sai Allu
+Maggie Shi
+Mark Kyaw
+Tran Ngo
+Teddy Lee
+
+Sprint 4 was a continuation in regards to the main features of our project. We worked with fixing up the graph portion of the portfolio and added new functionality in regards to our requirements. We continued to lay out more of the features this sprint to set up for the next sprint. Based on our feedback, here are the things our group will change in terms of process aspects.
+
+1. Our group will continue to have a meeting separate from the scrums which will be a roadmap meeting decdicated towards planning how we want to delegate the work we'll need for the sprint. We hope that in doing so, we can limit the variables and won't run into problems along the way with adding extra functions and test cases.
+2. We will continue to work on increasing cobuterra coverage. Our team might need help through CPs or office hours in order to hit the necessary branches and lines in order to hit all of the catch blocks with Mockito and mock objects.
+3. We will make sure to work on continuous integration. We will also make sure to get our code in earlier to Travis so that the tests can run smoothly before any deadlines. Additionally, when handling 3rd party API's, we will continue to create code to handle the responses, regardless of pass or fail. In doing so, our develop branch won't have issues (even if the features pass Travis checks), and we can continue smooth integration. 
+4. Lastly, we will make sure to be sustainably paced. We don't want to commit a majority of our code on any specific day over another.
+
+We don't see a need to edit the product backlog based on the tasks mentioned above, but we're definitely going to take into account the feedback we received from our sprint review. Some of these tasks include:
+
+1. Frontend: making sure all of our changes are up to date. It's possible that some of our progress was lost on a previous merge.
+2. Acceptance Tests: adding the necessary tests and completing all of the TODOs
+3. Portfolio: Implement the missing features which can get us the most points
+  -Requirement 2: Error checking when adding a stock to your portfolio, Dynamic list, stocks pulled and displayed from portfolio, Remove stocks, CSV
+  -Requirement 3: Default start is the earliest stock purchase, Graph end date after start date should give error message, Units like “1 day / 1 week / 1 month”
+  -Requirement 4: Add external stock popup should have 4 fields with error checking, Externals stocks should have toggles
+  -Requirement 6: 3 consecutive login attempts should kick out for 1 minute
