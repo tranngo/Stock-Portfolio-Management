@@ -1,10 +1,16 @@
 #navbar-bg {
-  background-color: #787878;
+  background-image: linear-gradient(15deg, #787878 0%, #1C2A35 50%);
 }
 
 .title {
   color: white;
   font-size: 20px;
+  font-weight: bold;
+}
+
+.title:hover {
+	color: white;
+	text-decoration: none;
 }
 
 .chart {
@@ -14,25 +20,51 @@
 
 body {
 	font-family: 'Roboto', sans-serif;
+	background-color: #171E24;
+}
+
+.col-bg {
+	background-color: #1C2A35;
+	color: #FAFFFF;
 }
 
 ul {
-    list-style: none;
-    padding-left: 0;
-}​
-
-.display-block {
-	display: block !important;
+  list-style: none;
+  padding-left: 0;
+}
+​ .display-block {
+  display: block !important;
 }
 
 .display-none {
-	display: none !important;
+  display: none !important;
 }
 
 .column-border {
-	border: 1px solid #d5d8de;
+  /* border: 1px solid #d5d8de; */
 }
 
 .close-icon {
 	color: #d65a5c;
+}
+
+.click-hover:hover {
+	cursor: pointer;
+}
+
+.btn-primary {
+	background-color: #17242C !important;
+	color: #93C8F0;
+}
+
+.toggle-button {
+	color: #0275d8;
+}
+
+.green-text {
+	color: #5cb85c;
+}
+
+.red-text {
+	color: #d9534f;
 }

@@ -2,8 +2,13 @@ package csci310.servlets;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import csci310.Register;
+import csci310.JDBC;
 import csci310.Login;
 
 public class LoginServlet extends HttpServlet {
@@ -20,7 +26,8 @@ public class LoginServlet extends HttpServlet {
 		@Override
 		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 			
-			System.out.println("YES: LoginServlet's doPost was called");
+			// System.out.println("YES: LoginServlet's doPost was called");
+			System.out.println("A");
 			
 			//Code referenced from the URL shortener demo
 			String requestBody;
@@ -34,9 +41,9 @@ public class LoginServlet extends HttpServlet {
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 				return;
 			}
-			System.out.println("Debug: requestBody is: " + requestBody);
+			// System.out.println("Debug: requestBody is: " + requestBody);
 			
-			//NOTE: requestBody looks like "username=wilson103&password=racket&passwordConfirmation=racket"
+			//NOTE: requestBody looks like "username=wilson103&password=racket"
 			
 			//At this point we have properly read the request body into a String object
 			//Now we will read the form data the user has sent to us
@@ -53,7 +60,9 @@ public class LoginServlet extends HttpServlet {
 			username = username.substring(firstEquals+1); //just "wilson103"
 			password = password.substring(secondEquals+1); //just "racket"
 			
-			boolean userInfoIsValid = Login.checkForLoginCredentials(username, password);
+			boolean userInfoIsValid = Login.checkForLoginCredentials(username, password, "com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
+			
+			System.out.println("B");
 			
 			//Invalid user info
 			if(userInfoIsValid == false) {
@@ -61,14 +70,56 @@ public class LoginServlet extends HttpServlet {
 				System.out.println("User info is not valid");
 				//NOTE: If you change this line make sure to fix RegistrationServletTest too
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				response.sendRedirect("login.html");
+//				response.sendRedirect("index.html");
 				return;
 			}
 			
+			
+			//Valid user info, see what user_id we gave them
+			// connect to mysql
+			int user_id = -1;
+			JDBC db = new JDBC();
+			Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
+			
+			System.out.println("C");
+			
+			if(con != null) {
+				try {
+					
+					// query users table for username parameter
+					PreparedStatement ps = con.prepareStatement("SELECT id FROM users WHERE username = ?");
+					ps.setString(1, username);
+					ResultSet rs = ps.executeQuery();
+		
+					while(rs.next()) {
+						user_id = rs.getInt(1);
+						System.out.println("Hey! This user has id of " + user_id);
+					}
+					
+					System.out.println("D");
+					
+		        } catch (SQLException e) {
+		        	// System.out.println("Error querying user data from DB during registration.");
+		        	e.printStackTrace();
+		        }
+				finally {
+				    if (con != null) {
+				        try {
+				            con.close();
+				        } catch (SQLException e) { /* ignored */}
+				    }
+				}
+			}
+			
 			//Redirect user to the login page
-			System.out.println("User info is valid, redirecting to home.html");
+			System.out.println("User info is valid");
+			Cookie c = new Cookie("user_id", Integer.toString(user_id) );
+			c.setMaxAge(3600);
+			response.addCookie(c);
 			response.setStatus(HttpServletResponse.SC_OK);
-			response.sendRedirect("home.html");
+			
+			System.out.println("E");
+//			response.sendRedirect("home.html");
 			return;
 		}
 }

@@ -60,7 +60,7 @@ public class Register {
 	{
 		// connect to mysql
 		JDBC db = new JDBC();
-		Connection con = db.connectDB();
+		Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 		
 		if(con != null) {
 			try {
@@ -71,7 +71,7 @@ public class Register {
 	
 				return rs.next();
 	        } catch (SQLException e) {
-	        	System.out.println("Error querying user data from DB during registration.");
+	        	// System.out.println("Error querying user data from DB during registration.");
 	        	e.printStackTrace();
 	        } finally {
 			    if (con != null) {
@@ -91,7 +91,7 @@ public class Register {
 	{
 		// connect to mysql
 		JDBC db = new JDBC();
-		Connection con = db.connectDB();
+		Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 		
 		if(con != null) {
 			try {
@@ -103,7 +103,7 @@ public class Register {
 	
 				return true; // successful insertion
 			} catch (SQLException e) {
-				System.out.println("Error inserting user data to DB during registration.");
+				// System.out.println("Error inserting user data to DB during registration.");
 				e.printStackTrace();
 			}
 			finally {

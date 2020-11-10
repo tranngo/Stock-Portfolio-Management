@@ -21,10 +21,10 @@ public class Login {
 		return sha256hex;
 	}
 		
-	public static boolean checkForLoginCredentials(String username, String password) {
+	public static boolean checkForLoginCredentials(String username, String password, String class_name, String connection1, String connection2, String connection3) {
 		// connect to mysql
 		JDBC db = new JDBC();
-		Connection con = db.connectDB();
+		Connection con = db.connectDB(class_name, connection1, connection2, connection3);
 		
 		if(con != null) {
 			try {
@@ -39,7 +39,7 @@ public class Login {
 	
 				return rs.next();
 	        } catch (SQLException e) {
-	        	System.out.println("Error querying user data from DB during registration.");
+	        	// System.out.println("Error querying user data from DB during registration.");
 	        	e.printStackTrace();
 	        }
 			finally {

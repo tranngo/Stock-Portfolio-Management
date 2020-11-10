@@ -43,13 +43,13 @@ public class LoginServletTest extends Mockito {
 				
 		//Mock a username and password for the request
 		//Every user name is unique because we append the current Unix timestamp
-		String requestBody = "username=sharapova415&password=maria45*&passwordConfirmation=maria45*";
+		String requestBody = "username=wilson133&password=racket";
 
 		//Mock the Request.getReader() found in the first try block of doPost()
 		try {
 			when(request.getReader()).thenReturn(new BufferedReader(new StringReader(requestBody)));
 		} catch (IOException e1) {
-			System.out.println("ERROR P1 with RegistrationServletTest doPost() test" );
+			// System.out.println("ERROR P1 with RegistrationServletTest doPost() test" );
 			e1.printStackTrace();
 			return;
 		}
@@ -57,24 +57,41 @@ public class LoginServletTest extends Mockito {
 		//Call doPost with this test username/password
 		LoginServlet ls = new LoginServlet();
 		try {
+			System.out.println("About to run LoginServlet unit test 1");
 			ls.doPost(request, response);
 		} catch (IOException e) {
-			System.out.println("ERROR Q2 with RegistrationServletTest doPost() test" );
+			// System.out.println("ERROR Q2 with RegistrationServletTest doPost() test" );
 			e.printStackTrace();
 			return;
 		}
+
 		
 		//For cobertura coverage: enter a invalid username
-		String invalidUsername = "yo";
-		String requestBody2 = "username="+invalidUsername;
-		requestBody2 += "&password=yo&passwordConfirmation=yo";
+		String invalidUsername = "";
+		String requestBody2 = "username=yo"+invalidUsername;
+		requestBody2 += "&password=yo";
+		
+		HttpServletRequest request1 = mock(HttpServletRequest.class);
+		HttpServletResponse response1 = mock(HttpServletResponse.class);
 		try {
-			when(request.getReader()).thenReturn(new BufferedReader(new StringReader(requestBody2)));
+			when(request1.getReader()).thenReturn(new BufferedReader(new StringReader(requestBody2)));
+			System.out.println("About to run LoginServlet unit test 3");
+			ls.doPost(request1, response1);
+			assertEquals(response1.getStatus(), 0);
+		} catch (IOException e1) {
+			// System.out.println("RegistrationServletTest IOException");
+		}
+		
+		//cobertura coverage: throw error
+		try {
+			when(request.getReader()).thenThrow(IOException.class);
+			System.out.println("About to run LoginServlet unit test 4");
 			ls.doPost(request, response);
 			assertEquals(response.getStatus(), 0);
 		} catch (IOException e1) {
-			System.out.println("RegistrationServletTest IOException");
+			// System.out.println("RegistrationServletTest IOException");
 		}
+		
 	}
 
 }

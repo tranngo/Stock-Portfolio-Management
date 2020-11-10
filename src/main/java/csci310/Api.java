@@ -31,25 +31,12 @@ public class Api {
 	public static String roundDouble(String value1) {
 		Double value = Double.parseDouble(value1);
 		String v = "0";
-		if(value != null){
-		    if(value == (double) Math.round(value)){
-		        if(value/1000000000 > 1.0){
-		            v = String.format("%.1f G", value/1000000000);
-		        }
-		        else if(value/1000000 > 1.0){
-		            v = String.format("%.1f M", value/1000000);
-		        }
-		        else if(value/1000 > 1.0){
-		            v = String.format("%.1f K", value/1000);
-		        }
-		        else{
-		            v = String.format("%.1f", value);
-		        }
-		    }
-		    else{
-		        v = String.format("%.2f", value);
-		    }
-		}
+	    if(value == (double) Math.round(value)){
+	    	v = String.format("%.1f", value);
+	    }
+	    else{
+	        v = String.format("%.2f", value);
+	    }
 		return v;
 	}
 
@@ -71,7 +58,7 @@ public class Api {
 	 */
 	public static String getHistoricalPricesOf(String name) throws IOException {
 		Stock stock = YahooFinance.get(name);
-		System.out.println(stock.getHistory(Interval.MONTHLY).toString());
+		// System.out.println(stock.getHistory(Interval.MONTHLY).toString());
 		return stock.getHistory(Interval.MONTHLY).toString();
 	}
 	
@@ -109,14 +96,28 @@ public class Api {
 	{
 		if(name.startsWith("PORTFOLIO_")) {
 			return true;
+//			String[] strings = name.split("_");
+//			return strings.length == 2; // make sure name matches PORTFOLIO_userid
 		}
 		
+		//Commonly used stocks
+		String[] knownStocks = {"NTNX", "JNJ", "AAPL", "VMW", "GOOG", "TSLA", "FB", "MSFT"};
+		
+		for(int i = 0; i < knownStocks.length; i++)
+		{
+			if(name.equals(knownStocks[i])) {
+				//System.out.println("Known stock: " + name);
+				return true;
+			}
+		}
+		
+		//Look up the stock name
 		Stock stock = YahooFinance.get(name);
 		try {
 			return stock.isValid();
 		}
 		catch (NullPointerException e) {
-			System.out.println("NullPointerException Caught"); 
+			// System.out.println("NullPointerException Caught"); 
 		}
 		return false;
 	}
@@ -146,8 +147,8 @@ public class Api {
 		String result = "[" + gson.toJson(dataset.get(0)) + ",";
 		for (int i = 1; i < dataset.size(); i++) {
 			result += "[";
-			for (int j = 0; j < dataset.get(0).size(); j++) {
-				if(isNumeric(dataset.get(i).get(j))){
+			for (int j = 0; j < dataset.get(i).size(); j++) {
+				if(dataset.get(i).get(j) != null && isNumeric(dataset.get(i).get(j))){
 					if (j == dataset.get(0).size()-1) {
 						result += gson.toJson(Double.parseDouble(dataset.get(i).get(j)));
 					}
@@ -156,7 +157,15 @@ public class Api {
 					}           
 				}
 				else {
-					result += gson.toJson(dataset.get(i).get(j)) + ",";
+					if(dataset.get(i).get(j).equals("NULL")) {
+						result += "null";
+						if(j != dataset.get(i).size()-1) {
+							result += ",";
+						}
+					}
+					else {
+						result += gson.toJson(dataset.get(i).get(j)) + ",";
+					}
 				}
 			}
 			if (i == dataset.size()-1) {
@@ -166,6 +175,7 @@ public class Api {
 				result += "],";
 			}
 		}
+		// System.out.println("resul in datasetToJSON: " + result + "]");
 		return result + "]";
 	}
 	
@@ -260,12 +270,12 @@ public class Api {
 			//This is not a stock, use Portfolio.java helper function
 			String idAsString = name.substring(10);
 			int portfolio_number = Integer.parseInt(idAsString);
-			System.out.println("In Api.java, getOneLineAllData(), Portfolio " + portfolio_number + " was requested!");
+			// System.out.println("In Api.java, getOneLineAllData(), Portfolio " + portfolio_number + " was requested!");
 			
 			//Portfolio.java helper function to retrieve portfolio with date range
 			dataset = Portfolio.getFullLineForPortfolio(portfolio_number);
 			
-			System.out.println("TODO: getOneLineAllData, once Portfolio is implemented there should be no errors");
+			// System.out.println("TODO: getOneLineAllData, once Portfolio is implemented there should be no errors");
 			return dataset;
 		}
 		
@@ -310,7 +320,7 @@ public class Api {
 			try {
 				if(isValidStock(stock) == false)
 				{
-					System.out.println("Warning: " + stock + " is not a valid stock!");
+					// System.out.println("Warning: " + stock + " is not a valid stock!");
 					i.remove();
 				}
 			} catch (IOException e) {
@@ -340,7 +350,7 @@ public class Api {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-			System.out.println("Error in Function 5, getMultipleLinesAllData");
+			// System.out.println("Error in Function 5, getMultipleLinesAllData");
 			return dataset;
 		}
 		
@@ -351,7 +361,7 @@ public class Api {
 		}
 		else
 		{
-			System.out.println("Strange error in getMultipleLinesAllData, not enough rows");
+			// System.out.println("Strange error in getMultipleLinesAllData, not enough rows");
 		}
 		
 		for(int j = 1; j < stocks.size(); j++)
@@ -362,19 +372,19 @@ public class Api {
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-				System.out.println("getMultipleLinesAllData has an error yo");
+				// System.out.println("getMultipleLinesAllData has an error yo");
 				return dataset;
 			}
 
 			if(stocks.get(j).startsWith("PORTFOLIO_"))
 			{
-				System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
+				// System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
 				continue;
 			}
 			
 			String tempStartDate = temp.get(1).get(0);
 			String tempEndDate = temp.get(temp.size()-1).get(0);
-			System.out.println("j=" + j + " Start: " + tempStartDate + " and End: " + tempEndDate);
+			// System.out.println("j=" + j + " Start: " + tempStartDate + " and End: " + tempEndDate);
 			
 			SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
 
@@ -385,7 +395,7 @@ public class Api {
 				date2.setTime(format.parse(tempStartDate));
 				if(date1.before(date2))
 				{
-					System.out.println("Earlier start date found!");
+					// System.out.println("Earlier start date found!");
 					earliestStartDate = tempStartDate;
 				}
 				
@@ -395,7 +405,7 @@ public class Api {
 				date4.setTime(format.parse(tempEndDate));
 				if(date3.after(date4))
 				{
-					System.out.println("Later end date found!");
+					// System.out.println("Later end date found!");
 					latestEndDate = tempEndDate;
 				}
 				
@@ -407,7 +417,7 @@ public class Api {
 			
 		}
 		
-		System.out.println("Starting to gather stock lines");
+		// System.out.println("Starting to gather stock lines");
 		
 		//Now we have the date range for our dataset, start -> end
 		//We can use Function 6, to fill in the "NULL" and get us what we need
@@ -416,7 +426,7 @@ public class Api {
 			String stock = stocks.get(k);
 			if(stock.startsWith("PORTFOLIO_"))
 			{
-				System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
+				// System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
 				continue;
 			}
 			
@@ -470,14 +480,14 @@ public class Api {
 					valid = isValidStock(stock);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					System.out.println("IOException in getOneLineWithDateRange, terminating function!");
+					// System.out.println("IOException in getOneLineWithDateRange, terminating function!");
 					e.printStackTrace();
 					return dataset;
 				}
 				
 				if(valid == false)
 				{
-					System.out.println(stock + " is invalid, returing empty dataset!");
+					// System.out.println(stock + " is invalid, returing empty dataset!");
 					return dataset;
 				}
 				
@@ -487,7 +497,7 @@ public class Api {
 					//This is not a stock, use Portfolio.java helper function
 					String idAsString = stock.substring(10);
 					int portfolio_number = Integer.parseInt(idAsString);
-					System.out.println("In Api.java, getOneLineWithDateRange(), Portfolio " + portfolio_number + " was requested!");
+					// System.out.println("In Api.java, getOneLineWithDateRange(), Portfolio " + portfolio_number + " was requested!");
 					
 					//Portfolio.java helper function to retrieve portfolio with date range
 					dataset = Portfolio.getLineForPortfolioWithDateRange(portfolio_number, start, end);
@@ -502,7 +512,7 @@ public class Api {
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-						System.out.println("Error in getOneLineWithDateRange");
+						// System.out.println("Error in getOneLineWithDateRange");
 						return dataset;
 					}
 					
@@ -517,7 +527,7 @@ public class Api {
 					} catch (ParseException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-						System.out.println("Error parsing start and end date in getOneLineWithDateRange");
+						// System.out.println("Error parsing start and end date in getOneLineWithDateRange");
 						return dataset;
 					}
 					
@@ -528,37 +538,43 @@ public class Api {
 						ArrayList<String> row = i.next();
 						String dateStr = row.get(0); //get the date
 						try {
+							// System.out.println("dateStr: " + dateStr);
 							date.setTime(format.parse(dateStr));
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
 							//e.printStackTrace();
-							System.out.println("Ignore this, it's meant to happen: Slight error parsing row's date in getOneLineWithDateRange");
+							// System.out.println("Ignore this, it's meant to happen: Slight error parsing row's date in getOneLineWithDateRange");
 							continue;
 						}
 						
 						//This date is before the specified start date, filter it out
 						if(date.before(startDate))
 						{
-							System.out.println(dateStr + " is less than " + start + " removing it!* itr");
+							// System.out.println(dateStr + " is less than " + start + " removing it!* itr");
 							i.remove();
 						}
 						else if(date.after(endDate))
 						{
 							//This date is after the specified end date, filter it out
-							System.out.println(dateStr + " is bigger than " + end + " removing it!* itr");
+							// System.out.println(dateStr + " is bigger than " + end + " removing it!* itr");
 							i.remove();
 						}
 					}
 					
 					
 					//As a final measure, we want to add "NULL" entries to pad up the array
+					
+					//Let's say there was no data found in this range, return dataset
+					if(dataset.size() == 1) {
+						return dataset;
+					}
 					String firstDateInDataset = dataset.get(1).get(0);
 					try {
 						date.setTime(format.parse(firstDateInDataset));
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-						System.out.println("Error parsing row's date in getOneLineWithDateRange");
+						// System.out.println("Error parsing row's date in getOneLineWithDateRange");
 						return dataset;
 					}
 					
@@ -570,7 +586,7 @@ public class Api {
 					}
 					
 					if(date.after(startDate)) {
-						System.out.println("PRE-PADDING NULLs");
+						// System.out.println("PRE-PADDING NULLs");
 						while(date.after(startDate))
 						{
 							ArrayList<String> nullRow = new ArrayList<String>();
@@ -591,13 +607,13 @@ public class Api {
 							} catch (ParseException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
-								System.out.println("Error parsing row's date in getOneLineWithDateRange");
+								// System.out.println("Error parsing row's date in getOneLineWithDateRange");
 								return dataset;
 							}
 						}
 					}
 					else {
-						System.out.println("No need to pre pad nulls");
+						// System.out.println("No need to pre pad nulls");
 					}
 					
 					
@@ -642,7 +658,7 @@ public class Api {
 	 * parameters: ArrayList<String> for stocks, String for start date, String for end date
 	 * returns: ArrayList<ArrayList<String> > basically a n x m array
 	 */
-	public static ArrayList<ArrayList<String>> getMultipleLinesWithDateRange(ArrayList<String> stocks, String start, String end) throws IOException
+	public static ArrayList<ArrayList<String>> getMultipleLinesWithDateRange(ArrayList<String> stocks, String start, String end, ArrayList<String> portfolioContributors) throws IOException
 	{
 		
 		//stocks = ["NTNX", "SLFS", "PORTFOLIO_37"]
@@ -660,7 +676,7 @@ public class Api {
 			try {
 				if(isValidStock(stock) == false)
 				{
-					System.out.println("Warning: " + stock + " is not a valid stock!");
+					// System.out.println("Warning: " + stock + " is not a valid stock!");
 					i.remove();
 				}
 			} catch (IOException e) {
@@ -679,20 +695,32 @@ public class Api {
 		System.out.println("");
 		
 		
-		System.out.println("Starting to gather stock lines");
+		// System.out.println("Starting to gather stock lines");
 		
 		//We can use Function 6, to fill in the "NULL" and get us what we need
 		for(int k = 0; k < stocks.size(); k++)
 		{
 			String stock = stocks.get(k);
+//			ArrayList<ArrayList<String>> portfolioStocks;
+			ArrayList<ArrayList<String>> temp;
 			if(stock.startsWith("PORTFOLIO_"))
 			{
-				System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
-				continue;
+				String[] strings = stock.split("_"); // {"PORTFOLIO_", userid}
+				int userId = Integer.parseInt(strings[1]);
+				System.out.println("userid: " + userId);
+				temp = Portfolio.getLineForPortfolioWithDateRangeFaster(userId, start, end, portfolioContributors);
+				// System.out.println("ERROR, FIX LATER: getMultipleLinesAllData, since Portfolio is not fully implemented, we are messing up one part of this function");
+//				continue;
+				/*System.out.println("portfolio line");
+				for(int a = 0; a < temp.size(); a++) {
+					for(int b = 0; b < temp.get(a).size(); b++) {
+						System.out.print(temp.get(a).get(b) + " ");
+					}
+					System.out.println("");s
+				}*/
+			} else {
+				temp = getOneLineWithDateRange(stock, start, end);
 			}
-			
-			
-			ArrayList<ArrayList<String>> temp = getOneLineWithDateRange(stock, start, end);
 			if(k == 0)
 			{
 				dataset = temp;
@@ -701,11 +729,51 @@ public class Api {
 			{
 				//We want to append to dataset, start from row index of 1
 				dataset.get(0).add(stock);
+				boolean canIndexTemp = false;
+				int tempIndex = 1;
 				for(int row = 1; row < dataset.size(); row++)
 				{
-					dataset.get(row).add( temp.get(row).get(1)  );
+					if(stock.startsWith("PORTFOLIO_") && temp.size() > 1) { // if portfolio stocks, and portfolio is not empty
+						if(!canIndexTemp) { // NOT safe to index temp
+//							for(int j = 0; j < temp.size(); j++) {
+								if(dataset.get(row).get(0).equals(temp.get(tempIndex).get(0))) { // if dates match
+//									tempIndex = 0; // save valid 
+									canIndexTemp = true;
+									// System.out.println("found matching date: " + temp.get(tempIndex).get(0));
+									dataset.get(row).add( temp.get(tempIndex++).get(1) );
+//									break;
+								} else {
+									dataset.get(row).add("NULL");
+								}
+//							}
+								
+						} else { // can index temp to populate dataset
+							dataset.get(row).add( temp.get(tempIndex++).get(1) );
+							
+							//We've used up temp, don't access it anymore
+							if(tempIndex >= temp.size()) {
+								System.out.println("temp is short");
+								canIndexTemp = false;
+								tempIndex--; // bring it back down to prevent going OOB again
+							}
+						}
+					} else {
+					// System.out.println("dataset size: " + dataset.size() + ", temp size: " + temp.size());
+						
+						//THIS IF STATEMENT MIGHT BE A PROBLEM IF PORTFOLIO_7 NOT SHOWING UP
+						if(temp.size() > row && temp.get(row).size() >= 1) {
+							dataset.get(row).add( temp.get(row).get(1) );
+						}
+					}
 				}
 			}
+			/*System.out.println("FINAL DATASET: ");
+			for(int a = 0; a < dataset.size(); a++) {
+				for(int b = 0; b < dataset.get(a).size(); b++) {
+					System.out.print(dataset.get(a).get(b) + " ");
+				}
+				System.out.println("");
+			}*/
 		}
 		
 		

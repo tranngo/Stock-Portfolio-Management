@@ -12,6 +12,7 @@
     />
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="css/register.css" />
+    <link rel="stylesheet" type="text/css" href="css/loading.css" />
   </head>
   <body>
     <!-- Navbar-->
@@ -21,12 +22,14 @@
           <!-- Navbar Brand -->
           <!-- <a href="pickRegister.html" class="navbar-brand"> -->
           <p class="titleP">
-            <span class="title">CS310 Stock Portfolio Management</span>
+            <span class="title banner-txt"
+              >USC CS310 Stock Portfolio Management</span
+            >
           </p>
           <img class="titleP" src="assets/logo.svg" alt="logo" width="50" />
-          <p class="titleP">
+          <!-- <p class="titleP">
             <span class="title" style="margin-left: 250px">Registration</span>
-          </p>
+          </p> -->
         </div>
       </nav>
     </header>
@@ -41,9 +44,22 @@
       <!-- Login Form -->
       <div class="row justify-content-md-center">
         <div class="col col-lg-5">
-          <form action="LoginServlet" method="POST">
+          <div class="sk-chase">
+            <!-- Loading animation -->
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+          </div>
+
+          <form id="login-form" onsubmit="return submitForm(event)">
             <div class="row">
-              <!-- Email Address -->
+              <div class="col-lg-12 mb-4 missing-entries">
+                <div id="login-error" class="text-danger"></div>
+              </div>
+              <!-- Username -->
               <div class="input-group col-lg-12 mb-4">
                 <div class="input-group-prepend">
                   <span
@@ -91,10 +107,10 @@
               </div>
 
               <!-- Submit Button -->
-              <div class="form-group col-lg-12 mx-auto mb-0">
+              <div class="form-group col-lg-12 mx-auto mb-0 login-btn">
                 <button
                   type="submit"
-                  class="btn btn-block py-2 button"
+                  class="btn btn-block py-2 button login-btn"
                   style="width: 100%"
                 >
                   <span class="font-weight-bold">Login</span>
@@ -102,10 +118,12 @@
               </div>
 
               <!-- Registration -->
-              <div class="text-center w-100">
+              <div class="text-center w-100 registration-div">
                 <p class="text-muted font-weight-bold">
                   Need an account?
-                  <a href="registration.html" class="text">Sign up!</a>
+                  <a href="registration.html" class="text signup-btn"
+                    >Sign up!</a
+                  >
                 </p>
               </div>
             </div>
@@ -130,6 +148,6 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="js/login.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>

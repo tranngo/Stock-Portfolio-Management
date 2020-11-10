@@ -6,6 +6,8 @@ package csci310;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,7 +37,7 @@ public class LoginTest {
 			myScanner.close();
 			return password;
 		} catch (FileNotFoundException e) {
-			System.out.println("Error in LoginTest getting password");
+			// System.out.println("Error in LoginTest getting password");
 			//e.printStackTrace();
 			return "";
 		}
@@ -46,10 +48,10 @@ public class LoginTest {
 			FileWriter fw = new FileWriter(DB_CREDENTIALS);
 			fw.write(newPassword);
 			fw.close();
-			System.out.println("Debug: Successfully messed up db-credentials.txt");
+			// System.out.println("Debug: Successfully messed up db-credentials.txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Error in LoginTest changing password");
+			// System.out.println("Error in LoginTest changing password");
 			//e.printStackTrace();
 			return;
 		}
@@ -70,7 +72,7 @@ public class LoginTest {
 		changePassword("Messing up your password mwahaha");
 		
 		//Try using DB now, it won't work since password is wrong
-		Login.checkForLoginCredentials("usr", "pwd");
+		Login.checkForLoginCredentials("usr", "pwd", "com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 		
 		//Fix "db-credentials.txt" by putting the right password back
 		changePassword(password);
@@ -78,15 +80,18 @@ public class LoginTest {
 		// Checking invalid login credentials - should return false
 		String username1 = "h2727dhbcbs";
 		String password1 = "skm2772hwml";
-		boolean result = Login.checkForLoginCredentials(username1, password1);
+		boolean result = Login.checkForLoginCredentials(username1, password1, "com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 		assertFalse(result);
 		
 		// Checking valid login credentials - should return true
 		// Login and username comes from testInsertUser() of RegisterTest.java
 		String username2 = "sharapova415";
 		String password2 = "maria45*";
-		result = Login.checkForLoginCredentials(username2, password2);
+		result = Login.checkForLoginCredentials(username2, password2, "com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
 		//assertTrue(result);
+		
+		result = Login.checkForLoginCredentials("user", "pw", "INCORRECT NAME", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
+		result = Login.checkForLoginCredentials("user", "pw", "com.mysql.cj.jdbc.Driver", "INCORRECT", "CONNECTION", "PARAMS");
 	}
 
 }

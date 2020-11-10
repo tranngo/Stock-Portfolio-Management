@@ -9,15 +9,15 @@ import java.util.Scanner;
 
 public class JDBC {
 	// open connection to mysql db
-		public Connection connectDB(){
+		public Connection connectDB(String class_name, String connection1, String connection2, String connection3){
 	        try {
-	        	Class.forName("com.mysql.cj.jdbc.Driver");
-	        	Connection con = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
+	        	Class.forName(class_name);
+	        	Connection con = DriverManager.getConnection(connection1,connection2,connection3);
 	            return con;
 	        } catch (ClassNotFoundException e) {
 				e.printStackTrace();
 	        } catch (SQLException e) {
-	        	System.out.println("Error connecting to MySQL Workbench; Please check account credentials.");
+	        	// System.out.println("Error connecting to MySQL Workbench; Please check account credentials.");
 	        	e.printStackTrace();
 	        }
 	        return null;
