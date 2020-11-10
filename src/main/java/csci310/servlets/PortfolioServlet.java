@@ -106,6 +106,9 @@ public class PortfolioServlet extends HttpServlet{
 		else if(type.equals("getPortfolioValue")) {
 			//All we need is the user_id
 			String currentPortfolioValue = "$" + Portfolio.getCurrentPortfolioValue(user_id);
+			
+			System.out.println("getPortfolioValue: " + currentPortfolioValue);
+			
 			PrintWriter out = response.getWriter();
 			out.print(currentPortfolioValue);
 			out.flush();
@@ -165,6 +168,8 @@ public class PortfolioServlet extends HttpServlet{
 			
 			String percentChangeAsStr = percentChange + "%";
 			
+			System.out.println("getPercentChange: " + percentChangeAsStr);
+			
 			PrintWriter out = response.getWriter();
 			out.print(percentChangeAsStr);
 			out.flush();
@@ -192,6 +197,10 @@ public class PortfolioServlet extends HttpServlet{
 			out.flush();
 			response.setStatus(HttpServletResponse.SC_OK);
 			return;
+		}
+		else if(type.equals("isValidStock")) {
+			//All we need is the stock name
+			
 		}
 		else {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

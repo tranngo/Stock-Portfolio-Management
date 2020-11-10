@@ -382,6 +382,7 @@ function getMyCurrentPortfolioValue() {
           var per = result;
           // console.log("It is " + per);
           state_percentChange = per;
+          updatePortfolioStockList();
         },
       });
     },

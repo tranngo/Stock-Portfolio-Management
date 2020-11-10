@@ -374,6 +374,12 @@ public class Portfolio {
 			// update running total of portfolio value
 			portfolioVal += stockVal * stockQuant;
 		}
+		
+		//initially 0.47734
+		//we want 0.47
+		//0.47734*100 = 47.734 cast to int to get 47. Then divided by 100
+		portfolioVal = ((int)(portfolioVal*100))/(100.0);
+		
 		return String.valueOf(portfolioVal);
 	}
 	
