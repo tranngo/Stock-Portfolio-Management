@@ -603,7 +603,6 @@ $("#modal-confirm-button").on("click", function () {
     $("#confirmation-alert-source").text("portfolio");
     $("#confirmation-alert").removeClass("d-none");
     $("#confirmation-alert").addClass("show");
-    
   } else if ($(this).data("type") === "uploadFile") {
     //Change
     // console.log("Upload file was hit");
@@ -611,20 +610,24 @@ $("#modal-confirm-button").on("click", function () {
     readFile(file);
   } else if ($(this).data("type") === "addExternal") {
     addExternalStock($("#add-external-stock-name-input").val());
-    $("#confirmation-alert-stock-name").text($("#add-external-stock-name-input").val());
+    $("#confirmation-alert-stock-name").text(
+      $("#add-external-stock-name-input").val()
+    );
     $("confirmation-alert-add-remove").text("added");
     $("#confirmation-alert-source").text("external stocks");
     $("#confirmation-alert").removeClass("d-none");
     $("#confirmation-alert").addClass("show");
   } else if ($(this).data("type") === "removeExternal") {
     removeExternalStock($("#remove-external-stock-name-input").val());
-    $("#confirmation-alert-stock-name").text($("#remove-external-stock-name-input").val());
+    $("#confirmation-alert-stock-name").text(
+      $("#remove-external-stock-name-input").val()
+    );
     $("confirmation-alert-add-remove").text("removed");
     $("#confirmation-alert-source").text("external stocks");
     $("#confirmation-alert").removeClass("d-none");
     $("#confirmation-alert").addClass("show");
   }
-  
+
   updatePortfolioStockList();
 
   $("#mainModal").modal({
@@ -635,100 +638,115 @@ $("#modal-confirm-button").on("click", function () {
   });
 });
 
-$(".toggle-button").on("click", function() {
-	if ($(this).attr("class").includes("fa-toggle-on")) {
-		$(this).attr("class", $(this).attr("class").replace("fa-toggle-on", "fa-toggle-off"));
-		removePortfolioContributor($(this).innerHTML);
-	} else {
-		$(this).attr("class", $(this).attr("class").replace("fa-toggle-off", "fa-toggle-on"));
-		addPortfolioContributor($(this).innerHTML);
-	}
+$(".toggle-button").on("click", function () {
+  if ($(this).attr("class").includes("fa-toggle-on")) {
+    $(this).attr(
+      "class",
+      $(this).attr("class").replace("fa-toggle-on", "fa-toggle-off")
+    );
+    removePortfolioContributor($(this).innerHTML);
+  } else {
+    $(this).attr(
+      "class",
+      $(this).attr("class").replace("fa-toggle-off", "fa-toggle-on")
+    );
+    addPortfolioContributor($(this).innerHTML);
+  }
 });
 
-$("#sp-button").on("click", function() {
-	if ($(this).attr("class").includes("btn-primary")) {
-		$(this).attr("class", $(this).attr("class").replace("btn-primary", "btn-secondary"));
-		turnSpOn();
-	} else {
-		$(this).attr("class", $(this).attr("class").replace("btn-secondary", "btn-primary"));
-		turnSpOff();
-	}
-})
+$("#sp-button").on("click", function () {
+  if ($(this).attr("class").includes("btn-primary")) {
+    $(this).attr(
+      "class",
+      $(this).attr("class").replace("btn-primary", "btn-secondary")
+    );
+    turnSpOn();
+  } else {
+    $(this).attr(
+      "class",
+      $(this).attr("class").replace("btn-secondary", "btn-primary")
+    );
+    turnSpOff();
+  }
+});
 
-$("#select-all").on("click", function() {
-	$(".stock-name").each(function() {
-		if($(this).next()[0].className.includes("fa-toggle-off")) {
-			$(this).next().attr("class", "toggle-button fas fa-toggle-on fa-lg");
-			addPortfolioContributor($(this).innerHTML);
-		}  
-	});
-})
+$("#select-all").on("click", function () {
+  $(".stock-name").each(function () {
+    if ($(this).next()[0].className.includes("fa-toggle-off")) {
+      $(this).next().attr("class", "toggle-button fas fa-toggle-on fa-lg");
+      addPortfolioContributor($(this).innerHTML);
+    }
+  });
+});
 
-$("#deselect-all").on("click", function() {
-	$(".stock-name").each(function() {
-		if($(this).next()[0].className.includes("fa-toggle-on")) {
-			$(this).next().attr("class", "toggle-button fas fa-toggle-off fa-lg");
-			removePortfolioContributor($(this).innerHTML);
-		}  
-	});
-})
+$("#deselect-all").on("click", function () {
+  $(".stock-name").each(function () {
+    if ($(this).next()[0].className.includes("fa-toggle-on")) {
+      $(this).next().attr("class", "toggle-button fas fa-toggle-off fa-lg");
+      removePortfolioContributor($(this).innerHTML);
+    }
+  });
+});
 
 function updatePortfolioStockList() {
-	document.querySelector("#portfolio-value").innerHTML = "";
-	document.querySelector("#portfolio-value").className = "";
-	document.querySelector("#portfolio-percent").innerHTML = "";
-	document.querySelector("#portfolio-percent").className = "";
-	$("#portfolio-stock-list").empty();
-	
-	
-	for (i = 0; i < state_portfolioListToDisplay.length; i++) {
-		let divTag = document.createElement("div");
-		divTag.className = "stock-item d-flex flex-row justify-content-around align-items-center";
-		
-		let deleteIcon = document.createElement("i");
-		deleteIcon.className = "fas fa-times close-icon";
-		
-		let stockName = document.createElement("p");
-		stockName.className = "m-0 p-0 stock-name";
-		stockName.innerHTML = state_portfolioListToDisplay[i];
-		
-		let toggleButton = document.createElement("i");
-		toggleButton.className = "toggle-button fas fa-toggle-on fa-lg";
-		
-		divTag.append(deleteIcon);
-		divTag.append(stockName);
-		divTag.append(toggleButton);
-		document.querySelector("#portfolio-stock-list").appendChild(divTag);
-		
-	}
-	
-	$(".toggle-button").on("click", function() {
-		if ($(this).attr("class").includes("fa-toggle-on")) {
-			$(this).attr("class", $(this).attr("class").replace("fa-toggle-on", "fa-toggle-off"));
-			removePortfolioContributor($(this).innerHTML);
-		} else {
-			$(this).attr("class", $(this).attr("class").replace("fa-toggle-off", "fa-toggle-on"));
-			addPortfolioContributor($(this).innerHTML);
-		}
-	});
-	
-	document.querySelector("#portfolio-value").innerHTML = state_portfolioValue;
-	document.querySelector("#portfolio-percent").innerHTML = state_percentChange;
-	
-	if (parseInt(state_percentChange.split("%")) < 0) {
-		document.querySelector("#portfolio-percent").className = "red-text";
-	} else {
-		document.querySelector("#portfolio-percent").className = "green-text";
-	}
-	
+  document.querySelector("#portfolio-value").innerHTML = "";
+  document.querySelector("#portfolio-value").className = "";
+  document.querySelector("#portfolio-percent").innerHTML = "";
+  document.querySelector("#portfolio-percent").className = "";
+  $("#portfolio-stock-list").empty();
+
+  for (i = 0; i < state_portfolioListToDisplay.length; i++) {
+    let divTag = document.createElement("div");
+    divTag.className =
+      "stock-item d-flex flex-row justify-content-around align-items-center";
+
+    let deleteIcon = document.createElement("i");
+    deleteIcon.className = "fas fa-times close-icon";
+
+    let stockName = document.createElement("p");
+    stockName.className = "m-0 p-0 stock-name";
+    stockName.innerHTML = state_portfolioListToDisplay[i];
+
+    let toggleButton = document.createElement("i");
+    toggleButton.className = "toggle-button fas fa-toggle-on fa-lg";
+
+    divTag.append(deleteIcon);
+    divTag.append(stockName);
+    divTag.append(toggleButton);
+    document.querySelector("#portfolio-stock-list").appendChild(divTag);
+  }
+
+  $(".toggle-button").on("click", function () {
+    if ($(this).attr("class").includes("fa-toggle-on")) {
+      $(this).attr(
+        "class",
+        $(this).attr("class").replace("fa-toggle-on", "fa-toggle-off")
+      );
+      removePortfolioContributor($(this).innerHTML);
+    } else {
+      $(this).attr(
+        "class",
+        $(this).attr("class").replace("fa-toggle-off", "fa-toggle-on")
+      );
+      addPortfolioContributor($(this).innerHTML);
+    }
+  });
+
+  document.querySelector("#portfolio-value").innerHTML = state_portfolioValue;
+  document.querySelector("#portfolio-percent").innerHTML = state_percentChange;
+
+  if (parseInt(state_percentChange.split("%")) < 0) {
+    document.querySelector("#portfolio-percent").className = "red-text";
+  } else {
+    document.querySelector("#portfolio-percent").className = "green-text";
+  }
 }
 
-$("#close-confirmation-alert").on("click", function() {
-	$("#confirmation-alert").removeClass("show");
-    $("#confirmation-alert").addClass("d-none");
+$("#close-confirmation-alert").on("click", function () {
+  $("#confirmation-alert").removeClass("show");
+  $("#confirmation-alert").addClass("d-none");
 });
 
-$(document).ready(function() {
-	updatePortfolioStockList();
+$(document).ready(function () {
+  updatePortfolioStockList();
 });
-
