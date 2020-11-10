@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -33,15 +32,15 @@ public class StepDefinitions {
 	private static final String HOME_URL = "http://localhost:8081/home.html";
 
 	WebDriver mobile = null;
-
-	@Before
-	public void setUp() {
-		Map<String, String> mobileEmulation = new HashMap<>();
-		mobileEmulation.put("deviceName", "iPhone X");
-		ChromeOptions chromeOptions = new ChromeOptions();
-		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
-		mobile = new ChromeDriver(chromeOptions);
-	}
+//
+//	@Before
+//	public void setUp() {
+//		Map<String, String> mobileEmulation = new HashMap<>();
+//		mobileEmulation.put("deviceName", "iPhone X");
+//		ChromeOptions chromeOptions = new ChromeOptions();
+//		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+//		mobile = new ChromeDriver(chromeOptions);
+//	}
 
 
 	private final WebDriver driver = new ChromeDriver();
@@ -74,7 +73,7 @@ public class StepDefinitions {
 
 	@When("I type {string} into the username text box")
 	public void i_type_into_the_username_text_box(String string) {
-	    WebElement textbox = driver.findElement(By.xpath("//*[@id=\"username\"]"));
+	    WebElement textbox = driver.findElement(By.id("username"));
 	    double rand = Math.random();
 	    int randomNumber = (int) (rand * 10000000);
 	    textbox.sendKeys(string + randomNumber);
@@ -82,25 +81,25 @@ public class StepDefinitions {
 
 	@When("I type {string} into the password text box")
 	public void i_type_into_the_password_text_box(String string) {
-		WebElement textbox = driver.findElement(By.xpath("//*[@id=\"password\"]"));
+		WebElement textbox = driver.findElement(By.id("password"));
 	    textbox.sendKeys(string);
 	}
 
 	@When("I type {string} into the confirm password text box")
 	public void i_type_into_the_confirm_password_text_box(String string) {
-		WebElement textbox = driver.findElement(By.xpath("//*[@id=\"passwordConfirmation\"]"));
+		WebElement textbox = driver.findElement(By.id("passwordConfirmation"));
 	    textbox.sendKeys(string);
 	}
 	
 	@When("I click on the create account button")
 	public void i_click_on_the_create_account_button() { 
-		WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[8]/button[1]"));
+		WebElement button = driver.findElement(By.className("create-acc-btn"));
 	    button.click();
 	}
 	
 	@When("I click on the already registered login button")
 	public void i_click_on_the_already_registered_login_button() {
-	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[9]/p/a"));
+	    WebElement button = driver.findElement(By.className("already-registered-btn"));
 	    button.click();
 	}
 
@@ -112,8 +111,7 @@ public class StepDefinitions {
 			e.printStackTrace();
 		}
 		String result = driver.getCurrentUrl();
-		boolean answer = ( result.equalsIgnoreCase(LOGIN_URL) || result.equalsIgnoreCase("http://localhost:8081/index.html") );
-	    assertTrue(!answer);
+	    assertTrue(result.equalsIgnoreCase(ROOT_URL));
 	}
 
 	@Then("I should be on the registration page")
@@ -130,32 +128,55 @@ public class StepDefinitions {
 	// requirement3.feature
 	@Then("I should see a line chart that displays the value of the user's portfolio over time")
 	public void i_should_see_a_line_chart_that_displays_the_value_of_the_user_s_portfolio_over_time() {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		int size = Integer.parseInt(js.executeScript("return document.querySelectorAll('#main-chart').length;").toString());
-		//assertTrue(driver.findElements(By.id("main-chart")).size() != 0);
-		assertTrue(size == 0);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WebElement chart = driver.findElement(By.id("main-chart"));
+		assertTrue(chart.isDisplayed());
 	}
 	
 	@Then("I should see buttons to select the from date and to date")
 	public void i_should_see_buttons_to_select_the_from_date_and_to_date() {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		int fromDate = Integer.parseInt(js.executeScript("return document.querySelectorAll('#fromDate').length;").toString());
-		int toDate = Integer.parseInt(js.executeScript("return document.querySelectorAll('#toDate').length;").toString());
-		//assertTrue(driver.findElements(By.id("fromDate")).size() != 0);
-		//assertTrue(driver.findElements(By.id("toDate")).size() != 0);
-		assertTrue(fromDate == 0 && toDate == 0);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WebElement from = driver.findElement(By.id("fromDate"));
+		WebElement to = driver.findElement(By.id("toDate"));
+		assertTrue(from.isDisplayed() && to.isDisplayed());
 	}
 	
 	@Then("I should see the portfolio value")
 	public void i_should_see_the_portfolio_value() {
 		/*UNCOMMENT WHEN MERGED W FRONTEND*/
 		//assertTrue(driver.findElements(By.id("portfolio-value")).size() != 0);
+		// try {
+		// 	Thread.sleep(5000);
+		// } catch (InterruptedException e) {
+		// 	// TODO Auto-generated catch block
+		// 	e.printStackTrace();
+		// }
+		// WebElement value = driver.findElement(By.id("portfolio-value"));
+		// assertTrue(value.isDisplayed());
 	}
 
 	@Then("I should see the change in portfolio value since the previous day")
 	public void i_should_see_the_change_in_portfolio_value_since_the_previous_day() {
 		/*UNCOMMENT WHEN MERGED W FRONTEND*/
 		//assertTrue(driver.findElements(By.id("portfolio-percent")).size() != 0);
+		// try {
+		// 	Thread.sleep(5000);
+		// } catch (InterruptedException e) {
+		// 	// TODO Auto-generated catch block
+		// 	e.printStackTrace();
+		// }
+		// WebElement percent = driver.findElement(By.id("portfolio-percent"));
+		// assertTrue(percent.isDisplayed());
 	}
 
 	@Then("I should see a corresponding arrow next to the portfolio change")
@@ -186,19 +207,18 @@ public class StepDefinitions {
 	// requirement8.feature
 	@Given("I am on the home page")
 	public void i_am_on_the_home_page() {
-		driver.get(HOME_URL);
-		driver.manage().timeouts().implicitlyWait(7, TimeUnit.SECONDS);
+		driver.get(ROOT_URL);
 	}
 
 	@Then("I should see a gray banner across the top with {string} text")
 	public void i_should_see_a_gray_banner_across_the_top_with_text(String string) {
-		WebElement banner = driver.findElement(By.xpath("/html/body/nav/a"));
+		WebElement banner = driver.findElement(By.className("banner-txt"));
 		assertTrue(banner.getAttribute("innerHTML").contains(string));
 	}
 	
 	@Then("I should see a gray banner across the top with the color #{int}")
 	public void i_should_see_a_gray_banner_across_the_top_with_the_color(Integer int1) {
-		WebElement banner = driver.findElement(By.xpath("/html/body/nav"));
+		WebElement banner = driver.findElement(By.className("navbar"));
 		assertEquals(banner.getCssValue("background-color"), "rgba(120, 120, 120, 1)");
 	}
 
@@ -211,7 +231,7 @@ public class StepDefinitions {
 
 	@When("I click on the sign up button")
 	public void i_click_on_the_sign_up_button() {
-	    WebElement button = driver.findElement(By.xpath("//*[@id=\"login-form\"]/div/div[7]/p/a"));
+	    WebElement button = driver.findElement(By.className("signup-btn"));
 	    button.click();
 	}
 
@@ -223,67 +243,73 @@ public class StepDefinitions {
 	
 	@When("I type {string} into the login password text box")
 	public void i_type_into_the_login_password_text_box(String string) {
-	    WebElement textbox = driver.findElement(By.xpath("//*[@id=\"password\"]"));
+	    WebElement textbox = driver.findElement(By.id("password"));
 	    textbox.sendKeys(string);
 	}
 
 	@When("I click on the login button")
 	public void i_click_on_the_login_button() {
-	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[6]/button"));
+	    WebElement button = driver.findElement(By.className("login-btn"));
 	    button.click();
 	}
 
 	@When("I type {string} into the login username text box")
 	public void i_type_into_the_login_username_text_box(String string) {
-		WebElement textbox = driver.findElement(By.xpath("//*[@id=\"username\"]"));
+		WebElement textbox = driver.findElement(By.id("username"));
 	    textbox.sendKeys(string);
 	}
 	
 	@Then("I should see please enter a username error message")
 	public void i_should_see_please_enter_a_username_error_message() {
-	    assertTrue(driver.findElements(By.xpath("/html/body/div/div/div/form/div/div[2]/div")).size() != 0);
+	    assertTrue(driver.findElements(By.id("username-invalid")).size() != 0);
 	}
 	
 	@Then("I should see please enter your password error message")
 	public void i_should_see_please_enter_your_password_error_message() {
-		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div/form/div/div[4]/div")).size() != 0);
+		assertTrue(driver.findElements(By.id("pw-invalid")).size() != 0);
 	}
 
 	@Then("I should see please enter a username and please enter your password error messages")
 	public void i_should_see_please_enter_a_username_and_please_enter_your_password_error_messages() {
 		// Please enter a username error message
-		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div/form/div/div[2]/div")).size() != 0);
+		assertTrue(driver.findElements(By.id("username-invalid")).size() != 0);
 		
 		// Please enter your password error message
-		assertTrue(driver.findElements(By.xpath("/html/body/div/div/div/form/div/div[4]/div")).size() != 0);
+		assertTrue(driver.findElements(By.id("pw-invalid")).size() != 0);
 	}
 	
 	// requirement2.feature
 	@When("I log in")
 	public void i_log_in() {
 		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-		WebElement login = driver.findElement(By.xpath("//*[@id=\"username\"]"));
+		WebElement login = driver.findElement(By.id("username"));
 	    login.sendKeys("wilson133");
-		WebElement password = driver.findElement(By.xpath("//*[@id=\"password\"]"));
+		WebElement password = driver.findElement(By.id("password"));
 	    password.sendKeys("racket");
-	    WebElement button = driver.findElement(By.xpath("/html/body/div/div/div/form/div/div[6]/button"));
+	    WebElement button = driver.findElement(By.className("login-btn"));
 	    button.click();
 	}
 
 	@Then("I should see a button to add a stock to my portfolio on the home page")
 	public void i_should_see_a_button_to_add_a_stock_to_my_portfolio_on_the_home_page() {
-		//assertTrue(driver.findElements(By.xpath("/html/body/div[2]/div/div[1]/div[2]/button[1]")).size() != 0);
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		int size = Integer.parseInt(js.executeScript("return document.querySelectorAll('#add-stock-button').length;").toString());
-		assertTrue(size == 0);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(driver.findElements(By.id("add-stock-button")).size() != 0);
 	}
 	
 	@Then("I should see a button to upload a stock to my portfolio on the home page")
 	public void i_should_see_a_button_to_upload_a_stock_to_my_portfolio_on_the_home_page() {
-		//assertTrue(driver.findElements(By.xpath("/html/body/div[2]/div/div[1]/div[2]/button[2]")).size() != 0);
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		int size = Integer.parseInt(js.executeScript("return document.querySelectorAll('#upload-file-button').length;").toString());
-		assertTrue(size == 0);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(driver.findElements(By.id("upload-file-button")).size() != 0);
 	}
 	
 	@When("I click on the add to portfolio button")
@@ -365,21 +391,23 @@ public class StepDefinitions {
 	
 	@When("I have one or more stocks in my portfolio")
 	public void i_have_one_or_more_stocks_in_my_portfolio() {
-	    //assertTrue(driver.findElements(By.className("stock-item")).size() > 0);
-		assertTrue(true);
+	    assertTrue(driver.findElements(By.className("stock-item")).size() != 0);
+		// assertTrue(true);
 	}
 
 	@Then("I should see a button to remove a stock from my portfolio")
 	public void i_should_see_a_button_to_remove_a_stock_from_my_portfolio() {
-	    //assertTrue(driver.findElements(By.className("close-icon")).size() > 0);
-		assertTrue(true);
+	    assertTrue(driver.findElements(By.className("close-icon")).size() != 0);
+		// assertTrue(true);
 	}
 
 	@When("I enter {string} into the stock name input field")
 	public void i_enter_into_the_stock_name_input_field(String string) {
 //		WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[1]/input"));
 //		input.sendKeys(string);
-		assertTrue(true);
+		// assertTrue(true);
+		WebElement input = driver.findElement(By.id("stock-name-input"));
+		input.sendKeys(string);
 	}
 	
 
@@ -387,7 +415,9 @@ public class StepDefinitions {
 	public void i_enter_into_the_stock_quantity_input_field(String string) {
 //		WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[2]/input"));
 //		input.sendKeys(string);
-		assertTrue(true);
+		// assertTrue(true);
+		WebElement input = driver.findElement(By.id("stock-quantity-input"));
+		input.sendKeys(string);
 	}
 
 
@@ -395,14 +425,17 @@ public class StepDefinitions {
 	public void i_enter_into_the_stock_purchase_date_input_field(String string) {
 //		WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[3]/input"));
 //		input.sendKeys(string);
-		assertTrue(true);
+		// assertTrue(true);
+		WebElement input = driver.findElement(By.id("stock-purchase-date-input"));
+		input.sendKeys(string);
 	}
 
 	@When("I enter {string} into the stock sell date input field")
 	public void i_enter_into_the_stock_sell_date_input_field(String string) {
 //		WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[4]/input"));
 //		input.sendKeys(string);
-		assertTrue(true);
+		WebElement input = driver.findElement(By.id("stock-sell-date-input"));
+		input.sendKeys(string);
 	}
 	
 	@When("I click on the add stock button")
@@ -622,9 +655,9 @@ public class StepDefinitions {
 
 	@When("I click on the log out button")
 	public void i_click_on_the_log_out_button() {
-//		WebElement button = driver.findElement(By.xpath("/html/body/nav/button"));
-//	    button.click();
-		assertTrue(true);
+		WebElement button = driver.findElement(By.className("logout-btn"));
+	    button.click();
+		// assertTrue(true);
 	}
 
 	@When("I directly navigate to the home page")
@@ -659,7 +692,7 @@ public class StepDefinitions {
 
 	@Then("my password in the login box should be hidden")
 	public void my_password_in_the_login_box_should_be_hidden() {
-		WebElement pass = driver.findElement(By.xpath("//*[@id=\"password\"]"));
+		WebElement pass = driver.findElement(By.id("password"));
 	    String value = pass.getAttribute("type");
 	    assertEquals("password", value);
 	}
@@ -728,6 +761,7 @@ public class StepDefinitions {
 		//TODO
 	}
 	
+	// requirement5.feature
 	@Given("I am on login page on mobile")
 	public void i_am_on_login_page_on_mobile() {
 		mobile.get(ROOT_URL);

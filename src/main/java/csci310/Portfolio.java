@@ -779,9 +779,9 @@ public class Portfolio {
 						}
 					}
 					
-					if(startRow == -1 || endRow == -1) {
-						System.out.println("There's an issue with the turbo boost portfolio line. Start row and end row should have been there based on error checking.");
-					}
+//					if(startRow == -1 && endRow == -1) {
+//						System.out.println("There's an issue with the turbo boost portfolio line. Start row and end row should have been there based on error checking.");
+//					}
 					
 					//c) Case where you hold stock for some dates in the range, but part of it falls
 					// out of bounds (before range or after range). In that case you can use row 0
