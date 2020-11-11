@@ -630,6 +630,7 @@ $("#modal-confirm-button").on("click", function () {
     var isThisAValidStock = isValidStock(stock);
     if(isThisAValidStock === "BAD") {
   		console.log("There was an invalid stock name entered");
+  		alert("There was an invalid stock name entered");
   		//Show some kind of error message on the screen like "Invalid stock name"
   	}
   	else {
@@ -653,6 +654,7 @@ $("#modal-confirm-button").on("click", function () {
   	console.log("Debug: " + isThisAValidStock);
   	if(isThisAValidStock === "BAD") {
   		console.log("There was an invalid stock name entered");
+  		alert("There was an invalid stock name entered");
   		//Show some kind of error message on the screen like "Invalid stock name"
   	}
   	else {
@@ -669,6 +671,7 @@ $("#modal-confirm-button").on("click", function () {
   
   	if(isThisAValidStock === "BAD") {
   		console.log("There was an invalid stock name entered");
+  		alert("There was an invalid stock name entered");
   		//Show some kind of error message on the screen like "Invalid stock name"
   	}
   	else {
