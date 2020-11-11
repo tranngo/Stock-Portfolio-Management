@@ -382,6 +382,7 @@ function getMyCurrentPortfolioValue() {
           var per = result;
           // console.log("It is " + per);
           state_percentChange = per;
+          updatePortfolioStockList();
         },
       });
     },
@@ -461,6 +462,7 @@ function drawMainChart() {
     curveType: "function",
     legend: { position: "bottom" },
     interpolateNulls: true,
+    explorer: { actions: ["dragToZoom", "rightClickToReset"] },
   };
 
   var chart = new google.visualization.LineChart(
