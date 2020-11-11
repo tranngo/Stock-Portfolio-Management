@@ -2,8 +2,12 @@ package csci310.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -49,6 +53,15 @@ public class GraphServlet extends HttpServlet{
 			endDate = "2020-10-01";
 		}
 		
+		// error check if start or end dates were not set (ie user did not select date)
+		if(startDate.isEmpty() || endDate.isEmpty()) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			PrintWriter out = response.getWriter();
+			out.print("Please enter valid start and end dates!");
+			out.flush();
+			return;
+		}
+		
 		//Convert the dates to MM-DD-YYYY
 		String startYr = startDate.substring(0, 4);
 		startDate = startDate.substring(5) + "-" + startYr;
@@ -57,6 +70,36 @@ public class GraphServlet extends HttpServlet{
 		
 		//Commenting out sales and expenses graph
 		//CreateArray();
+		
+		// error check start/end dates
+		Date start = null, end = null;
+		try {
+			start = new SimpleDateFormat("MM-dd-yyyy").parse(startDate);
+			end = new SimpleDateFormat("MM-dd-yyyy").parse(endDate);
+		} catch (ParseException e) {
+			System.out.println("In GraphServlet, can't parse start/end dates.");
+		}
+		// if start/end are null, or start is after end, or start is more than a year ago
+		if(start != null && end != null) {
+			if(start.compareTo(end) > 0) { 
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				PrintWriter out = response.getWriter();
+				out.print("Start date must occur before end date!");
+				out.flush();
+				return;
+			}
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.YEAR, -1);
+			cal.add(Calendar.DATE, -1);
+			Date lastYear = cal.getTime();
+			if(start.compareTo(lastYear) < 0) {  // if start is before last year
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				PrintWriter out = response.getWriter();
+				out.print("Start date must be within the past year!");
+				out.flush();
+				return;
+			}
+		}
 		
 		
 		ArrayList<String> stocks = new ArrayList<String>();

@@ -133,10 +133,16 @@ function refreshGraph() {
         }
       }
 
+      $("#graphservlet-error").text(""); // clear any existing error messages
+
       drawMainChart();
       getMyCurrentPortfolioValue();
       getPortfolioListAsAnArray();
     },
+
+    error: function (result) {
+      $("#graphservlet-error").text(result.responseText);
+    }
   });
   return false;
 }
