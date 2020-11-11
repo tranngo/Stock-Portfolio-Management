@@ -289,7 +289,7 @@
     <script src="js/ntnx.js"></script>
     <script src="js/log.js"></script>
     <script src="js/highcharts.js"></script>
-    <!-- <script>
+    <script>
       var json = [
         [1147651200000, 376.2],
         [1147737600000, 371.3],
@@ -313,8 +313,6 @@
         name: "NTNX",
         data: ntnxStock,
       };
-
-      console.log(seriesOptions);
       /**
        * Create the chart when all data is loaded
        * @returns {undefined}
@@ -329,27 +327,11 @@
             text: "Stock Price",
           },
 
-          series: seriesStuff,
-
-          // series: [
-          //   {
-          //     name: "NTNX",
-          //     data: ntnxStock,
-          //     tooltip: {
-          //       valueDecimals: 2,
-          //     },
-
-          //     name: "MSFT",
-          //     data: msftStock,
-          //     tooltip: {
-          //       valueDecimals: 2,
-          //     },
-          //   },
-          // ],
+          series: seriesOptions,
         });
       }
 
       createChart();
-    </script> -->
+    </script>
   </body>
 </html>

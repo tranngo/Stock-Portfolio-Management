@@ -18,7 +18,23 @@ var jsonArray = [
   ["2007", 1030],
 ];
 
+var jsonDefault = [
+  [1147651200000, 376.2],
+  [1147737600000, 371.3],
+  [1147824000000, 374.5],
+  [1147910400000, 370.99],
+  [1147996800000, 370.02],
+  [1148256000000, 370.95],
+  [1148342400000, 375.58],
+  [1148428800000, 381.25],
+  [1148515200000, 382.99],
+];
+
 var seriesOptions = [];
+seriesOptions[0] = {
+  name: "MSFT",
+  data: msftStock,
+};
 
 //Explanation: the graph has a bunch of things going on. There's toggles that are on,
 //toggles that are off. A certain start/end date that might have been selected. Maybe
@@ -172,6 +188,8 @@ function refreshGraph() {
         a.push(columns[i + 1]);
         stockArrays[i] = zip(a);
       }
+
+      seriesOptions = [];
 
       // Convert into json for highcharts
       for (let i = 0; i < stockNames.length; ++i) {
@@ -513,23 +531,11 @@ function drawMainChart() {
 
     series: seriesOptions,
   });
-  // var data = google.visualization.arrayToDataTable(jsonArray);
-  // var options = {
-  //   title: "Stock Performance",
-  //   curveType: "function",
-  //   legend: { position: "bottom" },
-  //   interpolateNulls: true,
-  // };
-  // var chart = new google.visualization.LineChart(
-  //   document.getElementById("main-chart")
-  // );
-  // chart.draw(data, options);
-  // // Used to make chart responsive
-  // $(document).ready(function () {
-  //   $(window).resize(function () {
-  //     drawMainChart();
-  //   });
-  // });
+  $(document).ready(function () {
+    $(window).resize(function () {
+      drawMainChart();
+    });
+  });
 }
 
 function drawStockHistoryChart() {
