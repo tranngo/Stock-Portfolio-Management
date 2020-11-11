@@ -107,6 +107,19 @@ public class PortfolioServletTest extends Mockito {
 		ps.doPost(request, response);
 		assertTrue(response != null);
 		
+		//Test isValidStock
+		when(request.getParameter("type")).thenReturn("isValidStock");
+		when(request.getParameter("stock")).thenReturn("NTNX");
+		when(response.getWriter()).thenReturn(new PrintWriter("Yo"));
+		ps.doPost(request, response);
+		assertTrue(response != null);
+		
+		when(request.getParameter("type")).thenReturn("isValidStock");
+		when(request.getParameter("stock")).thenReturn("INVALID");
+		when(response.getWriter()).thenReturn(new PrintWriter("Yo"));
+		ps.doPost(request, response);
+		assertTrue(response != null);
+		
 	}
 
 }

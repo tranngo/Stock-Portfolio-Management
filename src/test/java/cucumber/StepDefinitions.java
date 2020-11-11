@@ -682,6 +682,13 @@ public class StepDefinitions {
 //		assertTrue(length > 0);
 		assertTrue(true);
 	}
+	
+	@Then("I should see the login button is disabled")
+	public void i_should_see_the_login_button_is_disabled() {
+		WebElement loginButton = driver.findElement(By.xpath("//*[@id=\"login-form\"]/div/div[6]/button"));
+		boolean isDisabled = (loginButton.isEnabled() == false);
+		assertTrue(isDisabled);
+	}
 
 	@Then("my password in the register box should be hidden")
 	public void my_password_in_the_register_box_should_be_hidden() {

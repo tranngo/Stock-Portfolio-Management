@@ -200,6 +200,31 @@ public class PortfolioServlet extends HttpServlet{
 		}
 		else if(type.equals("isValidStock")) {
 			//All we need is the stock name
+			String stock = request.getParameter("stock");
+			
+			boolean isValid = true;
+			try {
+				isValid = Api.isValidStock(stock);
+			}
+			catch(IOException ie) {
+				System.out.println("PortfolioServlet isValidStock branch problem");
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				return;
+			}
+			
+			String answer = "";
+			if(isValid == true) {
+				answer = "GOOD";
+			}
+			else {
+				answer = "BAD";
+			}
+			
+			PrintWriter out = response.getWriter();
+			out.print(answer);
+			out.flush();
+			response.setStatus(HttpServletResponse.SC_OK);
+			return;
 			
 		}
 		else {
