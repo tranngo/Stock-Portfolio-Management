@@ -88,7 +88,7 @@ function refreshGraph() {
       opt = "0";
     }
     let output = year + "-" + opt + month + "-" + day;
-    // state_start = output;
+    state_start = output;
     // console.log("Setting default start date to: " + state_start);
 
     month = dateObj.getMonth() + 1;
