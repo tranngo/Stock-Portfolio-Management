@@ -711,7 +711,7 @@ $("#modal-confirm-button").on("click", function () {
   	if (validInput === true) {
 	    addExternalStock($("#add-external-stock-name-input").val());
 	    $("#confirmation-alert-stock-name").text($("#add-external-stock-name-input").val());
-	    $("confirmation-alert-add-remove").text("added");
+	    $("confirmation-alert-add-remove").text("added to");
 	    $("#confirmation-alert-source").text("external stocks");
 	    $("#confirmation-alert").removeClass("d-none");
 	    $("#confirmation-alert").addClass("show");
@@ -736,7 +736,7 @@ $("#modal-confirm-button").on("click", function () {
   	if (validInput === true) {
 	    removeExternalStock($("#remove-external-stock-name-input").val());
 	    $("#confirmation-alert-stock-name").text($("#remove-external-stock-name-input").val());
-	    $("confirmation-alert-add-remove").text("removed");
+	    $("#confirmation-alert-add-remove").text("removed from");
 	    $("#confirmation-alert-source").text("external stocks");
 	    $("#confirmation-alert").removeClass("d-none");
 	    $("#confirmation-alert").addClass("show");
