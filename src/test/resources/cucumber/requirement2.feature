@@ -1,4 +1,19 @@
 Feature: Ability to add or remove stocks from the portfolio
+  Scenario: I see a button to select all stocks from my portfolio
+  	Given I am on the login page
+  	When I log in
+  	Then I should see a button to select all stocks
+  	
+  Scenario: I see a button to deselect all stocks from my portfolio
+  	Given I am on the login page
+  	When I log in
+  	Then I should see a button to deselect all stocks
+  	
+  Scenario: I see a list of my portfolio stocks
+  	Given I am on the login page
+  	When I log in
+  	Then I should see a list of all of my portfolio stocks
+  	
   Scenario: I see a button to add a stock to my portfolio
     Given I am on the login page
     When I log in
@@ -119,13 +134,3 @@ Feature: Ability to add or remove stocks from the portfolio
   	And I enter "07022020" into the stock sell date input field
   	And I click on the add stock button
   	Then I should see a start date comes after end date error
-  	
-  Scenario: I see a button to select all stocks from my portfolio
-  	Given I am on the login page
-  	When I log in
-  	Then I should see a button to select all stocks
-  	
-  Scenario: I see a button to deselect all stocks from my portfolio
-  	Given I am on the login page
-  	When I log in
-  	Then I should see a button to deselect all stocks

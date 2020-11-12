@@ -460,6 +460,12 @@ public class StepDefinitions {
 		try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
 		assertTrue(driver.findElements(By.id("deselect-all")).size() != 0);
 	}
+	
+	@Then("I should see a list of all of my portfolio stocks")
+	public void i_should_see_a_list_of_all_of_my_portfolio_stocks() {
+		try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+		assertTrue(driver.findElements(By.id("portfolio-stock-list")).size() != 0);
+	}
 
 	// requirement 4
 	@Then("I should see a button to add an external stock on the home page")
