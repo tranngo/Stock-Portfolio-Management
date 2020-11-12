@@ -139,7 +139,10 @@ public class GraphServlet extends HttpServlet{
 			cal.add(Calendar.YEAR, -1);
 			cal.add(Calendar.DATE, -1);
 			Date lastYear = cal.getTime();
-			if(start.compareTo(lastYear) < 0) {  // if start is before last year
+			String temp1 = new SimpleDateFormat("yyyy-MM-dd").format(start);
+			String temp2 = new SimpleDateFormat("yyyy-MM-dd").format(lastYear);
+
+			if( (!temp1.equals(temp2)) && start.compareTo(lastYear) < 0) {  // if start is before last year
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				PrintWriter out = response.getWriter();
 				out.print("Start date must be within the past year!");

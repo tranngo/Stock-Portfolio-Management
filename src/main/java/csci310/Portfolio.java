@@ -802,6 +802,12 @@ public class Portfolio {
 						endRow = portfolioHistory.size()-1;
 					}
 					
+					if(startRow == -1 && endRow == -1) {
+						//Both falls out of bounds
+						startRow = 0;
+						endRow = portfolioHistory.size()-1;
+					}
+					
 					//d) From startRow to endRow, insert this stock (NTNX). We held the stock between those dates.
 					// ["08-01-2020", JNJ, NTNX]
 					// ["08-02-2020", NTNX]
