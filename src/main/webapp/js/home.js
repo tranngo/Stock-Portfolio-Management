@@ -251,13 +251,11 @@ function turnSpOff() {
 
 //Left side panel (Portfolio related add/remove/upload)
 
-
 //Check if a stock is valid
 function isValidStock(stock) {
+  var validStock = "EMPTY STRING";
 
-	var validStock = "EMPTY STRING";
-
-	//First, call PortfolioServlet with type="isValidStock"
+  //First, call PortfolioServlet with type="isValidStock"
   $.ajax({
     url: "PortfolioServlet",
     type: "POST",
@@ -271,10 +269,9 @@ function isValidStock(stock) {
       console.log("Yay! isValidStock got a response from PortfolioServlet");
       validStock = result;
       console.log("It is " + validStock);
-      
     },
   });
-  
+
   return validStock;
 }
 
@@ -626,35 +623,63 @@ $("#modal-confirm-button").on("click", function () {
     var quantity = $("#stock-quantity-input").val();
     var dateOfPurchase = $("#stock-purchase-date-input").val();
     var dateOfSelling = $("#stock-sell-date-input").val();
-    addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling);
-    $("#confirmation-alert-stock-name").text(stock);
-    $("confirmation-alert-add-remove").text("added");
-    $("#confirmation-alert-source").text("portfolio");
-    $("#confirmation-alert").removeClass("d-none");
-    $("#confirmation-alert").addClass("show");
+
+    var isThisAValidStock = isValidStock(stock);
+    if (isThisAValidStock === "BAD") {
+      console.log("There was an invalid stock name entered");
+      alert("There was an invalid stock name entered");
+      //Show some kind of error message on the screen like "Invalid stock name"
+    } else {
+      addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling);
+      $("#confirmation-alert-stock-name").text(stock);
+      $("confirmation-alert-add-remove").text("added");
+      $("#confirmation-alert-source").text("portfolio");
+      $("#confirmation-alert").removeClass("d-none");
+      $("#confirmation-alert").addClass("show");
+    }
   } else if ($(this).data("type") === "uploadFile") {
     //Change
     // console.log("Upload file was hit");
     var file = $("#fileUpload").val();
     readFile(file);
   } else if ($(this).data("type") === "addExternal") {
-    addExternalStock($("#add-external-stock-name-input").val());
-    $("#confirmation-alert-stock-name").text(
+    var isThisAValidStock = isValidStock(
       $("#add-external-stock-name-input").val()
     );
-    $("confirmation-alert-add-remove").text("added");
-    $("#confirmation-alert-source").text("external stocks");
-    $("#confirmation-alert").removeClass("d-none");
-    $("#confirmation-alert").addClass("show");
+    console.log("Debug: " + isThisAValidStock);
+    if (isThisAValidStock === "BAD") {
+      console.log("There was an invalid stock name entered");
+      alert("There was an invalid stock name entered");
+      //Show some kind of error message on the screen like "Invalid stock name"
+    } else {
+      addExternalStock($("#add-external-stock-name-input").val());
+      $("#confirmation-alert-stock-name").text(
+        $("#add-external-stock-name-input").val()
+      );
+      $("confirmation-alert-add-remove").text("added");
+      $("#confirmation-alert-source").text("external stocks");
+      $("#confirmation-alert").removeClass("d-none");
+      $("#confirmation-alert").addClass("show");
+    }
   } else if ($(this).data("type") === "removeExternal") {
-    removeExternalStock($("#remove-external-stock-name-input").val());
-    $("#confirmation-alert-stock-name").text(
-      $("#remove-external-stock-name-input").val()
+    var isThisAValidStock = isValidStock(
+      $("#add-external-stock-name-input").val()
     );
-    $("confirmation-alert-add-remove").text("removed");
-    $("#confirmation-alert-source").text("external stocks");
-    $("#confirmation-alert").removeClass("d-none");
-    $("#confirmation-alert").addClass("show");
+
+    if (isThisAValidStock === "BAD") {
+      console.log("There was an invalid stock name entered");
+      alert("There was an invalid stock name entered");
+      //Show some kind of error message on the screen like "Invalid stock name"
+    } else {
+      removeExternalStock($("#remove-external-stock-name-input").val());
+      $("#confirmation-alert-stock-name").text(
+        $("#remove-external-stock-name-input").val()
+      );
+      $("confirmation-alert-add-remove").text("removed");
+      $("#confirmation-alert-source").text("external stocks");
+      $("#confirmation-alert").removeClass("d-none");
+      $("#confirmation-alert").addClass("show");
+    }
   }
 
   updatePortfolioStockList();
