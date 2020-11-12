@@ -71,7 +71,7 @@ function refreshGraph() {
     month = dateObj.getMonth() + 1;
     day = String(dateObj.getDate()).padStart(2, "0");
     year = dateObj.getFullYear();
-    opt = ""; // TODO: get rid of "let"
+    opt = "";
     if (month < 10) {
       opt = "0";
     }
@@ -80,8 +80,8 @@ function refreshGraph() {
     // console.log("Setting default end date to: " + state_end);
   }
 
-  console.log("State variable -> Start date: " + state_start);
-  console.log("State variable -> End date: " + state_end);
+  // console.log("State variable -> Start date: " + state_start);
+  // console.log("State variable -> End date: " + state_end);
 
   state_portfolioContributors_asAString = "";
   state_externalStocks_asAString = "";

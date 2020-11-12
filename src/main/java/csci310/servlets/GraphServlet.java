@@ -56,7 +56,7 @@ public class GraphServlet extends HttpServlet{
 			e1.printStackTrace();
 		}
 		String startDate = startDateState;
-		if(startDateState.equals("-1")) { // if first time draw graph (ie user didn't specify dates)
+		if(startDateState != null && startDateState.equals("-1")) { // if first time draw graph (ie user didn't specify dates)
 			if(earliestDate == null) { // portfolio is empty. default to 3 months before end date
 				String[] temp = endDate.split("-");
 				int year = Integer.parseInt(temp[0]);
@@ -89,6 +89,10 @@ public class GraphServlet extends HttpServlet{
 					e.printStackTrace();
 				}
 			}
+		}
+		
+		if(startDate == null) {
+			startDate = "2020-01-01";
 		}
 
 		if(endDate == null) {
