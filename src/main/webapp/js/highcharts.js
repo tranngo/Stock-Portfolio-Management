@@ -323,6 +323,30 @@ function turnSpOff() {
 
 //Left side panel (Portfolio related add/remove/upload)
 
+//Check if a stock is valid
+function isValidStock(stock) {
+  var validStock = "EMPTY STRING";
+
+  //First, call PortfolioServlet with type="isValidStock"
+  $.ajax({
+    url: "PortfolioServlet",
+    type: "POST",
+    async: false,
+    data: {
+      type: "isValidStock",
+      stock: stock,
+    },
+
+    success: function (result) {
+      console.log("Yay! isValidStock got a response from PortfolioServlet");
+      validStock = result;
+      console.log("It is " + validStock);
+    },
+  });
+
+  return validStock;
+}
+
 //Retrieve my portfolio list so we can display it
 function getPortfolioListAsAnArray() {
   //First, call PortfolioServlet with type="getPortfolioList"
