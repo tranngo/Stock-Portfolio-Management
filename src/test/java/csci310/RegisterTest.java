@@ -223,9 +223,6 @@ public class RegisterTest {
 		boolean result = Register.insertUser(test_username, hashed_password);
 		assertTrue(result);
 		
-		// reset db
-		deleteUser(test_username);
-		
 		//Cobertura coverage: Disable MySQL with a bad password so con=null
 		//Code to read file referenced from W3Schools
 		
@@ -241,9 +238,8 @@ public class RegisterTest {
 		
 		//Fix "db-credentials.txt" by putting the right password back
 		changePassword(password);
-	}
-	
-	private void deleteUser(String username) {
+		
+		// reset db
 		// connect to mysql
 		JDBC db = new JDBC();
 		Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
@@ -251,7 +247,7 @@ public class RegisterTest {
 		if(con != null) {
 			try {
 			    PreparedStatement ps = con.prepareStatement("DELETE FROM users WHERE username=?");
-			    ps.setString(1, username);
+			    ps.setString(1, test_username);
 			    ps.execute();
 			    con.close();
 			} catch (SQLException e) {
