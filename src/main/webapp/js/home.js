@@ -35,7 +35,7 @@ state_portfolioListToDisplay = ["NTNX"];
 function refreshGraph() {
   // console.log("Graph refresh requested");
   if (state_start === "-1") {
-    // console.log("We have to set default dates");
+    console.log("We have to set default dates");
     //Referenced from: https://stackoverflow.com/questions/12409299/how-to-get-current-formatted-date-dd-mm-yyyy-in-javascript-and-append-it-to-an-i
     const monthNames = [
       "January",
@@ -65,7 +65,7 @@ function refreshGraph() {
       opt = "0";
     }
     let output = year + "-" + opt + month + "-" + day;
-    state_start = output;
+    // state_start = output;
     // console.log("Setting default start date to: " + state_start);
 
     month = dateObj.getMonth() + 1;
@@ -133,10 +133,16 @@ function refreshGraph() {
         }
       }
 
+      $("#graphservlet-error").text(""); // clear any existing error messages
+
       drawMainChart();
       getMyCurrentPortfolioValue();
       getPortfolioListAsAnArray();
     },
+
+    error: function (result) {
+      $("#graphservlet-error").text(result.responseText);
+    }
   });
   return false;
 }
