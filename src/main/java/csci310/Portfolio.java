@@ -931,6 +931,12 @@ public class Portfolio {
 		return portfolioRanged;
 	}
 	
+	public static String getEarliestTransactionDate(int userId) throws ParseException {
+		String date = "";
+		
+		return date;
+	}
+	
 	
 	
 	/*
