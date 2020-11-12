@@ -47,11 +47,11 @@ public class GraphServlet extends HttpServlet{
 			}
 		}
 		
-		System.out.println("start date: " + startDateState);
+//		System.out.println("start date: " + startDateState);
 		String earliestDate = "";
 		try {
 			earliestDate = Portfolio.getEarliestTransactionDate(user_id);
-			System.out.println("earliest date: " + earliestDate);
+//			System.out.println("earliest date: " + earliestDate);
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
@@ -105,7 +105,7 @@ public class GraphServlet extends HttpServlet{
 		}
 		
 		//Convert the dates to MM-DD-YYYY
-		System.out.println("108 start: " + startDate + ", end: " + endDate);
+//		System.out.println("108 start: " + startDate + ", end: " + endDate);
 		String startYr = startDate.substring(0, 4);
 		startDate = startDate.substring(5) + "-" + startYr;
 		String endYr = endDate.substring(0, 4);
