@@ -32,15 +32,15 @@ public class StepDefinitions {
 	private static final String HOME_URL = "http://localhost:8081/home.html";
 
 	WebDriver mobile = null;
-//
-//	@Before
-//	public void setUp() {
-//		Map<String, String> mobileEmulation = new HashMap<>();
-//		mobileEmulation.put("deviceName", "iPhone X");
-//		ChromeOptions chromeOptions = new ChromeOptions();
-//		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
-//		mobile = new ChromeDriver(chromeOptions);
-//	}
+
+	@Before
+	public void setUp() {
+		Map<String, String> mobileEmulation = new HashMap<>();
+		mobileEmulation.put("deviceName", "iPhone X");
+		ChromeOptions chromeOptions = new ChromeOptions();
+		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+		mobile = new ChromeDriver(chromeOptions);
+	}
 
 
 	private final WebDriver driver = new ChromeDriver();

@@ -8,8 +8,3 @@ Feature: Works on the Chrome web browser and mobile devices
     Given I am on registration page on mobile
     When I click on cancel
     Then I should see mobile login page
-  
-  Scenario: Checking home page on mobile
-    Given I am on the login page on mobile
-    When I login
-    Then I should see mobile home page
