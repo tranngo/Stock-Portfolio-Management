@@ -70,14 +70,22 @@ Feature: View and compare the historical performance of a stock
   	
   Scenario: Graph should redraw if the start date changes
   	Given I am on the login page
-  	When I log in
-  	And I change the start date
+	When I log in
+  	And I enter "06012020" into the from date
+  	And I enter "11112020" into the to date
+  	And I click the show me button
+  	And I enter "05012020" into the from date
+  	And I click the show me button
   	Then the graph should update to account for the new start date
   	
   Scenario: Graph should redraw if the end date changes
   	Given I am on the login page
-  	When I log in
-  	And I change the end date
+	When I log in
+  	And I enter "06012020" into the from date
+  	And I enter "11112020" into the to date
+  	And I click the show me button
+  	And I enter "12122020" into the to date
+  	And I click the show me button
   	Then the graph should update to account for the new end date
   	
   Scenario: Clicking the S&P button should toggle a visual line
