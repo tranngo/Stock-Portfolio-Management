@@ -933,7 +933,44 @@ public class Portfolio {
 	
 	public static String getEarliestTransactionDate(int userId) throws ParseException {
 		String date = "";
+		Date earliestDate = new Date();
+		boolean transactionExists = false;
 		
+		// connect to mysql
+		JDBC db = new JDBC();
+		Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
+		if(con != null) {
+			try {
+				// query stocks table for user id
+				PreparedStatement ps = con.prepareStatement("SELECT * FROM stocks_new WHERE user_id = ?");
+				ps.setInt(1, userId);
+				ResultSet rs = ps.executeQuery();
+	
+				// while there are stocks in the portfolio
+				while(rs.next()) {	
+					transactionExists = true;
+					// example rs returned: [id, user_id, "NTNX", 7, "02-01-2020", "03-05-2020"]
+					String buyDate = rs.getString(5);
+					Date d = new SimpleDateFormat("MM-dd-yyyy").parse(buyDate);
+					if(d.compareTo(earliestDate) < 0) { // if d is before earliestDate
+			            earliestDate = d;
+			            date = buyDate;
+					}
+				} // end while
+	        } catch (SQLException e) {
+	        } finally {
+	            try {
+	                if(con != null) {
+	                    con.close();
+	                }
+	            } catch (SQLException ex) {
+	            }
+	        }
+		} // end if con != null
+		
+		if(!transactionExists) {
+			return null;
+		}
 		return date;
 	}
 	
