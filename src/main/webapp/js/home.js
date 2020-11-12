@@ -678,7 +678,7 @@ $("#modal-confirm-button").on("click", function () {
     if (validInput === true) {
     	addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling);
 	    $("#confirmation-alert-stock-name").text(stock);
-	    $("confirmation-alert-add-remove").text("added");
+	    $("#confirmation-alert-add-remove").text("added");
 	    $("#confirmation-alert-source").text("portfolio");
 	    $("#confirmation-alert").removeClass("d-none");
 	    $("#confirmation-alert").addClass("show");
@@ -712,7 +712,7 @@ $("#modal-confirm-button").on("click", function () {
   	if (validInput === true) {
 	    addExternalStock($("#add-external-stock-name-input").val());
 	    $("#confirmation-alert-stock-name").text($("#add-external-stock-name-input").val());
-	    $("confirmation-alert-add-remove").text("added to");
+	    $("#confirmation-alert-add-remove").text("added to");
 	    $("#confirmation-alert-source").text("external stocks");
 	    $("#confirmation-alert").removeClass("d-none");
 	    $("#confirmation-alert").addClass("show");
@@ -850,7 +850,8 @@ function updatePortfolioStockList() {
 	document.querySelector("#portfolio-value").innerHTML = state_portfolioValue;
 	document.querySelector("#portfolio-percent").innerHTML = "<span id='arrow'></span>" + state_percentChange;
 	
-	if (parseInt(state_percentChange.split("%")) < 0) {
+	if (state_percentChange.includes("-")) {
+		console.log()
 		document.querySelector("#portfolio-percent").className = "red-text";
 		document.querySelector("#arrow").innerHTML = "▼ ";
 	} else {
@@ -860,6 +861,11 @@ function updatePortfolioStockList() {
 	
 	$(".close-icon").on("click", function() {
 		removeFromPortfolio($(this).next()[0].innerHTML);
+		$("#confirmation-alert-stock-name").text($(this).next()[0].innerHTML);
+	    $("#confirmation-alert-add-remove").text("removed from");
+	    $("#confirmation-alert-source").text("portfolio");
+	    $("#confirmation-alert").removeClass("d-none");
+	    $("#confirmation-alert").addClass("show");
 		updatePortfolioStockList();
 	})
 	
