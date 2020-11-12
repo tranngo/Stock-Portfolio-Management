@@ -33,14 +33,14 @@ public class StepDefinitions {
 
 	WebDriver mobile = null;
 
-	@Before
-	public void setUp() {
-		Map<String, String> mobileEmulation = new HashMap<>();
-		mobileEmulation.put("deviceName", "iPhone X");
-		ChromeOptions chromeOptions = new ChromeOptions();
-		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
-		mobile = new ChromeDriver(chromeOptions);
-	}
+//	@Before
+//	public void setUp() {
+//		Map<String, String> mobileEmulation = new HashMap<>();
+//		mobileEmulation.put("deviceName", "iPhone X");
+//		ChromeOptions chromeOptions = new ChromeOptions();
+//		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+//		mobile = new ChromeDriver(chromeOptions);
+//	}
 
 
 	private final WebDriver driver = new ChromeDriver();

@@ -711,7 +711,7 @@ $("#modal-confirm-button").on("click", function () {
       $("#confirmation-alert-stock-name").text(
         $("#add-external-stock-name-input").val()
       );
-      $("confirmation-alert-add-remove").text("added");
+      $("confirmation-alert-add-remove").text("added to");
       $("#confirmation-alert-source").text("external stocks");
       $("#confirmation-alert").removeClass("d-none");
       $("#confirmation-alert").addClass("show");
@@ -738,7 +738,7 @@ $("#modal-confirm-button").on("click", function () {
       $("#confirmation-alert-stock-name").text(
         $("#remove-external-stock-name-input").val()
       );
-      $("confirmation-alert-add-remove").text("removed");
+      $("#confirmation-alert-add-remove").text("removed from");
       $("#confirmation-alert-source").text("external stocks");
       $("#confirmation-alert").removeClass("d-none");
       $("#confirmation-alert").addClass("show");
@@ -819,17 +819,6 @@ function updateExternalStockList() {
 
     document.querySelector("#external-stocks").appendChild(liTag);
   }
-}
-
-function updateExternalStockList() {
-	$("#external-stocks").empty();
-	for (let i = 0; i < state_externalStocks; i++) {
-		console.log(state_externalStocks[i]);
-		let liTag = document.createElement("li");
-		liTag.innerHTML = state_externalStocks[i];
-		
-		document.querySelector("#external-stocks").appendChild(liTag);
-	}
 }
 
 function updatePortfolioStockList() {
