@@ -813,7 +813,7 @@ public class StepDefinitions {
 		JavascriptExecutor js = (JavascriptExecutor) mobile;
 		
 		String script1 = "return document.getElementById('left-col').getBoundingClientRect().";
-		String script2 = "return document.getElementById('container-highchart').getBoundingClientRect().";
+		String script2 = "return document.getElementById('chart-col').getBoundingClientRect().";
 		String script3 = "return document.getElementById('right-col').getBoundingClientRect().";
 		
 		
