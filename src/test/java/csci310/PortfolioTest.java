@@ -2,6 +2,7 @@ package csci310;
 
 import static org.junit.Assert.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -429,5 +430,24 @@ public class PortfolioTest {
 		Portfolio.sellStock(99, ntnx);
 		Portfolio.sellStock(99, jnj);
 	}
-
+	
+	@Test
+	public void testGetEarliestTransactionDate() throws ParseException {
+		// reset db
+		Portfolio.sellStock(99, ntnx);
+		Portfolio.sellStock(99, jnj);
+		
+		Portfolio.addStock(99, ntnx, 10, startDate, "09-15-2020"); // buy 10 ntnx stocks
+		Portfolio.addStock(99, jnj, 10, "09-12-2020", "09-18-2020"); // buy 10 jnj stocks
+		
+		String earliestDate = Portfolio.getEarliestTransactionDate(99);
+		assertEquals(earliestDate, startDate);
+		
+		// reset db
+		Portfolio.sellStock(99, ntnx);
+		Portfolio.sellStock(99, jnj);
+		
+		earliestDate = Portfolio.getEarliestTransactionDate(99);
+		assertNull(earliestDate);
+	}
 }
