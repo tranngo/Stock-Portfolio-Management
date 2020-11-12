@@ -192,6 +192,7 @@ function removePortfolioContributor(stock) {
 function addExternalStock(stock) {
   state_externalStocks.push(stock);
   refreshGraph();
+  updateExternalStockList();
 }
 
 //#4: Remove an external stock
@@ -223,6 +224,7 @@ function removeExternalStock(stock) {
   // );
   // console.log("Refreshing graph now");
   refreshGraph();
+  updateExternalStockList();
 }
 
 //#5: Change the start date
@@ -630,18 +632,60 @@ $("#modal-confirm-button").on("click", function () {
     var dateOfPurchase = $("#stock-purchase-date-input").val();
     var dateOfSelling = $("#stock-sell-date-input").val();
 
+    var validInput = true;
+
     var isThisAValidStock = isValidStock(stock);
-    if (isThisAValidStock === "BAD") {
-      console.log("There was an invalid stock name entered");
-      alert("There was an invalid stock name entered");
-      //Show some kind of error message on the screen like "Invalid stock name"
+    if (isThisAValidStock === "BAD" || stock.length === 0) {
+      $("#stock-name-input").addClass("red-border");
+      validInput = false;
     } else {
+      $("#stock-name-input").removeClass("red-border");
+    }
+
+    if (parseInt(quantity) < 1 || quantity.length === 0) {
+      $("#stock-quantity-input").addClass("red-border");
+      validInput = false;
+    } else {
+      $("#stock-quantity-input").removeClass("red-border");
+    }
+
+    if (dateOfPurchase.length === 0) {
+      $("#stock-purchase-date-input").addClass("red-border");
+      validInput = false;
+    } else {
+      $("#stock-purchase-date-input").removeClass("red-border");
+    }
+
+    if (dateOfSelling.length === 0) {
+      $("#stock-sell-date-input").addClass("red-border");
+      validInput = false;
+    } else {
+      $("#stock-sell-date-input").removeClass("red-border");
+    }
+
+    if (dateOfPurchase > dateOfSelling) {
+      $("#stock-purchase-date-input").addClass("red-border");
+      $("#stock-sell-date-input").addClass("red-border");
+      validInput = false;
+    } else {
+      $("#stock-purchase-date-input").removeClass("red-border");
+      $("#stock-sell-date-input").removeClass("red-border");
+    }
+
+    if (validInput === true) {
       addToPortfolio(stock, quantity, dateOfPurchase, dateOfSelling);
       $("#confirmation-alert-stock-name").text(stock);
       $("confirmation-alert-add-remove").text("added");
       $("#confirmation-alert-source").text("portfolio");
       $("#confirmation-alert").removeClass("d-none");
       $("#confirmation-alert").addClass("show");
+      $("#stock-name-input").removeClass("red-border");
+      $("#stock-quantity-input").removeClass("red-border");
+      $("#stock-purchase-date-input").removeClass("red-border");
+      $("#stock-sell-date-input").removeClass("red-border");
+    } else {
+      $("#error-alert").removeClass("d-none");
+      $("#error-alert").addClass("show");
     }
   } else if ($(this).data("type") === "uploadFile") {
     //Change
@@ -653,11 +697,16 @@ $("#modal-confirm-button").on("click", function () {
       $("#add-external-stock-name-input").val()
     );
     console.log("Debug: " + isThisAValidStock);
+
+    var validInput = true;
     if (isThisAValidStock === "BAD") {
-      console.log("There was an invalid stock name entered");
-      alert("There was an invalid stock name entered");
-      //Show some kind of error message on the screen like "Invalid stock name"
+      $("#add-external-stock-name-input").addClass("red-border");
+      validInput = false;
     } else {
+      $("#add-external-stock-name-input").removeClass("red-border");
+    }
+
+    if (validInput === true) {
       addExternalStock($("#add-external-stock-name-input").val());
       $("#confirmation-alert-stock-name").text(
         $("#add-external-stock-name-input").val()
@@ -666,17 +715,25 @@ $("#modal-confirm-button").on("click", function () {
       $("#confirmation-alert-source").text("external stocks");
       $("#confirmation-alert").removeClass("d-none");
       $("#confirmation-alert").addClass("show");
+      $("#add-external-stock-name-input").removeClass("red-border");
+    } else {
+      $("#error-alert").removeClass("d-none");
+      $("#error-alert").addClass("show");
     }
   } else if ($(this).data("type") === "removeExternal") {
     var isThisAValidStock = isValidStock(
       $("#add-external-stock-name-input").val()
     );
 
+    var validInput = true;
     if (isThisAValidStock === "BAD") {
-      console.log("There was an invalid stock name entered");
-      alert("There was an invalid stock name entered");
-      //Show some kind of error message on the screen like "Invalid stock name"
+      $("#remove-external-stock-name-input").addClass("red-border");
+      validInput = false;
     } else {
+      $("#remove-external-stock-name-input").removeClass("red-border");
+    }
+
+    if (validInput === true) {
       removeExternalStock($("#remove-external-stock-name-input").val());
       $("#confirmation-alert-stock-name").text(
         $("#remove-external-stock-name-input").val()
@@ -685,10 +742,15 @@ $("#modal-confirm-button").on("click", function () {
       $("#confirmation-alert-source").text("external stocks");
       $("#confirmation-alert").removeClass("d-none");
       $("#confirmation-alert").addClass("show");
+      $("#remove-external-stock-name-input").removeClass("red-border");
+    } else {
+      $("#error-alert").removeClass("d-none");
+      $("#error-alert").addClass("show");
     }
   }
 
   updatePortfolioStockList();
+  updateExternalStockList();
 
   $("#mainModal").modal({
     backdrop: true,
@@ -748,6 +810,17 @@ $("#deselect-all").on("click", function () {
   });
 });
 
+function updateExternalStockList() {
+  $("#external-stocks").empty();
+  for (let i = 0; i < state_externalStocks; i++) {
+    console.log(state_externalStocks[i]);
+    let liTag = document.createElement("li");
+    liTag.innerHTML = state_externalStocks[i];
+
+    document.querySelector("#external-stocks").appendChild(liTag);
+  }
+}
+
 function updatePortfolioStockList() {
   document.querySelector("#portfolio-value").innerHTML = "";
   document.querySelector("#portfolio-value").className = "";
@@ -755,7 +828,7 @@ function updatePortfolioStockList() {
   document.querySelector("#portfolio-percent").className = "";
   $("#portfolio-stock-list").empty();
 
-  for (i = 0; i < state_portfolioListToDisplay.length; i++) {
+  for (let i = 0; i < state_portfolioListToDisplay.length; i++) {
     let divTag = document.createElement("div");
     divTag.className =
       "stock-item d-flex flex-row justify-content-around align-items-center";
@@ -793,13 +866,21 @@ function updatePortfolioStockList() {
   });
 
   document.querySelector("#portfolio-value").innerHTML = state_portfolioValue;
-  document.querySelector("#portfolio-percent").innerHTML = state_percentChange;
+  document.querySelector("#portfolio-percent").innerHTML =
+    "<span id='arrow'></span>" + state_percentChange;
 
   if (parseInt(state_percentChange.split("%")) < 0) {
     document.querySelector("#portfolio-percent").className = "red-text";
+    document.querySelector("#arrow").innerHTML = "▼ ";
   } else {
     document.querySelector("#portfolio-percent").className = "green-text";
+    document.querySelector("#arrow").innerHTML = "▲ ";
   }
+
+  $(".close-icon").on("click", function () {
+    removeFromPortfolio($(this).next()[0].innerHTML);
+    updatePortfolioStockList();
+  });
 }
 
 $("#close-confirmation-alert").on("click", function () {
@@ -807,6 +888,12 @@ $("#close-confirmation-alert").on("click", function () {
   $("#confirmation-alert").addClass("d-none");
 });
 
+$("#close-error-alert").on("click", function () {
+  $("#error-alert").removeClass("show");
+  $("#error-alert").addClass("d-none");
+});
+
 $(document).ready(function () {
   updatePortfolioStockList();
+  updateExternalStockList();
 });

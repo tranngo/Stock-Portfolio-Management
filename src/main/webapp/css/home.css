@@ -1,5 +1,5 @@
 #navbar-bg {
-  background-image: linear-gradient(15deg, #787878 0%, #1C2A35 50%);
+  background-image: linear-gradient(15deg, #787878 0%, #1c2a35 50%);
 }
 
 .title {
@@ -9,8 +9,8 @@
 }
 
 .title:hover {
-	color: white;
-	text-decoration: none;
+  color: white;
+  text-decoration: none;
 }
 
 .chart {
@@ -19,13 +19,13 @@
 }
 
 body {
-	font-family: 'Roboto', sans-serif;
-	background-color: #171E24;
+  font-family: "Roboto", sans-serif;
+  background-color: #171e24;
 }
 
 .col-bg {
-	background-color: #1C2A35;
-	color: #FAFFFF;
+  background-color: #1c2a35;
+  color: #faffff;
 }
 
 ul {
@@ -45,26 +45,31 @@ ul {
 }
 
 .close-icon {
-	color: #d65a5c;
+  color: #d65a5c;
 }
 
-.click-hover:hover {
-	cursor: pointer;
+.click-hover:hover,
+.close-icon:hover {
+  cursor: pointer;
 }
 
 .btn-primary {
-	background-color: #17242C !important;
-	color: #93C8F0;
+  background-color: #17242c !important;
+  color: #93c8f0;
 }
 
 .toggle-button {
-	color: #0275d8;
+  color: #0275d8;
 }
 
 .green-text {
-	color: #5cb85c;
+  color: #5cb85c;
 }
 
 .red-text {
-	color: #d9534f;
+  color: #d9534f;
+}
+
+.red-border {
+  border: 1px solid #d9534f;
 }
