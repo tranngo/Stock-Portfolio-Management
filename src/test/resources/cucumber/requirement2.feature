@@ -62,14 +62,6 @@ Feature: Ability to add or remove stocks from the portfolio
   	And I upload a CSV file with a TSLA stock
   	And I click on the add stock button
   	Then I should see "TSLA" under my list of stocks in my portfolio
-  	
-  Scenario: Uploading a stock to the portfolio should show a confirmation dialogue
-  	Given I am on the login page
-  	When I log in
-  	And I click on the upload to portfolio button
-  	And I upload a CSV file with a TSLA stock
-  	And I click on the add stock button
-  	Then I should see a confirmation dialogue
     
   Scenario: If I have one or more stocks in my portfolio, then I should see a button to remove a stock from my portfolio
   	Given I am on the login page
@@ -83,13 +75,6 @@ Feature: Ability to add or remove stocks from the portfolio
   	And I have "TSLA" stock in my portfolio
   	And I press on the remove stock button
   	Then I should no longer see "TSLA" in my portfolio
-  	
-  Scenario: Removing a stock from my portfolio should show a confirmation dialogue
-  	Given I am on the login page
-  	When I log in
-  	And I have "TSLA" stock in my portfolio
-  	And I press on the remove stock button
-  	Then I should see a confirmation dialogue
   	
   Scenario: Entering an invalid date should display an error
   	Given I am on the login page
@@ -134,3 +119,13 @@ Feature: Ability to add or remove stocks from the portfolio
   	And I enter "07022020" into the stock sell date input field
   	And I click on the add stock button
   	Then I should see a start date comes after end date error
+  	
+  Scenario: I see a button to select all stocks from my portfolio
+  	Given I am on the login page
+  	When I log in
+  	Then I should see a button to select all stocks
+  	
+  Scenario: I see a button to deselect all stocks from my portfolio
+  	Given I am on the login page
+  	When I log in
+  	Then I should see a button to deselect all stocks
