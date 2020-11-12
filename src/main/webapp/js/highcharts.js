@@ -1,7 +1,3 @@
-window.onload = drawMainChart();
-window.onload = refreshGraph();
-window.setTimeout(timeout, 120000);
-
 // Zip to combine to different array lists and pair them up (equivalent of Python's zip function)
 // https://stackoverflow.com/questions/4856717/javascript-equivalent-of-pythons-zip-function
 function zip(arrays) {
@@ -33,10 +29,10 @@ var jsonDefault = [
 ];
 
 var seriesOptions = [];
-seriesOptions[0] = {
-  name: "MSFT",
-  data: msftStock,
-};
+// seriesOptions[0] = {
+//   name: "MSFT",
+//   data: msftStock,
+// };
 
 //Explanation: the graph has a bunch of things going on. There's toggles that are on,
 //toggles that are off. A certain start/end date that might have been selected. Maybe
@@ -92,7 +88,7 @@ function refreshGraph() {
       opt = "0";
     }
     let output = year + "-" + opt + month + "-" + day;
-    state_start = output;
+    // state_start = output;
     // console.log("Setting default start date to: " + state_start);
 
     month = dateObj.getMonth() + 1;
@@ -209,9 +205,13 @@ function refreshGraph() {
         };
       }
 
+      $("#graphservlet-error").text("");
       drawMainChart();
       getMyCurrentPortfolioValue();
       getPortfolioListAsAnArray();
+    },
+    error: function (result) {
+      $("#graphservlet-error").text(result.responseText);
     },
   });
   return false;
@@ -569,11 +569,11 @@ function drawMainChart() {
 
     series: seriesOptions,
   });
-  $(document).ready(function () {
-    $(window).resize(function () {
-      drawMainChart();
-    });
-  });
+  // $(document).ready(function () {
+  //   $(window).resize(function () {
+  //     drawMainChart();
+  //   });
+  // });
 }
 
 function drawStockHistoryChart() {
@@ -875,4 +875,8 @@ $("#close-confirmation-alert").on("click", function () {
 
 $(document).ready(function () {
   updatePortfolioStockList();
+  drawMainChart();
+  refreshGraph();
 });
+
+window.setTimeout(timeout, 120000);

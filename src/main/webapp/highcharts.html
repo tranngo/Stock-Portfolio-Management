@@ -313,50 +313,119 @@
     <script src="js/msft.js"></script>
     <script src="js/ntnx.js"></script>
     <script src="js/log.js"></script>
-    <script src="js/highcharts.js"></script>
+    <!-- <script src="js/highcharts.js"></script> -->
     <script>
-      // var json = [
-      //   [1147651200000, 376.2],
-      //   [1147737600000, 371.3],
-      //   [1147824000000, 374.5],
-      //   [1147910400000, 370.99],
-      //   [1147996800000, 370.02],
-      //   [1148256000000, 370.95],
-      //   [1148342400000, 375.58],
-      //   [1148428800000, 381.25],
-      //   [1148515200000, 382.99],
-      // ];
-      // // console.log(json);
-      // var seriesOptions = [],
-      //   seriesCounter = 0;
+      var json = [
+        [1147651200000, 376.2],
+        [1147737600000, 371.3],
+        [1147824000000, 374.5],
+        [1147910400000, 370.99],
+        [1147996800000, 370.02],
+        [1148256000000, 370.95],
+        [1148342400000, 375.58],
+        [1148428800000, 381.25],
+        [1148515200000, 382.99],
+      ];
+
+      // console.log(json);
+      var seriesOptions = [],
+        seriesCounter = 0;
 
       // seriesOptions[0] = {
       //   name: "MSFT",
       //   data: msftStock,
       // };
-      // seriesOptions[1] = {
-      //   name: "NTNX",
-      //   data: ntnxStock,
-      // };
-      // /**
-      //  * Create the chart when all data is loaded
-      //  * @returns {undefined}
-      //  */
-      // function createChart() {
-      //   Highcharts.stockChart("container-highchart", {
-      //     rangeSelector: {
-      //       selected: 1,
-      //     },
+      seriesOptions[0] = {
+        name: "NTNX",
+        data: ntnxStock,
+      };
+      /**
+       * Create the chart when all data is loaded
+       * @returns {undefined}
+       */
+      function createChart() {
+        Highcharts.stockChart("container-highchart", {
+          rangeSelector: {
+            selected: 1,
+          },
 
-      //     title: {
-      //       text: "Stock Price",
-      //     },
+          title: {
+            text: "Stock Price",
+          },
 
-      //     series: seriesOptions,
-      //   });
-      // }
+          series: seriesOptions,
+        });
+      }
 
-      // createChart();
+      $("#add-external-stock-button").click(function () {
+        // console.log("click");
+        var jsonArray = log;
+        function zip(arrays) {
+          return arrays[0].map(function (_, i) {
+            return arrays.map(function (array) {
+              return array[i];
+            });
+          });
+        }
+        for (let i = 1; i < jsonArray.length; ++i) {
+          jsonArray[i][0] =
+            jsonArray[i][0].substr(-4) +
+            "-" +
+            jsonArray[i][0].substr(0, 5) +
+            "T00:00:00.000Z";
+          var d = new Date(jsonArray[i][0]);
+          jsonArray[i][0] = Date.parse(d);
+        }
+
+        // Parse the string into number
+        for (let i = 1; i < jsonArray.length; ++i) {
+          for (let j = 1; j < jsonArray[i].length; ++j) {
+            if (jsonArray[i][j] === "null") {
+              jsonArray[i][j] = null;
+            } else {
+              jsonArray[i][j] = parseInt(jsonArray[i][j]);
+            }
+          }
+        }
+
+        var stockNames = [];
+        for (let i = 1; i < jsonArray[0].length; ++i) {
+          stockNames[i - 1] = jsonArray[0][i];
+        }
+
+        // Extract the columns from the array to create separate arrays
+        var columns = new Array();
+        jsonArray.shift();
+        for (let i = 0; i < jsonArray[0].length; ++i) {
+          columns.push(
+            jsonArray.map(function (value, index) {
+              return value[i];
+            })
+          );
+        }
+
+        // Pair the dates with associated stock value
+        // [[date, value], [date, value], [date, value], ...]
+        var stockArrays = [];
+        for (let i = 0; i < stockNames.length; ++i) {
+          var a = new Array(columns[0]);
+          a.push(columns[i + 1]);
+          stockArrays[i] = zip(a);
+        }
+
+        seriesOptions = [];
+
+        // Convert into json for highcharts
+        for (let i = 0; i < stockNames.length; ++i) {
+          seriesOptions[i] = {
+            name: stockNames[i],
+            data: stockArrays[i],
+          };
+        }
+        createChart();
+      });
+
+      createChart();
     </script>
   </body>
 </html>
