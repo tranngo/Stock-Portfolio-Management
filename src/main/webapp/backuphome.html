@@ -226,9 +226,7 @@
 
         <!-- Chart column -->
         <div
-          id="container-highchart"
           class="col-sm-12-12 col-md-8 column-border col-bg p-5 mt-3 col-shadow"
-          style="height: 400px; min-width: 310px"
         >
           <div
             class="alert alert-success alert-dismissible fade d-none"
@@ -244,6 +242,17 @@
             <button type="button" class="close" id="close-confirmation-alert">
               <span aria-hidden="true">&times;</span>
             </button>
+          </div>
+          <div class="chart" id="main-chart"></div>
+          <div id="date-picker" class="text-center">
+            <form class="mt-2" onsubmit="return submitForm(event)">
+              <input type="date" id="fromDate" name="fromDate" /> to
+              <input type="date" id="toDate" name="toDate" />
+              <button id="date-submit">Show me</button>
+              <div class="col-lg-12 mb-4 missing-entries">
+                <div id="graphservlet-error" class="text-danger"></div>
+              </div>
+            </form>
           </div>
         </div>
 
@@ -305,58 +314,7 @@
       integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
       crossorigin="anonymous"
     ></script>
-    <script src="https://code.highcharts.com/stock/highstock.js"></script>
-    <script src="https://code.highcharts.com/stock/modules/data.js"></script>
-    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+    <script src="js/home.js"></script>
     <script src="js/logout.js"></script>
-    <script src="js/msft.js"></script>
-    <script src="js/ntnx.js"></script>
-    <script src="js/log.js"></script>
-    <script src="js/highcharts.js"></script>
-    <script>
-      // var json = [
-      //   [1147651200000, 376.2],
-      //   [1147737600000, 371.3],
-      //   [1147824000000, 374.5],
-      //   [1147910400000, 370.99],
-      //   [1147996800000, 370.02],
-      //   [1148256000000, 370.95],
-      //   [1148342400000, 375.58],
-      //   [1148428800000, 381.25],
-      //   [1148515200000, 382.99],
-      // ];
-      // // console.log(json);
-      // var seriesOptions = [],
-      //   seriesCounter = 0;
-
-      // seriesOptions[0] = {
-      //   name: "MSFT",
-      //   data: msftStock,
-      // };
-      // seriesOptions[1] = {
-      //   name: "NTNX",
-      //   data: ntnxStock,
-      // };
-      // /**
-      //  * Create the chart when all data is loaded
-      //  * @returns {undefined}
-      //  */
-      // function createChart() {
-      //   Highcharts.stockChart("container-highchart", {
-      //     rangeSelector: {
-      //       selected: 1,
-      //     },
-
-      //     title: {
-      //       text: "Stock Price",
-      //     },
-
-      //     series: seriesOptions,
-      //   });
-      // }
-
-      // createChart();
-    </script>
   </body>
 </html>

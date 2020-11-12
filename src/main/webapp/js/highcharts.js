@@ -1,3 +1,5 @@
+window.onload = drawMainChart();
+window.onload = refreshGraph();
 window.setTimeout(timeout, 120000);
 
 // Zip to combine to different array lists and pair them up (equivalent of Python's zip function)
@@ -48,13 +50,13 @@ seriesOptions[0] = {
 //data for the graph.
 
 //These are the state variables which affect the graph, setting default values
-state_portfolioContributors = ["NTNX", "JNJ", "FB"];
-state_externalStocks = ["NTNX"];
-state_start = "-1";
-state_end = "-1";
-state_portfolioValue = "$0";
-state_percentChange = "0.0%";
-state_portfolioListToDisplay = ["NTNX"];
+var state_portfolioContributors = ["NTNX", "JNJ", "FB"];
+var state_externalStocks = ["NTNX"];
+var state_start = "-1";
+var state_end = "-1";
+var state_portfolioValue = "$0";
+var state_percentChange = "0.0%";
+var state_portfolioListToDisplay = ["NTNX"];
 
 //Calling this function will take the "state" and pass it to GraphServlet as your request
 function refreshGraph() {
@@ -108,8 +110,8 @@ function refreshGraph() {
   // console.log("State variable -> Start date: " + state_start);
   // console.log("State variable -> End date: " + state_end);
 
-  state_portfolioContributors_asAString = "";
-  state_externalStocks_asAString = "";
+  var state_portfolioContributors_asAString = "";
+  var state_externalStocks_asAString = "";
 
   //Turn portfolio contributors from an array into a string
   var i = 0;
@@ -146,6 +148,8 @@ function refreshGraph() {
 
     success: function (result) {
       jsonArray = eval(result);
+
+      console.log(jsonArray);
 
       // Change the date from MM-DD-YYYY into YYYY-MM-DDT00:00:00.000Z
       // Then convert them into ms
