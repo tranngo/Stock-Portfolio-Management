@@ -32,15 +32,15 @@ public class StepDefinitions {
 	private static final String HOME_URL = "http://localhost:8081/home.html";
 
 	WebDriver mobile = null;
-//
-//	@Before
-//	public void setUp() {
-//		Map<String, String> mobileEmulation = new HashMap<>();
-//		mobileEmulation.put("deviceName", "iPhone X");
-//		ChromeOptions chromeOptions = new ChromeOptions();
-//		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
-//		mobile = new ChromeDriver(chromeOptions);
-//	}
+
+	@Before
+	public void setUp() {
+		Map<String, String> mobileEmulation = new HashMap<>();
+		mobileEmulation.put("deviceName", "iPhone X");
+		ChromeOptions chromeOptions = new ChromeOptions();
+		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+		mobile = new ChromeDriver(chromeOptions);
+	}
 
 
 	private final WebDriver driver = new ChromeDriver();
@@ -882,7 +882,7 @@ public class StepDefinitions {
 		JavascriptExecutor js = (JavascriptExecutor) mobile;
 		
 		String script1 = "return document.getElementById('left-col').getBoundingClientRect().";
-		String script2 = "return document.getElementById('chart-col').getBoundingClientRect().";
+		String script2 = "return document.getElementById('container-highchart').getBoundingClientRect().";
 		String script3 = "return document.getElementById('right-col').getBoundingClientRect().";
 		
 		
@@ -910,8 +910,12 @@ public class StepDefinitions {
 				d3.right = Float.parseFloat(js.executeScript(script3 + sides[i] + ";").toString());
 			}
 		}
+		
+		System.out.println(Div.overlap(d1, d2));
+		System.out.println(Div.overlap(d1, d3));
+		System.out.println(Div.overlap(d2, d3));
 
-		assertTrue(!Div.overlap(d1, d2) && Div.overlap(d1, d3) && !Div.overlap(d2, d3));
+		assertTrue(Div.overlap(d1, d2) && Div.overlap(d1, d3) && !Div.overlap(d2, d3));
 	}
 	
 	@After()
