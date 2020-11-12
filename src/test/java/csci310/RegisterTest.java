@@ -11,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -236,5 +238,28 @@ public class RegisterTest {
 		
 		//Fix "db-credentials.txt" by putting the right password back
 		changePassword(password);
+		
+		// reset db
+		// connect to mysql
+		JDBC db = new JDBC();
+		Connection con = db.connectDB("com.mysql.cj.jdbc.Driver", "jdbc:mysql://remotemysql.com:3306/DT6BLiMGub","DT6BLiMGub","W1B4BiSiHP");
+		
+		if(con != null) {
+			try {
+			    PreparedStatement ps = con.prepareStatement("DELETE FROM users WHERE username=?");
+			    ps.setString(1, test_username);
+			    ps.execute();
+			    con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+	            try {
+	                if(con != null) {
+	                    con.close();
+	                }
+	            } catch (SQLException ex) {
+	            }
+	        }
+		}
 	}
 }
