@@ -821,6 +821,17 @@ function updateExternalStockList() {
   }
 }
 
+function updateExternalStockList() {
+	$("#external-stocks").empty();
+	for (let i = 0; i < state_externalStocks; i++) {
+		console.log(state_externalStocks[i]);
+		let liTag = document.createElement("li");
+		liTag.innerHTML = state_externalStocks[i];
+		
+		document.querySelector("#external-stocks").appendChild(liTag);
+	}
+}
+
 function updatePortfolioStockList() {
   document.querySelector("#portfolio-value").innerHTML = "";
   document.querySelector("#portfolio-value").className = "";
