@@ -28,38 +28,34 @@ Feature: Track and visualize changes in value over time of user’s portfolio
   	Given I am on the login page
 	When I log in
   	Then I should see buttons to select the from date and to date
-	
-  Scenario: The user does not choose to set a date range for the graph
-    Given I am on the login page
-	When I log in
-  	And the buttons to select the dates are not filled in
-    Then I should see the graph displaying data from one year ago to today
     
   Scenario: Graph should redraw once a custom start and end date are entered
   	Given I am on the login page
 	When I log in
-  	And I enter "07022020" into the from date
-  	And I enter "07202020" into the to date
+  	And I enter "06012020" into the from date
+  	And I enter "11112020" into the to date
+  	And I click the show me button
   	Then a graph should be displayed
   	
   Scenario: Graph should redraw if the start date changes
   	Given I am on the login page
 	When I log in
-  	And I change the start date
+  	And I enter "06012020" into the from date
+  	And I enter "11112020" into the to date
+  	And I click the show me button
+  	And I enter "05012020" into the from date
+  	And I click the show me button
   	Then the graph should update to account for the new start date
   	
   Scenario: Graph should redraw if the end date changes
   	Given I am on the login page
 	When I log in
-  	And I change the end date
+  	And I enter "06012020" into the from date
+  	And I enter "11112020" into the to date
+  	And I click the show me button
+  	And I enter "12122020" into the to date
+  	And I click the show me button
   	Then the graph should update to account for the new end date
-  	
-  Scenario: Graph should draw once a proper start and end date are entered
-  	Given I am on the login page
-	When I log in
-  	And I enter "07022020" into the from date
-  	And I enter "07202020" into the to date
-  	Then a graph should be displayed
   	
   Scenario: Graph should redraw if a stock is added
   	Given I am on the login page

@@ -128,24 +128,14 @@ public class StepDefinitions {
 	// requirement3.feature
 	@Then("I should see a line chart that displays the value of the user's portfolio over time")
 	public void i_should_see_a_line_chart_that_displays_the_value_of_the_user_s_portfolio_over_time() {
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		try { Thread.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
 		WebElement chart = driver.findElement(By.id("main-chart"));
 		assertTrue(chart.isDisplayed());
 	}
 	
 	@Then("I should see buttons to select the from date and to date")
 	public void i_should_see_buttons_to_select_the_from_date_and_to_date() {
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		try { Thread.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
 		WebElement from = driver.findElement(By.id("fromDate"));
 		WebElement to = driver.findElement(By.id("toDate"));
 		assertTrue(from.isDisplayed() && to.isDisplayed());
@@ -153,30 +143,14 @@ public class StepDefinitions {
 	
 	@Then("I should see the portfolio value")
 	public void i_should_see_the_portfolio_value() {
-		/*UNCOMMENT WHEN MERGED W FRONTEND*/
-		//assertTrue(driver.findElements(By.id("portfolio-value")).size() != 0);
-		// try {
-		// 	Thread.sleep(5000);
-		// } catch (InterruptedException e) {
-		// 	// TODO Auto-generated catch block
-		// 	e.printStackTrace();
-		// }
-		// WebElement value = driver.findElement(By.id("portfolio-value"));
-		// assertTrue(value.isDisplayed());
+		try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+		assertTrue(driver.findElements(By.id("portfolio-value")).size() != 0);
 	}
 
 	@Then("I should see the change in portfolio value since the previous day")
 	public void i_should_see_the_change_in_portfolio_value_since_the_previous_day() {
-		/*UNCOMMENT WHEN MERGED W FRONTEND*/
-		//assertTrue(driver.findElements(By.id("portfolio-percent")).size() != 0);
-		// try {
-		// 	Thread.sleep(5000);
-		// } catch (InterruptedException e) {
-		// 	// TODO Auto-generated catch block
-		// 	e.printStackTrace();
-		// }
-		// WebElement percent = driver.findElement(By.id("portfolio-percent"));
-		// assertTrue(percent.isDisplayed());
+		try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+		assertTrue(driver.findElements(By.id("portfolio-percent")).size() != 0);
 	}
 
 	@Then("I should see a corresponding arrow next to the portfolio change")
@@ -188,20 +162,10 @@ public class StepDefinitions {
 	public void the_portfolio_change_and_corresponding_arrow_should_display_the_proper_color() {
 		//TODO
 	}
-	
-	@When("the buttons to select the dates are not filled in")
-	public void the_buttons_to_select_the_dates_are_not_filled_in() {
-		//TODO
-	}
-
-	@Then("I should see the graph displaying data from one year ago to today")
-	public void i_should_see_the_graph_displaying_data_from_one_year_ago_to_today() {
-		//TODO
-	}
 
 	@Then("the graph should update to account for the new stock")
 	public void the_graph_should_update_to_account_for_the_new_stock() {
-		//TODO
+		try { Thread.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
 	}
 	
 	// requirement8.feature
@@ -292,31 +256,21 @@ public class StepDefinitions {
 
 	@Then("I should see a button to add a stock to my portfolio on the home page")
 	public void i_should_see_a_button_to_add_a_stock_to_my_portfolio_on_the_home_page() {
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		try { Thread.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
 		assertTrue(driver.findElements(By.id("add-stock-button")).size() != 0);
 	}
 	
 	@Then("I should see a button to upload a stock to my portfolio on the home page")
 	public void i_should_see_a_button_to_upload_a_stock_to_my_portfolio_on_the_home_page() {
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		try { Thread.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
 		assertTrue(driver.findElements(By.id("upload-file-button")).size() != 0);
 	}
 	
 	@When("I click on the add to portfolio button")
 	public void i_click_on_the_add_to_portfolio_button() {
-//	    WebElement button = driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[2]/button[1]"));
-//	    button.click();
-		assertTrue(true);
+		try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+	    WebElement button = driver.findElement(By.id("add-stock-button"));
+	    button.click();
 	}
 	
 	@Then("I should see a modal with an add stock and cancel button")
@@ -361,9 +315,9 @@ public class StepDefinitions {
 	
 	@When("I click on the upload to portfolio button")
 	public void i_click_on_the_upload_to_portfolio_button() {
-//	    WebElement button = driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[2]/button[2]"));
-//	    button.click();
-		assertTrue(true);
+		try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+	    WebElement button = driver.findElement(By.id("upload-file-button"));
+	    button.click();
 	}
 	
 	@When("I click on upload to portfolio button")
@@ -391,8 +345,8 @@ public class StepDefinitions {
 	
 	@When("I have one or more stocks in my portfolio")
 	public void i_have_one_or_more_stocks_in_my_portfolio() {
+		try { Thread.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
 	    assertTrue(driver.findElements(By.className("stock-item")).size() != 0);
-		// assertTrue(true);
 	}
 
 	@Then("I should see a button to remove a stock from my portfolio")
@@ -403,9 +357,6 @@ public class StepDefinitions {
 
 	@When("I enter {string} into the stock name input field")
 	public void i_enter_into_the_stock_name_input_field(String string) {
-//		WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[1]/input"));
-//		input.sendKeys(string);
-		// assertTrue(true);
 		WebElement input = driver.findElement(By.id("stock-name-input"));
 		input.sendKeys(string);
 	}
@@ -413,9 +364,6 @@ public class StepDefinitions {
 
 	@When("I enter {string} into the stock quantity input field")
 	public void i_enter_into_the_stock_quantity_input_field(String string) {
-//		WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[2]/input"));
-//		input.sendKeys(string);
-		// assertTrue(true);
 		WebElement input = driver.findElement(By.id("stock-quantity-input"));
 		input.sendKeys(string);
 	}
@@ -423,26 +371,21 @@ public class StepDefinitions {
 
 	@When("I enter {string} into the stock purchase date input field")
 	public void i_enter_into_the_stock_purchase_date_input_field(String string) {
-//		WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[3]/input"));
-//		input.sendKeys(string);
-		// assertTrue(true);
 		WebElement input = driver.findElement(By.id("stock-purchase-date-input"));
 		input.sendKeys(string);
 	}
 
 	@When("I enter {string} into the stock sell date input field")
 	public void i_enter_into_the_stock_sell_date_input_field(String string) {
-//		WebElement input = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div[1]/form/div/div[4]/input"));
-//		input.sendKeys(string);
 		WebElement input = driver.findElement(By.id("stock-sell-date-input"));
 		input.sendKeys(string);
 	}
 	
 	@When("I click on the add stock button")
 	public void i_click_on_the_add_stock_button() {
-//	    WebElement button = driver.findElement(By.xpath("/html/body/div[1]/div/div/div[3]/button[1]"));
-//	    button.click();
-		assertTrue(true);
+		try { Thread.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
+	    WebElement button = driver.findElement(By.id("modal-confirm-button"));
+	    button.click();
 	}
 
 	/*changed lines for assertion error "I add a stock to my portfolio"*/
@@ -697,45 +640,41 @@ public class StepDefinitions {
 	    assertEquals("password", value);
 	}
 
-	@When("I change the start date")
-	public void i_change_the_start_date() {
-		//TODO
-	}
-
 	@Then("the graph should update to account for the new start date")
 	public void the_graph_should_update_to_account_for_the_new_start_date() {
-		//TODO
-		//START DATE BEFORE
-		
-		//START DATE AFTER
+		try { Thread.sleep(4000); } catch (InterruptedException e) { e.printStackTrace(); }
 	}
 	
-	@When("I change the end date")
-	public void i_change_the_end_date() {
-		//TODO
-		//END DATE BEFORE
-		
-		//END DATE AFTER
-	}
 
 	@Then("the graph should update to account for the new end date")
 	public void the_graph_should_update_to_account_for_the_new_end_date() {
-		//TODO
+		try { Thread.sleep(4000); } catch (InterruptedException e) { e.printStackTrace(); }
 	}
 	
 	@When("I enter {string} into the from date")
 	public void i_enter_into_the_from_date(String string) {
-		//TODO
+		try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+		WebElement input = driver.findElement(By.id("fromDate"));
+		input.sendKeys(string);
 	}
 
 	@When("I enter {string} into the to date")
 	public void i_enter_into_the_to_date(String string) {
-		//TODO
+		try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+		WebElement input = driver.findElement(By.id("toDate"));
+		input.sendKeys(string);
+	}
+	
+	@When("I click the show me button")
+	public void i_click_the_show_me_button() {
+		WebElement button = driver.findElement(By.id("date-submit"));
+	    button.click();
+	    try { Thread.sleep(4000); } catch (InterruptedException e) { e.printStackTrace(); }
 	}
 
 	@Then("a graph should be displayed")
 	public void a_graph_should_be_displayed() {
-		//TODO
+	    try { Thread.sleep(4000); } catch (InterruptedException e) { e.printStackTrace(); }
 	}
 	
 	@When("I click the S&P button")
