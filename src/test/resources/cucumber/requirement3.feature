@@ -68,4 +68,24 @@ Feature: Track and visualize changes in value over time of user’s portfolio
   	And I click on the add stock button
   	Then the graph should update to account for the new stock
   	
-  
+  Scenario: Error should be displayed if dates are not selected
+  	Given I am on the login page
+  	When I log in
+  	And I click the show me button
+  	Then an error should display asking to enter valid start and end dates
+  	
+  Scenario: Error should be displayed if start date is over one year ago 
+  	Given I am on the login page
+  	When I log in
+  	And I enter "06012017" into the from date
+  	And I enter "11112020" into the to date
+  	And I click the show me button
+  	Then an error should display requesting a start date within the last year
+  	
+  Scenario: Error should be displayed if start date is over one year ago 
+  	Given I am on the login page
+  	When I log in
+  	And I enter "11012020" into the from date
+  	And I enter "10012020" into the to date
+  	And I click the show me button
+  	Then an error should display requesting a start date before the end date

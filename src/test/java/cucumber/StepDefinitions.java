@@ -155,12 +155,25 @@ public class StepDefinitions {
 
 	@Then("I should see a corresponding arrow next to the portfolio change")
 	public void i_should_see_a_corresponding_arrow_next_to_the_portfolio_change() {
-		//TODO
+		try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+		assertTrue(driver.findElements(By.id("arrow")).size() != 0);
 	}
 
 	@Then("the portfolio change and corresponding arrow should display the proper color")
 	public void the_portfolio_change_and_corresponding_arrow_should_display_the_proper_color() {
-		//TODO
+		try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+		WebElement change = driver.findElement(By.id("arrow"));
+		String sign = change.getText();
+		
+		//negative
+		if (sign.charAt(0) == '-') {
+			assertTrue(driver.findElements(By.className("red-text")).size() != 0);
+		}
+		
+		//positive
+		else {
+			assertTrue(driver.findElements(By.className("green-text")).size() != 0);
+		}
 	}
 
 	@Then("the graph should update to account for the new stock")
@@ -398,10 +411,11 @@ public class StepDefinitions {
 	    assertTrue(true);
 	}
 
-	/*changed lines for assertion error "I press on the remove stock button"*/
 	@When("I press on the remove stock button")
 	public void i_press_on_the_remove_stock_button() {
 		try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+		WebElement input = driver.findElement(By.xpath("/html/body/div[2]/div/div[1]/div[1]/div[3]/div[1]/i[1]"));
+		input.click();
 	}
 
 	@Then("I should no longer see {string} in my portfolio")
@@ -427,26 +441,22 @@ public class StepDefinitions {
 		assertTrue(driver.findElements(By.id("confirmation-alert")).size() != 0);	
 	}
 	
-	/*ERROR CHECKING FOR REQUIREMENT 2
-	 * WAITING ON BOOSTRAP ALERT*/
 	@Then("I should see an invalid stock quantity error")
 	public void i_should_see_an_invalid_stock_quantity_error() {
-		//TODO
+		try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+		assertTrue(driver.findElements(By.id("error-alert")).size() != 0);	
 	}
 	
 	@Then("I should see a start date comes after end date error")
 	public void i_should_see_a_start_date_comes_after_end_date_error() {
-		//TODO
+		try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+		assertTrue(driver.findElements(By.id("error-alert")).size() != 0);	
 	}
 	
 	@Then("I should see an invalid ticker error")
 	public void i_should_see_an_invalid_ticker_error() {
-		//TODO
-	}
-	
-	@Then("I should see an invalid date error")
-	public void i_should_see_an_invalid_date_error() {
-		//TODO
+		try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+		assertTrue(driver.findElements(By.id("error-alert")).size() != 0);	
 	}
 	
 	@Then("I should see a button to select all stocks")
@@ -531,17 +541,19 @@ public class StepDefinitions {
 
 	@When("I click on the remove stock button")
 	public void i_click_on_the_remove_stock_button() {
+		try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
 		WebElement input = driver.findElement(By.id("modal-confirm-button"));
 	    input.click();
 	}
 
 	@Then("I shouldn't see {string} in my list of external stocks")
 	public void i_shouldn_t_see_in_my_list_of_external_stocks(String string) {
-		try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+		try { Thread.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
 	}
 
 	@When("I click on the log out button")
 	public void i_click_on_the_log_out_button() {
+		try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
 		WebElement button = driver.findElement(By.className("logout-btn"));
 	    button.click();
 	}
@@ -599,28 +611,46 @@ public class StepDefinitions {
 	
 	@When("I enter {string} into the from date")
 	public void i_enter_into_the_from_date(String string) {
-		try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+		try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
 		WebElement input = driver.findElement(By.id("fromDate"));
 		input.sendKeys(string);
 	}
 
 	@When("I enter {string} into the to date")
 	public void i_enter_into_the_to_date(String string) {
-		try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+		try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
 		WebElement input = driver.findElement(By.id("toDate"));
 		input.sendKeys(string);
 	}
 	
 	@When("I click the show me button")
 	public void i_click_the_show_me_button() {
+		try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
 		WebElement button = driver.findElement(By.id("date-submit"));
 	    button.click();
-	    try { Thread.sleep(4000); } catch (InterruptedException e) { e.printStackTrace(); }
 	}
 
 	@Then("a graph should be displayed")
 	public void a_graph_should_be_displayed() {
 	    try { Thread.sleep(4000); } catch (InterruptedException e) { e.printStackTrace(); }
+	}
+	
+	@Then("an error should display asking to enter valid start and end dates")
+	public void an_error_should_display_asking_to_enter_valid_start_and_end_dates() {
+		try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+		assertTrue(driver.findElements(By.id("remove-external-stock-button")).size() != 0);
+	}
+
+	@Then("an error should display requesting a start date within the last year")
+	public void an_error_should_display_requesting_a_start_date_within_the_last_year() {
+		try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+		assertTrue(driver.findElements(By.id("remove-external-stock-button")).size() != 0);
+	}
+	
+	@Then("an error should display requesting a start date before the end date")
+	public void an_error_should_display_requesting_a_start_date_before_the_end_date() {
+		try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+		assertTrue(driver.findElements(By.id("graphservlet-error")).size() != 0);
 	}
 	
 	@When("I click the S&P button")

@@ -91,17 +91,6 @@ Feature: Ability to add or remove stocks from the portfolio
   	And I press on the remove stock button
   	Then I should no longer see "TSLA" in my portfolio
   	
-  Scenario: Entering an invalid date should display an error
-  	Given I am on the login page
-  	When I log in
-  	And I click on the add to portfolio button
-  	And I enter "TSLA" into the stock name input field
-  	And I enter "2" into the stock quantity input field
-  	And I enter "07332020" into the stock purchase date input field
-  	And I enter "07042020" into the stock sell date input field
-  	And I click on the add stock button
-  	Then I should see an invalid date error
-  	
   Scenario: Entering a negative stock quantity should display an error
   	Given I am on the login page
   	When I log in
