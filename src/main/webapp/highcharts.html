@@ -315,48 +315,48 @@
     <script src="js/log.js"></script>
     <script src="js/highcharts.js"></script>
     <script>
-      var json = [
-        [1147651200000, 376.2],
-        [1147737600000, 371.3],
-        [1147824000000, 374.5],
-        [1147910400000, 370.99],
-        [1147996800000, 370.02],
-        [1148256000000, 370.95],
-        [1148342400000, 375.58],
-        [1148428800000, 381.25],
-        [1148515200000, 382.99],
-      ];
-      // console.log(json);
-      var seriesOptions = [],
-        seriesCounter = 0;
+      // var json = [
+      //   [1147651200000, 376.2],
+      //   [1147737600000, 371.3],
+      //   [1147824000000, 374.5],
+      //   [1147910400000, 370.99],
+      //   [1147996800000, 370.02],
+      //   [1148256000000, 370.95],
+      //   [1148342400000, 375.58],
+      //   [1148428800000, 381.25],
+      //   [1148515200000, 382.99],
+      // ];
+      // // console.log(json);
+      // var seriesOptions = [],
+      //   seriesCounter = 0;
 
-      seriesOptions[0] = {
-        name: "MSFT",
-        data: msftStock,
-      };
-      seriesOptions[1] = {
-        name: "NTNX",
-        data: ntnxStock,
-      };
-      /**
-       * Create the chart when all data is loaded
-       * @returns {undefined}
-       */
-      function createChart() {
-        Highcharts.stockChart("container-highchart", {
-          rangeSelector: {
-            selected: 1,
-          },
+      // seriesOptions[0] = {
+      //   name: "MSFT",
+      //   data: msftStock,
+      // };
+      // seriesOptions[1] = {
+      //   name: "NTNX",
+      //   data: ntnxStock,
+      // };
+      // /**
+      //  * Create the chart when all data is loaded
+      //  * @returns {undefined}
+      //  */
+      // function createChart() {
+      //   Highcharts.stockChart("container-highchart", {
+      //     rangeSelector: {
+      //       selected: 1,
+      //     },
 
-          title: {
-            text: "Stock Price",
-          },
+      //     title: {
+      //       text: "Stock Price",
+      //     },
 
-          series: seriesOptions,
-        });
-      }
+      //     series: seriesOptions,
+      //   });
+      // }
 
-      createChart();
+      // createChart();
     </script>
   </body>
 </html>
