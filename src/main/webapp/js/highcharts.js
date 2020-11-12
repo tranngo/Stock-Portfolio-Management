@@ -205,6 +205,7 @@ function refreshGraph() {
       drawMainChart();
       getMyCurrentPortfolioValue();
       getPortfolioListAsAnArray();
+      updateExternalStockList();
     },
     error: function (result) {
       $("#graphservlet-error").text(result.responseText);
@@ -258,7 +259,6 @@ function removePortfolioContributor(stock) {
 function addExternalStock(stock) {
   state_externalStocks.push(stock);
   refreshGraph();
-  updateExternalStockList();
 }
 
 //#4: Remove an external stock
@@ -290,7 +290,6 @@ function removeExternalStock(stock) {
   // );
   // console.log("Refreshing graph now");
   refreshGraph();
-  updateExternalStockList();
 }
 
 //#5: Change the start date
@@ -871,7 +870,7 @@ $("#deselect-all").on("click", function () {
 
 function updateExternalStockList() {
   $("#external-stocks").empty();
-  for (let i = 0; i < state_externalStocks; i++) {
+  for (let i = 0; i < state_externalStocks.length; i++) {
     console.log(state_externalStocks[i]);
     let liTag = document.createElement("li");
     liTag.innerHTML = state_externalStocks[i];
