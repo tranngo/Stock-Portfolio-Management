@@ -129,15 +129,15 @@ public class StepDefinitions {
 	@Then("I should see a line chart that displays the value of the user's portfolio over time")
 	public void i_should_see_a_line_chart_that_displays_the_value_of_the_user_s_portfolio_over_time() {
 		try { Thread.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
-		WebElement chart = driver.findElement(By.id("main-chart"));
+		WebElement chart = driver.findElement(By.id("container-highchart"));
 		assertTrue(chart.isDisplayed());
 	}
 	
 	@Then("I should see buttons to select the from date and to date")
 	public void i_should_see_buttons_to_select_the_from_date_and_to_date() {
 		try { Thread.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
-		WebElement from = driver.findElement(By.id("fromDate"));
-		WebElement to = driver.findElement(By.id("toDate"));
+		WebElement from = driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/div[4]/div[2]/svg/g[16]/g[2]/g[1]/text"));
+		WebElement to = driver.findElement(By.xpath("/html/body/div[3]/div/div[2]/div[4]/div[2]/svg/g[16]/g[2]/g[3]/text"));
 		assertTrue(from.isDisplayed() && to.isDisplayed());
 	}
 	
@@ -601,12 +601,16 @@ public class StepDefinitions {
 	@Then("the graph should update to account for the new start date")
 	public void the_graph_should_update_to_account_for_the_new_start_date() {
 		try { Thread.sleep(4000); } catch (InterruptedException e) { e.printStackTrace(); }
+		WebElement chart = driver.findElement(By.id("container-highchart"));
+		assertTrue(chart.isDisplayed());
 	}
 	
 
 	@Then("the graph should update to account for the new end date")
 	public void the_graph_should_update_to_account_for_the_new_end_date() {
 		try { Thread.sleep(4000); } catch (InterruptedException e) { e.printStackTrace(); }
+		WebElement chart = driver.findElement(By.id("container-highchart"));
+		assertTrue(chart.isDisplayed());
 	}
 	
 	@When("I enter {string} into the from date")
@@ -633,6 +637,8 @@ public class StepDefinitions {
 	@Then("a graph should be displayed")
 	public void a_graph_should_be_displayed() {
 	    try { Thread.sleep(4000); } catch (InterruptedException e) { e.printStackTrace(); }
+		WebElement chart = driver.findElement(By.id("container-highchart"));
+		assertTrue(chart.isDisplayed());
 	}
 	
 	@Then("an error should display asking to enter valid start and end dates")
