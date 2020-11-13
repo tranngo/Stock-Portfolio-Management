@@ -93,10 +93,8 @@ function submitForm(e) {
      	
       	if(validFailedAttempt) {
       		failedAttempts = failedAttempts + 1;
-      		console.log("Incrementing failedAttempts to " + failedAttempts);
       	}
       	if(failedAttempts == 3) {
-      		console.log("Failed attempts is 3");
       		locked = true;
       		failedAttempts = 0;
       		var lockoutErrorFlag = true;
