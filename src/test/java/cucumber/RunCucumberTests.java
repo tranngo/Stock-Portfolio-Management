@@ -12,6 +12,9 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 
 //Please run one at a time, just in case :)
+//@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement2.feature", "src/test/resources/cucumber/requirement3.feature", 
+//		"src/test/resources/cucumber/requirement4.feature", "src/test/resources/cucumber/requirement5.feature", "src/test/resources/cucumber/requirement6.feature", 
+//		"src/test/resources/cucumber/requirement7_login.feature", "src/test/resources/cucumber/requirement7_register.feature", "src/test/resources/cucumber/requirement8.feature"})
 //@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement2.feature"})
 //@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement3.feature"})
 //@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement4.feature"})
