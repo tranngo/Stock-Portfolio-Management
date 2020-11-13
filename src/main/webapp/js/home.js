@@ -481,7 +481,7 @@ function submitForm(e) {
   return false;
 }
 
-function confirmation(){
+function externalStockConfirmation(){
   $("#confirmation-alert-source").text("external stocks");
   $("#confirmation-alert").removeClass("d-none");
   $("#confirmation-alert").addClass("show");
