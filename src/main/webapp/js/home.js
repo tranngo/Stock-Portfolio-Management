@@ -631,7 +631,7 @@ $("#modal-confirm-button").on("click", function () {
 	    addExternalStock($("#add-external-stock-name-input").val());
 	    $("#confirmation-alert-stock-name").text($("#add-external-stock-name-input").val());
 	    $("#confirmation-alert-add-remove").text("added to");
-	    confirmation();
+	    externalStockConfirmation();
 	} else {
     	$("#error-alert").removeClass("d-none");
     	$("#error-alert").addClass("show");
@@ -653,7 +653,7 @@ $("#modal-confirm-button").on("click", function () {
 	    removeExternalStock($("#remove-external-stock-name-input").val());
 	    $("#confirmation-alert-stock-name").text($("#remove-external-stock-name-input").val());
 	    $("#confirmation-alert-add-remove").text("removed from");
-	    confirmation();
+	    externalStockConfirmation();
 	} else {
 		$("#error-alert").removeClass("d-none");
     	$("#error-alert").addClass("show");
