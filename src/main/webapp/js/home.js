@@ -470,8 +470,6 @@ function drawStockHistoryChart() {
 }
 
 function submitForm(e) {
-  // e.preventDefault();
-
   //Read the form input for the calendar: from date and to date
   var startDate = document.getElementById("fromDate").value;
   var endDate = document.getElementById("toDate").value;
@@ -481,6 +479,22 @@ function submitForm(e) {
   changeEndDate(endDate);
   refreshGraph();
   return false;
+}
+
+function externalStockConfirmation(){
+  $("#confirmation-alert-source").text("external stocks");
+  $("#confirmation-alert").removeClass("d-none");
+  $("#confirmation-alert").addClass("show");
+  $("#add-external-stock-name-input").removeClass("red-border");  
+}
+
+function modal(){
+  $("#mainModal").modal({
+    backdrop: true,
+    keyboard: true,
+    focus: true,
+    show: true,
+  });
 }
 
 $("#add-stock-button").on("click", function () {
@@ -493,12 +507,7 @@ $("#add-stock-button").on("click", function () {
 
   $("#modal-confirm-button").data("type", "addStock");
 
-  $("#mainModal").modal({
-    backdrop: true,
-    keyboard: true,
-    focus: true,
-    show: true,
-  });
+  modal();
 });
 
 $("#upload-file-button").on("click", function () {
@@ -511,12 +520,7 @@ $("#upload-file-button").on("click", function () {
 
   $("#modal-confirm-button").data("type", "uploadFile");
 
-  $("#mainModal").modal({
-    backdrop: true,
-    keyboard: true,
-    focus: true,
-    show: true,
-  });
+  modal();
 });
 
 $("#add-external-stock-button").on("click", function () {
@@ -529,12 +533,7 @@ $("#add-external-stock-button").on("click", function () {
 
   $("#modal-confirm-button").data("type", "addExternal");
 
-  $("#mainModal").modal({
-    backdrop: true,
-    keyboard: true,
-    focus: true,
-    show: true,
-  });
+  modal();
 });
 
 $("#remove-external-stock-button").on("click", function () {
@@ -547,17 +546,11 @@ $("#remove-external-stock-button").on("click", function () {
 
   $("#modal-confirm-button").data("type", "removeExternal");
 
-  $("#mainModal").modal({
-    backdrop: true,
-    keyboard: true,
-    focus: true,
-    show: true,
-  });
+  modal();
 });
 
 $("#modal-confirm-button").on("click", function () {
   if ($(this).data("type") === "addStock") {
-    //Change
     var stock = $("#stock-name-input").val();
     var quantity = $("#stock-quantity-input").val();
     var dateOfPurchase = $("#stock-purchase-date-input").val();
@@ -620,7 +613,6 @@ $("#modal-confirm-button").on("click", function () {
     }
     
   } else if ($(this).data("type") === "uploadFile") {
-    //Change
     var file = $("#fileUpload").val();
     readFile(file);
   } else if ($(this).data("type") === "addExternal") {
@@ -639,10 +631,7 @@ $("#modal-confirm-button").on("click", function () {
 	    addExternalStock($("#add-external-stock-name-input").val());
 	    $("#confirmation-alert-stock-name").text($("#add-external-stock-name-input").val());
 	    $("#confirmation-alert-add-remove").text("added to");
-	    $("#confirmation-alert-source").text("external stocks");
-	    $("#confirmation-alert").removeClass("d-none");
-	    $("#confirmation-alert").addClass("show");
-	    $("#add-external-stock-name-input").removeClass("red-border");
+	    confirmation();
 	} else {
     	$("#error-alert").removeClass("d-none");
     	$("#error-alert").addClass("show");
@@ -664,10 +653,7 @@ $("#modal-confirm-button").on("click", function () {
 	    removeExternalStock($("#remove-external-stock-name-input").val());
 	    $("#confirmation-alert-stock-name").text($("#remove-external-stock-name-input").val());
 	    $("#confirmation-alert-add-remove").text("removed from");
-	    $("#confirmation-alert-source").text("external stocks");
-	    $("#confirmation-alert").removeClass("d-none");
-	    $("#confirmation-alert").addClass("show");
-	    $("#remove-external-stock-name-input").removeClass("red-border");
+	    confirmation();
 	} else {
 		$("#error-alert").removeClass("d-none");
     	$("#error-alert").addClass("show");
