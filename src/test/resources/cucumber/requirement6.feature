@@ -22,6 +22,23 @@ Feature: The application must be secure and protect confidentiality of users’ 
     When I type "pass" into the login password text box
     Then my password in the login box should be hidden
     
+  Scenario: After three invalid login attempts, user should be locked out for one minute
+  	Given I am on the login page
+  	When I type "usr" into the login username text box
+  	And I type "pass" into the login password text box
+  	And I click on the login button
+  	And I wait 3 seconds
+  	And I type "usr" into the login username text box
+  	And I type "pass" into the login password text box
+  	And I click on the login button
+  	And I wait 3 seconds
+  	And I type "usr" into the login username text box
+  	And I type "pass" into the login password text box
+  	And I click on the login button
+  	And I wait 3 seconds
+  	Then I should see the login button is disabled
+  	
+    
   Scenario: After 120 seconds, the user should get a timeout warning
     Given I am on the login page
     When I log in

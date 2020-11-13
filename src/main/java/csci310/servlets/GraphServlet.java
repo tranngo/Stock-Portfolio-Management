@@ -2,8 +2,12 @@ package csci310.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -12,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import csci310.Api;
+import csci310.Portfolio;
 
 @WebServlet("GraphServlet")
 public class GraphServlet extends HttpServlet{
@@ -26,7 +31,7 @@ public class GraphServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {		
 		//Read just the startDate and endDate parameters, eventually it will be more
-		String startDate = request.getParameter("startDate");
+		String startDateState = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
 		String portfolioContributors = request.getParameter("portfolioContributors");
 		String externalStocks = request.getParameter("externalStocks"); //NTNX,JNJ,SLFS,
@@ -41,15 +46,70 @@ public class GraphServlet extends HttpServlet{
 				}
 			}
 		}
-
+		
+//		System.out.println("start date: " + startDateState);
+		String earliestDate = "";
+		try {
+			earliestDate = Portfolio.getEarliestTransactionDate(user_id);
+//			System.out.println("earliest date: " + earliestDate);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		String startDate = startDateState;
+		if(startDateState != null && startDateState.equals("-1")) { // if first time draw graph (ie user didn't specify dates)
+			if(earliestDate == null) { // portfolio is empty. default to 3 months before end date
+				String[] temp = endDate.split("-");
+				int year = Integer.parseInt(temp[0]);
+				int month = Integer.parseInt(temp[1]);
+				int day = Integer.parseInt(temp[2]);
+				month -= 3;
+				if(month <= 0) {
+					month += 12;
+					year--;
+				}
+				String opt = "";
+				if (month < 10) {
+			      opt = "0";
+			    }
+				startDate = year + "-" + opt + month + "-" + day; // eg. format: 2020-01-01
+			} else { // portfolio is NOT empty. default to earliest transaction date
+				try {
+					Date earliestD = new SimpleDateFormat("MM-dd-yyyy").parse(earliestDate);
+					
+					Calendar cal = Calendar.getInstance();
+					cal.add(Calendar.YEAR, -1);
+					cal.add(Calendar.DATE, -1);
+					Date lastYear = cal.getTime();
+					
+					if(earliestD.compareTo(lastYear) < 0) {  // if earliestD is before last year
+						earliestD = lastYear;
+					}
+					startDate = new SimpleDateFormat("yyyy-MM-dd").format(earliestD);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		if(startDate == null) {
 			startDate = "2020-01-01";
 		}
+
 		if(endDate == null) {
 			endDate = "2020-10-01";
 		}
 		
+		// error check if start or end dates were not set (ie user did not select date)
+		if(startDate.isEmpty() || endDate.isEmpty()) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			PrintWriter out = response.getWriter();
+			out.print("Please enter valid start and end dates!");
+			out.flush();
+			return;
+		}
+		
 		//Convert the dates to MM-DD-YYYY
+//		System.out.println("108 start: " + startDate + ", end: " + endDate);
 		String startYr = startDate.substring(0, 4);
 		startDate = startDate.substring(5) + "-" + startYr;
 		String endYr = endDate.substring(0, 4);
@@ -57,6 +117,39 @@ public class GraphServlet extends HttpServlet{
 		
 		//Commenting out sales and expenses graph
 		//CreateArray();
+		
+		// error check start/end dates
+		Date start = null, end = null;
+		try {
+			start = new SimpleDateFormat("MM-dd-yyyy").parse(startDate);
+			end = new SimpleDateFormat("MM-dd-yyyy").parse(endDate);
+		} catch (ParseException e) {
+			System.out.println("In GraphServlet, can't parse start/end dates.");
+		}
+		// if start/end are null, or start is after end, or start is more than a year ago
+		if(start != null && end != null) {
+			if(start.compareTo(end) > 0) { 
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				PrintWriter out = response.getWriter();
+				out.print("Start date must occur before end date!");
+				out.flush();
+				return;
+			}
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.YEAR, -1);
+			cal.add(Calendar.DATE, -1);
+			Date lastYear = cal.getTime();
+			String temp1 = new SimpleDateFormat("yyyy-MM-dd").format(start);
+			String temp2 = new SimpleDateFormat("yyyy-MM-dd").format(lastYear);
+
+			if( (!temp1.equals(temp2)) && start.compareTo(lastYear) < 0) {  // if start is before last year
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				PrintWriter out = response.getWriter();
+				out.print("Start date must be within the past year!");
+				out.flush();
+				return;
+			}
+		}
 		
 		
 		ArrayList<String> stocks = new ArrayList<String>();
