@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
 //@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement6.feature"})
 //@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement7_login.feature"})
 //@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement7_register.feature"})
-//@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement8.feature"})
+@CucumberOptions(strict = true, features = {"src/test/resources/cucumber/requirement8.feature"})
 
 public class RunCucumberTests {
 

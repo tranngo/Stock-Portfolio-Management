@@ -33,14 +33,14 @@ public class StepDefinitions {
 
 	WebDriver mobile = null;
 
-	@Before
-	public void setUp() {
-		Map<String, String> mobileEmulation = new HashMap<>();
-		mobileEmulation.put("deviceName", "iPhone X");
-		ChromeOptions chromeOptions = new ChromeOptions();
-		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
-		mobile = new ChromeDriver(chromeOptions);
-	}
+//	@Before
+//	public void setUp() {
+//		Map<String, String> mobileEmulation = new HashMap<>();
+//		mobileEmulation.put("deviceName", "iPhone X");
+//		ChromeOptions chromeOptions = new ChromeOptions();
+//		chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+//		mobile = new ChromeDriver(chromeOptions);
+//	}
 
 
 	private final WebDriver driver = new ChromeDriver();
@@ -179,6 +179,8 @@ public class StepDefinitions {
 	@Then("the graph should update to account for the new stock")
 	public void the_graph_should_update_to_account_for_the_new_stock() {
 		try { Thread.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
+		WebElement chart = driver.findElement(By.id("main-chart"));
+		assertTrue(chart.isDisplayed());
 	}
 	
 	// requirement8.feature
