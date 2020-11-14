@@ -27,3 +27,11 @@ Right-click "run.launch" -> Run As -> "run". It will be hosted on http://localho
 **To run Cucumber tests:**
 
 Make sure the web server is running when you run the Cucumber tests. Right-click "cucumber.launch" -> Run As -> "cucumber".
+
+## Screenshots
+
+![image](https://user-images.githubusercontent.com/31317867/99157711-4cbc2480-2680-11eb-8fbe-84b5ecb0cbe9.png)
+**Figure 1. Adding a Microsoft stock transaction to your portfolio.
+
+![image](https://user-images.githubusercontent.com/31317867/99158009-f6041a00-2682-11eb-8ba1-9886eb512210.png)
+**Figure 2. Confirmation message that Microsoft stock was successfully added to your portfolio.
