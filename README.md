@@ -22,7 +22,7 @@ Right-click "cobertura.launch" -> Run As -> "cobertura".
 
 **To host your web application:**
 
-Right-click "run.launch" -> Run As -> "run". It will be hosted on https://localhost:8080.
+Right-click "run.launch" -> Run As -> "run". It will be hosted on http://localhost:8081 (https://localhost:8080/ for HTTPS).
 
 **To run Cucumber tests:**
 
