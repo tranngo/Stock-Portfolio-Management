@@ -1,4 +1,10 @@
-# Project Repo Information
+# Stock Portfolio Management
+
+![image](https://user-images.githubusercontent.com/31317867/99146809-35ede180-2630-11eb-87d1-dab1e7405a0d.png)
+
+Stock Portfolio Management is a responsive web application that helps users track the value of their stock portfolio over time and make investment decisions.
+
+### Usage
 
 Import this repository into Eclipse. This project provides everything needed to:
 
