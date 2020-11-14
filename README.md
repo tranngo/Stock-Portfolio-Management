@@ -4,7 +4,7 @@
 
 Stock Portfolio Management is a responsive web application that helps users track the value of their stock portfolio over time and make investment decisions.
 
-### Usage
+## Usage
 
 Import this repository into Eclipse. This project provides everything needed to:
 
