@@ -62,4 +62,4 @@ Make sure the web server is running when you run the Cucumber tests. Right-click
 **Figure 7.** *Remove external stock*. Users can remove an external stock from the chart by pressing on the "Remove" button on the right side.
 
 ![image](https://user-images.githubusercontent.com/31317867/99161415-f3b3b700-26a6-11eb-8d99-eef3fcfa4130.png)
-**Figure 8.** *Remove external stock confirmation stock*.
+**Figure 8.** *Remove external stock confirmation message*.
