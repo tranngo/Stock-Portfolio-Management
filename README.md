@@ -30,8 +30,8 @@ Make sure the web server is running when you run the Cucumber tests. Right-click
 
 ## Screenshots
 
-![image](https://user-images.githubusercontent.com/31317867/99157711-4cbc2480-2680-11eb-8fbe-84b5ecb0cbe9.png)
-**Figure 1. Adding a Microsoft stock transaction to your portfolio.
+![image](https://user-images.githubusercontent.com/31317867/99160700-c400b100-269e-11eb-992e-8d8a03a01d9f.png)
+**Figure 1. *Home page*. Users can add a stock transaction to their portfolio by clicking on the "Add" button on the left side or uploading a CSV file by clicking on the "Upload" button. Users can also add or remove an external stock by clicking on the "Add" or "Remove" buttons respectively.**
 
-![image](https://user-images.githubusercontent.com/31317867/99158009-f6041a00-2682-11eb-8ba1-9886eb512210.png)
-**Figure 2. Confirmation message that Microsoft stock was successfully added to your portfolio.
+![image](https://user-images.githubusercontent.com/31317867/99160950-c284b800-26a1-11eb-9322-dc0b42bcb330.png)
+**Figure 2. *Add stock transaction modal*. After pressing on the "Add" button on the left side, users fill out information about their stock transaction to add it to their portfolio.**
