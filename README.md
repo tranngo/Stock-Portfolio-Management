@@ -47,3 +47,19 @@ Make sure the web server is running when you run the Cucumber tests. Right-click
 
 ![image](https://user-images.githubusercontent.com/31317867/99161253-3a081680-26a5-11eb-9b62-3a89047b2c17.png)
 **Figure 4.** *Upload stock transaction modal*. Users can add multiple stock transactions to their portfolio by uploading a CSV file.
+
+### Add External Stock
+
+![image](https://user-images.githubusercontent.com/31317867/99161305-c31f4d80-26a5-11eb-9bea-27a3364098da.png)
+**Figure 5.** *Add external stock*. Users can add an external stock to the chart by pressing on the "Add" button on the right side. External stocks do not affect the portfolio and are displayed on the chart as separate lines.
+
+![image](https://user-images.githubusercontent.com/31317867/99161343-42ad1c80-26a6-11eb-98db-6b7305841247.png)
+**Figure 6.** *Add external stock confirmation message*.
+
+### Remove External Stock
+
+![image](https://user-images.githubusercontent.com/31317867/99161380-a1729600-26a6-11eb-9a28-7a829b1a8afd.png)
+**Figure 7.** *Remove external stock*. Users can remove an external stock from the chart by pressing on the "Remove" button on the right side.
+
+![image](https://user-images.githubusercontent.com/31317867/99161415-f3b3b700-26a6-11eb-8d99-eef3fcfa4130.png)
+**Figure 8.** *Remove external stock confirmation stock*.
