@@ -46,4 +46,4 @@ Make sure the web server is running when you run the Cucumber tests. Right-click
 ### Upload Stock Transactions to Portfolio
 
 ![image](https://user-images.githubusercontent.com/31317867/99161253-3a081680-26a5-11eb-9b62-3a89047b2c17.png)
-**Figure 4.** *Upload stock transaction modal*. Users can upload multiple stock transactions to their portfolio by uploading a CSV file.
+**Figure 4.** *Upload stock transaction modal*. Users can add multiple stock transactions to their portfolio by uploading a CSV file.
