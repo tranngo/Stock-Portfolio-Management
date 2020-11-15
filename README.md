@@ -33,7 +33,7 @@ Make sure the web server is running when you run the Cucumber tests. Right-click
 ### Home
 
 ![image](https://user-images.githubusercontent.com/31317867/99160700-c400b100-269e-11eb-992e-8d8a03a01d9f.png)
-**Figure 1.** *Home page*. Users add a stock transaction to their portfolio by clicking on the "Add" button on the left side or uploading a CSV file by clicking on the "Upload" button. Users also add or remove an external stock by clicking on the "Add" or "Remove" buttons on the right side respectively.
+**Figure 1.** *Home page*. Users can add a stock transaction to their portfolio by clicking on the "Add" button on the left side or uploading a CSV file by clicking on the "Upload" button. Users can also add or remove an external stock by clicking on the "Add" or "Remove" buttons on the right side respectively. The buttons below the chart can be used to view stock information within a date range.
 
 ### Add Stock Transaction to Portfolio
 
