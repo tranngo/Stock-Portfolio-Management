@@ -42,3 +42,8 @@ Make sure the web server is running when you run the Cucumber tests. Right-click
 
 ![image](https://user-images.githubusercontent.com/31317867/99161169-1bede680-26a4-11eb-8508-21cb493f8c87.png)
 **Figure 3.** *Add stock transaction confirmation message*.
+
+### Upload Stock Transaction to Portfolio
+
+![image](https://user-images.githubusercontent.com/31317867/99161253-3a081680-26a5-11eb-9b62-3a89047b2c17.png)
+**Figure 4.** *Upload stock transaction modal*.
